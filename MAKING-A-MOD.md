@@ -141,6 +141,12 @@ shop may stock, with prices: [`/schemas/items.json`](https://playaconline.com/sc
     `give_item`, `set_flag`, `show_line` and `ask` (api.json `visit_scope`).
     Mods match by their contents, so it does not matter where each player
     installed them from.
+  - When every world mod of the host that counts is a reviewed version from
+    the mod list, a visitor can load them for that visit only (api.json
+    `visit_lend`): nothing is installed, they run with the host's settings and
+    an empty store that is never kept, and at the visitor's home (the restarts
+    before and after the trip) their shop, Nook goods, board notices, items,
+    renames and commands do nothing. A mod installed from a file cannot be lent.
 
 ### Load order
 
@@ -195,7 +201,8 @@ or the same name ending `.png`.
 - The name says which texture to replace. The pixels must be your own.
 - Names are matched ignoring upper and lower case.
 - A mod's texture wins over the HD pack.
-- DDS can be BC7, DXT1, DXT5 or uncompressed 32-bit RGBA. BC7 needs a browser
+- DDS can be BC7, DXT1, DXT5 or uncompressed 32-bit RGBA (either channel
+  order: RGBA, or BGRA, which some tools call A8R8G8B8). BC7 needs a browser
   with BPTC texture support.
 - Save each texture with one level (no mipmaps). The game reads only the
   first, and the registry refuses a file with anything after it.
@@ -209,7 +216,9 @@ or the same name ending `.png`.
   the Mods tab names it.
 - A texture without a palette has no palette part:
   `tex1_32x32_8b5a1b4a83d4d7c7_14.dds`.
-- `$` in place of the palette hash matches those pixels under any palette.
+- `$` in place of the palette hash matches those pixels under any palette. It
+  is loaded once and shared by every palette, so it costs one texture's memory;
+  any mod's file with the exact palette hash wins for that palette.
 
 ### Find a texture
 
@@ -322,7 +331,8 @@ the model of a real piece of furniture, its `base`. `mod.json` names the file:
   be a base; the Mods tab names a refused one.
 - `price`: optional, 1 to 99999 Bells, what a shop asks when its stock sets no price.
 
-How players get one today: your flower shop stocks it (see Shops). A mod item
+How players get one: your flower shop or Nook's stock entry sells it by its
+full id (see Shops), or your script gives it with `cmd.give_item`. A mod item
 is its base piece in the save. Which pieces are your items is kept beside the
 save, so:
 
@@ -480,6 +490,7 @@ Scripts are Lua 5.4 with a small API:
 | `remote.add(name, fn)` | offer a function to other mods, while the script loads (api 2) |
 | `remote.call(mod, name, ...)` | call another mod's function (api 2) |
 | `remote.has(mod, name)` | whether that mod offers it |
+| `store.town()` | which town the store is now (opaque text, `nil` before a town loads): read your locals again when it changes (api 2) |
 
 | event | gets | return |
 |---|---|---|
@@ -531,13 +542,17 @@ More events, each with a table of plain values (copies, never the game's own):
 | event | gets |
 |---|---|
 | `hour_change` | `{ year, month, day, hour }`, when the clock reaches a new hour |
-| `shop_buy` | `{ item, price }`, when you buy a good off Nook's floor |
-| `item_sold` | `{ item, count, bells }`, when you sell to Nook |
+| `shop_buy` | `{ item, price, mod_item }`, when you buy a good off Nook's floor |
+| `item_sold` | `{ item, count, bells, mod_item }`, when you sell to Nook |
 | `fish_caught` | `{ item, pocketed }` |
 | `bug_caught` | `{ item, pocketed }` |
 | `letter_read` | `{ sender, present, first_time }`, when you read a letter |
 | `villager_moved_in` | `{ id, name }`, when a new villager's house goes up |
 | `visitor_arrived` | `{ kind = "friend" }`, a friend riding into your own town |
+
+`mod_item` is the full id of a mod item (`"your.mod:tea-chest"`) when the piece
+bought, or the first piece sold, is one (`item` is then its base), else `nil`.
+`command_result` and `answer` are under Commands below.
 
 And what a script can look at:
 
@@ -548,6 +563,8 @@ And what a script can look at:
 | `game.town()` | `{ name, id, year, month, day, hour, minute, weekday, season }` |
 | `game.villagers()` | `{ { id, name, species, personality }, ... }` |
 | `game.player()` | `{ name }` |
+| `game.events_today()` | the ids of your own events file's events on the town's date today, `{}` when none |
+| `flag(key)` | your flag set with `cmd.set_flag`, or `nil` |
 | `rng()`, `rng(n)`, `rng(m, n)` | random numbers that repeat for the same town, day and event, so reloading cannot reroll; in an api 2 mod `math.random` is the same |
 
 ### Commands: changing the game
