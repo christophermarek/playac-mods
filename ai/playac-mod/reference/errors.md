@@ -3762,7 +3762,7 @@ From the mod list (upload):
 
 Registry codes: `version_exists`
 
-What it means: Every upload is a new version and a version can never be replaced, so players who have it always have the same files.
+What it means: Every upload is a new version and a version can never be replaced, so players who have it always have the same files. Its number is not used again either, even after it is removed. Only a rejected version, which nobody else ever saw, frees its number.
 
 How to fix it: Raise "version" in mod.json (1.0.0 to 1.0.1) and upload again.
 
@@ -3966,12 +3966,13 @@ From the mod list (upload):
     Enter the code from your authenticator app to share a mod.
     Enter the code from your authenticator app to approve playac-mod.
     Sharing mods is switched off on this server for now.
+    Too many wrong codes in a row, so code checks are paused for a while. Wait, then try again with a fresh code. We emailed the account.
 
-Registry codes: `two_factor_required`, `two_factor_code`, `two_factor_unavailable`
+Registry codes: `two_factor_required`, `two_factor_code`, `two_factor_unavailable`, `two_factor_locked`
 
-What it means: Sharing a mod, importing one from GitHub and approving a playac-mod sign-in all need two-factor sign-in on the account, and a code entered in the last few minutes on this browser. If the server cannot check codes at all, sharing is switched off.
+What it means: Sharing a mod, importing one from GitHub and approving a playac-mod sign-in all need two-factor sign-in on the account, and a code entered in the last few minutes on this browser. Turning it on asks for your password. After 5 wrong codes in a row, code checks pause for a minute, then longer with each further wrong code (an hour at most), and the account is emailed. If the server cannot check codes at all, sharing is switched off.
 
-How to fix it: Turn on two-factor sign-in on your Profile page, then enter a code from your authenticator app when asked.
+How to fix it: Turn on two-factor sign-in on your Profile page, then enter a code from your authenticator app when asked. If codes are paused, wait, then use a fresh code (check the phone's clock is right).
 
 ### upload-prefix-taken
 
@@ -3985,7 +3986,7 @@ From the mod list (upload):
 
 Registry codes: `prefix_taken`
 
-What it means: The part of a mod id before the dot (kim in kim.tea-house) belongs to the account that first had a mod approved under it, so nobody else can publish under that name.
+What it means: The part of a mod id before the dot (kim in kim.tea-house) belongs to the account that first uploaded under it, from that upload on, even while it waits for review, so nobody else can publish under that name. It is free again only if every upload under it was rejected.
 
 How to fix it: Change "id" in mod.json to start with your own name.
 
@@ -4335,6 +4336,7 @@ In the game page (install, check tool):
     the download for bean.tea-house 1.2.0 does not match the friend's copy
     the download for bean.tea-house 1.2.0 is a different mod
     the friend's mods do not add up to their town's mod set
+    the friend's settings for bean.tea-house are not ones that mod takes
 
 From the mod list (upload):
 
@@ -4344,7 +4346,7 @@ On the site:
 
     Couldn't load Kim's mods for this visit. Couldn't download Tea House: the registry answered 404.
 
-What it means: You agreed to visit with your friend's mods, and one of them could not be downloaded, or the download was not exactly the version your friend runs (checked by content hash). Nothing was kept or installed, and the visit was left.
+What it means: You agreed to visit with your friend's mods, and one of them could not be downloaded, the download was not exactly the version your friend runs (checked by content hash), or your friend's settings for it were not ones that mod takes. Nothing was kept or installed, and the visit was left.
 
 How to fix it: Ask again later. If it keeps happening, the mod may have been taken down or updated: both players can install the same version from Browse mods.
 

@@ -151,6 +151,9 @@ shop may stock, with prices: [`/schemas/items.json`](https://playaconline.com/sc
     an empty store that is never kept, and at the visitor's home (the restarts
     before and after the trip) their shop, Nook goods, board notices, items,
     renames and commands do nothing. A mod installed from a file cannot be lent.
+    The host's settings must be ones the mod allows, and a text setting the
+    host changed from its default must pass the site's word checks (no rude
+    words, contact details or risky phrases), or the visit is refused instead.
 
 ### Load order
 
