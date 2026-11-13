@@ -1,0 +1,17 @@
+{
+  "shops": [
+    {
+      "target": "nook",
+      "mode": "add",
+      "stock": [
+        { "item": "0x1110", "price": 1800 },
+        { "item": "0x1220", "price": 2400 },
+        { "item": "0x1330" },
+        { "item": "0x2205", "price": 900 },
+        { "item": "0x2206", "price": 900 },
+        { "item": "0x2410", "price": 700 },
+        { "item": "0x2605", "price": 1500 }
+      ]
+    }
+  ]
+}

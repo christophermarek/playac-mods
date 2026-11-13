@@ -1,0 +1,6 @@
+{
+  "items": [
+    { "id": "tea-chest", "name": "Tea Chest", "base": "0x1008", "price": 1800 },
+    { "id": "reading-chair", "name": "Reading Chair", "base": "0x10f8", "price": 1200 }
+  ]
+}

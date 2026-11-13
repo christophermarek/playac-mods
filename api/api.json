@@ -1,0 +1,3476 @@
+{
+  "format": 1,
+  "title": "Play AC Online mod API",
+  "description": "Everything a mod may use. Nothing outside this file is promised: the game, the Mods tab's install check and the mod list's upload check are all tested against it. Versioning policy: https://playaconline.com/modding/reference/versioning/",
+  "api": {
+    "min": 1,
+    "max": 2,
+    "levels": [
+      {
+        "level": 1,
+        "date": "2026-11-12",
+        "summary": "The first level: textures, lines, the flower shop, and scripts with four events, log, message, game.time and a per-browser store."
+      },
+      {
+        "level": 2,
+        "date": "2026-11-12",
+        "summary": "Mod items: an items file (content.items) of new furniture on a vanilla base, renames, and mod items in a shop's stock. Also: a per-town store (store.client keeps the per-browser one), data_version and the migrate event, settings, translations in a messages folder, depends and conflicts with version ranges, and remote calls between mods. And the typed targets: Nook's stock (shops target nook), letter templates (content.letters), dated events (content.events) and villager line pools (content.talk). Effects: commands (cmd.send_letter, give_item, set_flag, show_line, ask) queued by a hook and applied between frames, declared in permissions; ten more events; read-only queries (game.pockets, bells, town, villagers, player); flag() and a seeded rng()."
+      }
+    ]
+  },
+  "limits": [
+    {
+      "name": "zip.bytes",
+      "value": 16777216,
+      "unit": "bytes",
+      "since": 1,
+      "description": "The largest mod ZIP, compressed.",
+      "sources": {
+        "js": "MAX_ZIP",
+        "go": "MaxZipBytes"
+      }
+    },
+    {
+      "name": "zip.unpacked_bytes",
+      "value": 67108864,
+      "unit": "bytes",
+      "since": 1,
+      "description": "What every file in one mod adds up to, unpacked.",
+      "sources": {
+        "js": "MAX_UNPACKED",
+        "go": "MaxUncompressedBytes"
+      }
+    },
+    {
+      "name": "zip.files",
+      "value": 2000,
+      "unit": "files",
+      "since": 1,
+      "description": "The most files one mod may hold. Folder entries and junk (__MACOSX, Thumbs.db and any hidden name starting with a dot: .DS_Store, .gitignore, .github/) are dropped first and not counted.",
+      "sources": {
+        "js": "MAX_FILES",
+        "go": "MaxEntries"
+      }
+    },
+    {
+      "name": "zip.path_bytes",
+      "value": 160,
+      "unit": "bytes",
+      "since": 1,
+      "description": "The longest path inside a mod, after the one top folder is stripped. ASCII only.",
+      "sources": {
+        "js": "MAX_PATH",
+        "go": "MaxPathBytes",
+        "c": "PC_MOD_REL_MAX"
+      }
+    },
+    {
+      "name": "file.manifest_bytes",
+      "value": 65536,
+      "unit": "bytes",
+      "since": 1,
+      "description": "The largest mod.json.",
+      "sources": {
+        "js": "MAX_MANIFEST",
+        "go": "maxManifestBytes",
+        "c": "PC_JSON_MANIFEST_MAX"
+      }
+    },
+    {
+      "name": "file.json_bytes",
+      "value": 262144,
+      "unit": "bytes",
+      "since": 1,
+      "description": "The largest .json file other than mod.json.",
+      "sources": {
+        "js": "MAX_JSON",
+        "go": "maxJSONBytes",
+        "c": "PC_JSON_FILE_MAX"
+      }
+    },
+    {
+      "name": "file.lua_bytes",
+      "value": 524288,
+      "unit": "bytes",
+      "since": 1,
+      "description": "The largest .lua file.",
+      "sources": {
+        "js": "MAX_LUA",
+        "go": "maxLuaBytes",
+        "c": "PC_MOD_LUA_SCRIPT_MAX"
+      }
+    },
+    {
+      "name": "json.depth",
+      "value": 32,
+      "unit": "levels",
+      "since": 1,
+      "description": "How deep JSON may nest: the top value is depth 0 and nothing may sit deeper than 32.",
+      "sources": {
+        "go": "maxJSONDepth",
+        "c": "PC_JSON_MAX_DEPTH",
+        "js": "MAX_JSON_DEPTH"
+      }
+    },
+    {
+      "name": "mods.enabled",
+      "value": 32,
+      "unit": "mods",
+      "since": 1,
+      "description": "The most mods switched on at once.",
+      "sources": {
+        "js": "MAX_ENABLED",
+        "c": "PC_MOD_MAX"
+      }
+    },
+    {
+      "name": "mods.enabled_unpacked_bytes",
+      "value": 100663296,
+      "unit": "bytes",
+      "since": 1,
+      "description": "Every switched-on mod together, unpacked, on a computer.",
+      "sources": {
+        "js": "MAX_ENABLED_UNPACKED"
+      }
+    },
+    {
+      "name": "mods.enabled_unpacked_bytes_phone",
+      "value": 25165824,
+      "unit": "bytes",
+      "since": 1,
+      "description": "Every switched-on mod together, unpacked, on a phone or a low-memory device. Provisional until measured on a real phone.",
+      "sources": {
+        "js": "PHONE_MAX_ENABLED_UNPACKED"
+      }
+    },
+    {
+      "name": "messages.lines",
+      "value": 256,
+      "unit": "lines",
+      "since": 1,
+      "description": "The most lines in one mod's messages file.",
+      "sources": {
+        "js": "MESSAGES_MAX",
+        "go": "maxMessages",
+        "c": "PC_MOD_MSG_PER_MOD"
+      }
+    },
+    {
+      "name": "messages.key_bytes",
+      "value": 48,
+      "unit": "bytes",
+      "since": 1,
+      "description": "The longest line key.",
+      "sources": {
+        "c": "PC_MOD_MSG_KEY_MAX"
+      }
+    },
+    {
+      "name": "messages.text_bytes",
+      "value": 400,
+      "unit": "bytes",
+      "since": 1,
+      "description": "The longest line, in UTF-8 bytes. Lines wrap at 24 characters, 4 lines a page.",
+      "sources": {
+        "go": "maxMessageBytes",
+        "c": "PC_MOD_MSG_TEXT_MAX"
+      }
+    },
+    {
+      "name": "shops.per_file",
+      "value": 4,
+      "unit": "shops",
+      "since": 1,
+      "description": "The most shops in one shops.json (one per target).",
+      "sources": {
+        "go": "maxShops",
+        "c": "PC_MOD_SHOP_FILE_MAX"
+      }
+    },
+    {
+      "name": "shops.stock",
+      "value": 6,
+      "unit": "goods",
+      "since": 1,
+      "description": "The most goods in one shop's stock.",
+      "sources": {
+        "go": "maxStock",
+        "c": "PC_MOD_SHOP_STOCK_MAX"
+      }
+    },
+    {
+      "name": "shops.name_chars",
+      "value": 40,
+      "unit": "characters",
+      "since": 1,
+      "description": "The longest shop name, in Unicode code points.",
+      "sources": {
+        "c": "PC_MOD_SHOP_NAME_CHARS"
+      }
+    },
+    {
+      "name": "shops.line_chars",
+      "value": 160,
+      "unit": "characters",
+      "since": 1,
+      "description": "The longest greeting or stock_line, in Unicode code points.",
+      "sources": {
+        "go": "maxShopTextRunes",
+        "c": "PC_MOD_SHOP_LINE_CHARS"
+      }
+    },
+    {
+      "name": "shops.line_newlines",
+      "value": 3,
+      "unit": "newlines",
+      "since": 1,
+      "description": "The most line breaks in a greeting or stock_line.",
+      "sources": {
+        "go": "maxShopTextNewline",
+        "c": "PC_MOD_SHOP_LINE_NEWLINES"
+      }
+    },
+    {
+      "name": "shops.price_max",
+      "value": 99999,
+      "unit": "Bells",
+      "since": 1,
+      "description": "The highest price a mod shop may ask. The game raises a price below its own buy-back (what Nook pays for the item) to the buy-back.",
+      "sources": {
+        "c": "PC_MOD_SHOP_PRICE_MAX"
+      }
+    },
+    {
+      "name": "lua.memory_bytes",
+      "value": 4194304,
+      "unit": "bytes",
+      "since": 1,
+      "description": "Memory one mod's script may use. Over it, the script stops for the session.",
+      "sources": {
+        "c": "PC_MOD_LUA_MEM_CAP"
+      }
+    },
+    {
+      "name": "lua.memory_total_bytes",
+      "value": 16777216,
+      "unit": "bytes",
+      "since": 1,
+      "description": "Memory every mod's script together may use.",
+      "sources": {
+        "c": "PC_MOD_LUA_MEM_TOTAL"
+      }
+    },
+    {
+      "name": "lua.budget",
+      "value": 200000,
+      "unit": "instructions",
+      "since": 1,
+      "description": "Instructions one mod may run per event, all its handlers for that event together (the main chunk gets its own). Library work is charged too: every 64 bytes allocated, every 4 pattern-matching steps, every element a table function touches. Over it, the script stops for the session.",
+      "sources": {
+        "c": "PC_MOD_LUA_BUDGET"
+      }
+    },
+    {
+      "name": "lua.deadline_ms",
+      "value": 100,
+      "unit": "milliseconds",
+      "since": 1,
+      "description": "Wall-clock limit on a script's main chunk at boot.",
+      "sources": {
+        "c": "PC_MOD_LUA_DEADLINE_MS"
+      }
+    },
+    {
+      "name": "lua.handlers_per_event",
+      "value": 16,
+      "unit": "handlers",
+      "since": 1,
+      "description": "The most handlers one mod may register for one event.",
+      "sources": {
+        "c": "PC_MOD_LUA_HANDLERS_MAX"
+      }
+    },
+    {
+      "name": "lua.log_per_event",
+      "value": 20,
+      "unit": "lines",
+      "since": 1,
+      "description": "log() lines kept per event; the rest are dropped.",
+      "sources": {
+        "c": "PC_MOD_LUA_LOG_PER_RUN"
+      }
+    },
+    {
+      "name": "lua.log_per_session",
+      "value": 500,
+      "unit": "lines",
+      "since": 1,
+      "description": "log() lines kept per mod per session.",
+      "sources": {
+        "c": "PC_MOD_LUA_LOG_SESSION"
+      }
+    },
+    {
+      "name": "store.bytes",
+      "value": 8192,
+      "unit": "bytes",
+      "since": 1,
+      "description": "The whole store of one mod. A store.set that would go over is refused and changes nothing.",
+      "sources": {
+        "c": "PC_MOD_STORE_MAX"
+      }
+    },
+    {
+      "name": "store.key_bytes",
+      "value": 64,
+      "unit": "bytes",
+      "since": 1,
+      "description": "The longest store key.",
+      "sources": {
+        "c": "PC_MOD_STORE_KEY_MAX"
+      }
+    },
+    {
+      "name": "store.value_bytes",
+      "value": 1024,
+      "unit": "bytes",
+      "since": 1,
+      "description": "The longest string a store value may be.",
+      "sources": {
+        "c": "PC_MOD_STORE_VALUE_MAX"
+      }
+    },
+    {
+      "name": "items.per_mod",
+      "value": 64,
+      "unit": "items",
+      "since": 2,
+      "description": "Items in one mod's items file.",
+      "sources": {
+        "js": "MOD_ITEMS_MAX",
+        "go": "maxModItems",
+        "c": "PC_MOD_ITEMS_PER_MOD"
+      }
+    },
+    {
+      "name": "items.total",
+      "value": 512,
+      "unit": "items",
+      "since": 2,
+      "description": "Mod items across every switched-on mod.",
+      "sources": {
+        "c": "PC_MOD_ITEMS_MAX"
+      }
+    },
+    {
+      "name": "items.renames",
+      "value": 64,
+      "unit": "renames",
+      "since": 2,
+      "description": "Entries in one mod.json \"renames\".",
+      "sources": {
+        "js": "MOD_RENAMES_MAX",
+        "go": "maxModRenames",
+        "c": "PC_MOD_ITEM_RENAMES_PER_MOD"
+      }
+    },
+    {
+      "name": "lua.event_deadline_ms",
+      "value": 33,
+      "unit": "milliseconds",
+      "since": 1,
+      "description": "One event run longer than this (two 60 Hz frames) stops the script.",
+      "sources": {
+        "c": "PC_MOD_LUA_EVENT_DEADLINE_MS"
+      }
+    },
+    {
+      "name": "lua.frame_budget_ms",
+      "value": 4,
+      "unit": "milliseconds",
+      "since": 1,
+      "description": "Lua time all mods together get per frame. Once spent, every game event without an answer waits for the next frame and talk is skipped for the rest of that frame; command_result and answer always run.",
+      "sources": {
+        "c": "PC_MOD_LUA_FRAME_BUDGET_MS"
+      }
+    },
+    {
+      "name": "lua.slow_run_ms",
+      "value": 8,
+      "unit": "milliseconds",
+      "since": 1,
+      "description": "An event run longer than this is a strike.",
+      "sources": {
+        "c": "PC_MOD_LUA_SLOW_RUN_MS"
+      }
+    },
+    {
+      "name": "lua.slow_runs",
+      "value": 3,
+      "unit": "strikes",
+      "since": 1,
+      "description": "Strikes before the script is stopped (\"kept the game waiting\").",
+      "sources": {
+        "c": "PC_MOD_LUA_SLOW_RUNS_MAX"
+      }
+    },
+    {
+      "name": "lua.deferred_events",
+      "value": 64,
+      "unit": "events",
+      "since": 1,
+      "description": "Events waiting for a later frame; past that an event is dropped and logged.",
+      "sources": {
+        "c": "PC_MOD_LUA_DEFER_MAX"
+      }
+    },
+    {
+      "name": "textures.png_side",
+      "value": 2048,
+      "unit": "pixels",
+      "since": 1,
+      "description": "The longest side of a PNG texture.",
+      "sources": {
+        "c": "PC_PNG_MAX_SIDE"
+      }
+    },
+    {
+      "name": "textures.png_decoded_bytes",
+      "value": 100663296,
+      "unit": "bytes",
+      "since": 1,
+      "description": "Decoded pixels of every mod's PNG textures together, on a computer. A PNG past it is left out and named on its mod's row.",
+      "sources": {
+        "c": "TEXPACK_PNG_BUDGET_DESKTOP"
+      }
+    },
+    {
+      "name": "textures.png_decoded_bytes_phone",
+      "value": 25165824,
+      "unit": "bytes",
+      "since": 1,
+      "description": "The same on a phone or low-memory device.",
+      "sources": {
+        "c": "TEXPACK_PNG_BUDGET_PHONE"
+      }
+    },
+    {
+      "name": "settings.per_mod",
+      "value": 16,
+      "unit": "settings",
+      "since": 2,
+      "description": "Settings one mod declares.",
+      "sources": {
+        "js": "MAX_SETTINGS",
+        "go": "maxSettings"
+      }
+    },
+    {
+      "name": "depends.per_mod",
+      "value": 16,
+      "unit": "mods",
+      "since": 2,
+      "description": "Mods in depends, and in conflicts, each.",
+      "sources": {
+        "js": "MAX_DEPS",
+        "go": "maxLinks"
+      }
+    },
+    {
+      "name": "data_version.max",
+      "value": 1000000,
+      "unit": "version",
+      "since": 2,
+      "description": "The largest data_version.",
+      "sources": {
+        "js": "DATA_VERSION_MAX",
+        "go": "dataVersionMax"
+      }
+    },
+    {
+      "name": "store.towns",
+      "value": 16,
+      "unit": "towns",
+      "since": 2,
+      "description": "Towns whose mod data one browser keeps; writing a 17th drops the least recently written other town's file.",
+      "sources": {
+        "c": "PC_MOD_TOWN_FILES_MAX"
+      }
+    },
+    {
+      "name": "remote.copy_bytes",
+      "value": 65536,
+      "unit": "bytes",
+      "since": 2,
+      "description": "Data a remote.call copies each way.",
+      "sources": {
+        "c": "PC_MOD_REMOTE_COPY_MAX"
+      }
+    },
+    {
+      "name": "remote.functions",
+      "value": 32,
+      "unit": "functions",
+      "since": 2,
+      "description": "Functions one mod offers with remote.add.",
+      "sources": {
+        "c": "PC_MOD_REMOTE_MAX"
+      }
+    },
+    {
+      "name": "exports.per_mod",
+      "value": 32,
+      "unit": "functions",
+      "since": 2,
+      "description": "Remote functions one mod.json \"exports\" lists (the most remote.add offers).",
+      "sources": {
+        "js": "EXPORTS_MAX",
+        "go": "maxExports",
+        "c": "PC_MOD_REMOTE_MAX"
+      }
+    },
+    {
+      "name": "exports.description_chars",
+      "value": 120,
+      "unit": "characters",
+      "since": 2,
+      "description": "One \"exports\" description, on one line.",
+      "sources": {
+        "js": "EXPORT_DESC_MAX",
+        "go": "maxExportDesc",
+        "c": "PC_MOD_EXPORT_DESC_MAX"
+      }
+    },
+    {
+      "name": "nook.stock",
+      "value": 16,
+      "unit": "goods",
+      "since": 2,
+      "description": "The most goods in Nook's stock entry.",
+      "sources": {
+        "js": "NOOK_STOCK_MAX",
+        "go": "maxNookStock",
+        "c": "PC_MOD_NOOK_STOCK_MAX"
+      }
+    },
+    {
+      "name": "letters.per_file",
+      "value": 32,
+      "unit": "letters",
+      "since": 2,
+      "description": "Letters in one letters file.",
+      "sources": {
+        "js": "LETTERS_MAX",
+        "go": "maxLetters",
+        "c": "PC_MOD_LETTER_PER_MOD"
+      }
+    },
+    {
+      "name": "letters.header_chars",
+      "value": 24,
+      "unit": "characters",
+      "since": 2,
+      "description": "A letter header, not counting {player}.",
+      "sources": {
+        "c": "PC_MOD_LETTER_HEADER_MAX"
+      }
+    },
+    {
+      "name": "letters.body_bytes",
+      "value": 192,
+      "unit": "characters",
+      "since": 2,
+      "description": "A letter body or a board notice.",
+      "sources": {
+        "js": "PAPER_BYTES",
+        "go": "paperBytes",
+        "c": "PC_MOD_LETTER_BODY_MAX"
+      }
+    },
+    {
+      "name": "letters.body_lines",
+      "value": 6,
+      "unit": "lines",
+      "since": 2,
+      "description": "Lines on the letter paper or a board page.",
+      "sources": {
+        "js": "PAPER_LINES",
+        "go": "paperLines",
+        "c": "PC_MOD_PAPER_LINES"
+      }
+    },
+    {
+      "name": "letters.footer_chars",
+      "value": 32,
+      "unit": "characters",
+      "since": 2,
+      "description": "A letter footer.",
+      "sources": {
+        "c": "PC_MOD_LETTER_FOOTER_MAX"
+      }
+    },
+    {
+      "name": "letters.sender_chars",
+      "value": 8,
+      "unit": "characters",
+      "since": 2,
+      "description": "A letter's name in the mailbox list (its optional sender; without one, the footer's first 8 characters).",
+      "sources": {
+        "js": "LETTER_SENDER_MAX",
+        "go": "letterSenderMax",
+        "c": "PC_MOD_LETTER_SENDER_MAX"
+      }
+    },
+    {
+      "name": "events.per_file",
+      "value": 16,
+      "unit": "events",
+      "since": 2,
+      "description": "Events in one events file.",
+      "sources": {
+        "js": "EVENTS_MAX",
+        "go": "maxEvents",
+        "c": "PC_MOD_EVENT_PER_MOD"
+      }
+    },
+    {
+      "name": "events.talk_lines",
+      "value": 16,
+      "unit": "lines",
+      "since": 2,
+      "description": "Talk lines in one event.",
+      "sources": {
+        "js": "EVENT_TALK_MAX",
+        "go": "maxEventTalk"
+      }
+    },
+    {
+      "name": "talk.pools",
+      "value": 32,
+      "unit": "pools",
+      "since": 2,
+      "description": "Pools in one talk file.",
+      "sources": {
+        "js": "POOLS_MAX",
+        "go": "maxPools"
+      }
+    },
+    {
+      "name": "talk.lines_per_pool",
+      "value": 32,
+      "unit": "lines",
+      "since": 2,
+      "description": "Lines in one pool.",
+      "sources": {
+        "js": "POOL_LINES_MAX",
+        "go": "maxPoolLines"
+      }
+    },
+    {
+      "name": "talk.line_chars",
+      "value": 160,
+      "unit": "characters",
+      "since": 2,
+      "description": "A villager line (pool or event), in Unicode code points; at most 3 line breaks.",
+      "sources": {
+        "go": "maxTalkRunes",
+        "c": "PC_MOD_TALK_LINE_CHARS"
+      }
+    },
+    {
+      "name": "commands.per_event",
+      "value": 4,
+      "unit": "commands",
+      "since": 2,
+      "description": "Commands one mod may queue in one event.",
+      "sources": {
+        "c": "PC_MOD_FX_PER_EVENT"
+      }
+    },
+    {
+      "name": "commands.waiting",
+      "value": 32,
+      "unit": "commands",
+      "since": 2,
+      "description": "Commands waiting, all mods together.",
+      "sources": {
+        "c": "PC_MOD_FX_QUEUE_MAX"
+      }
+    },
+    {
+      "name": "commands.waiting_per_mod",
+      "value": 8,
+      "unit": "commands",
+      "since": 2,
+      "description": "Commands one mod may have waiting.",
+      "sources": {
+        "c": "PC_MOD_FX_QUEUE_PER_MOD"
+      }
+    },
+    {
+      "name": "commands.letters_per_day",
+      "value": 3,
+      "unit": "commands",
+      "since": 2,
+      "description": "send_letter per mod per game day, counted when queued and kept across a reload. A command refused for where the player is (The City, a visit) does not count.",
+      "sources": {
+        "c": "PC_MOD_FX_DAY_LETTERS"
+      }
+    },
+    {
+      "name": "commands.items_per_day",
+      "value": 5,
+      "unit": "commands",
+      "since": 2,
+      "description": "give_item per mod per game day.",
+      "sources": {
+        "c": "PC_MOD_FX_DAY_ITEMS"
+      }
+    },
+    {
+      "name": "commands.flags_per_day",
+      "value": 100,
+      "unit": "commands",
+      "since": 2,
+      "description": "set_flag per mod per game day.",
+      "sources": {
+        "c": "PC_MOD_FX_DAY_FLAGS"
+      }
+    },
+    {
+      "name": "commands.lines_per_day",
+      "value": 20,
+      "unit": "commands",
+      "since": 2,
+      "description": "show_line per mod per game day.",
+      "sources": {
+        "c": "PC_MOD_FX_DAY_LINES"
+      }
+    },
+    {
+      "name": "commands.asks_per_day",
+      "value": 10,
+      "unit": "commands",
+      "since": 2,
+      "description": "ask per mod per game day.",
+      "sources": {
+        "c": "PC_MOD_FX_DAY_ASKS"
+      }
+    },
+    {
+      "name": "commands.letter_chars",
+      "value": 192,
+      "unit": "characters",
+      "since": 2,
+      "description": "A letter's text; it must also fit the letter's 6 lines of 192 pixels.",
+      "sources": {
+        "c": "PC_MOD_FX_LETTER_CHARS"
+      }
+    },
+    {
+      "name": "commands.letter_from_chars",
+      "value": 8,
+      "unit": "characters",
+      "since": 2,
+      "description": "A letter's signature, also the mailbox list's sender.",
+      "sources": {
+        "c": "PC_MOD_FX_FROM_CHARS"
+      }
+    },
+    {
+      "name": "commands.line_bytes",
+      "value": 400,
+      "unit": "bytes",
+      "since": 2,
+      "description": "A show_line text.",
+      "sources": {
+        "c": "PC_MOD_FX_LINE_BYTES"
+      }
+    },
+    {
+      "name": "commands.ask_chars",
+      "value": 120,
+      "unit": "characters",
+      "since": 2,
+      "description": "An ask question.",
+      "sources": {
+        "c": "PC_MOD_FX_ASK_CHARS"
+      }
+    },
+    {
+      "name": "commands.choice_chars",
+      "value": 16,
+      "unit": "characters",
+      "since": 2,
+      "description": "One answer of an ask.",
+      "sources": {
+        "c": "PC_MOD_FX_CHOICE_CHARS"
+      }
+    },
+    {
+      "name": "commands.choices_min",
+      "value": 2,
+      "unit": "answers",
+      "since": 2,
+      "description": "The fewest answers an ask may offer.",
+      "sources": {
+        "c": "PC_MOD_FX_CHOICES_MIN"
+      }
+    },
+    {
+      "name": "commands.choices_max",
+      "value": 4,
+      "unit": "answers",
+      "since": 2,
+      "description": "The most answers an ask may offer.",
+      "sources": {
+        "c": "PC_MOD_FX_CHOICES_MAX"
+      }
+    },
+    {
+      "name": "commands.flag_key_chars",
+      "value": 32,
+      "unit": "characters",
+      "since": 2,
+      "description": "A flag key, ^[a-z0-9_.-]{1,32}$.",
+      "sources": {
+        "c": "PC_MOD_FX_FLAG_KEY"
+      }
+    },
+    {
+      "name": "commands.flag_value_bytes",
+      "value": 64,
+      "unit": "bytes",
+      "since": 2,
+      "description": "A flag's text value.",
+      "sources": {
+        "c": "PC_MOD_FX_FLAG_VALUE"
+      }
+    },
+    {
+      "name": "commands.papers",
+      "value": 64,
+      "unit": "papers",
+      "since": 2,
+      "description": "Letter papers, numbered 0 to 63.",
+      "sources": {
+        "c": "PC_MOD_FX_PAPER_NUM"
+      }
+    },
+    {
+      "name": "events.board_per_day",
+      "value": 3,
+      "unit": "notices",
+      "since": 2,
+      "description": "Board notices that go up on one day across EVERY mod, the first ones in load order. On a full board a mod notice takes the place of an earlier day's mod notice first, and never pushes off a page dated today.",
+      "sources": {
+        "c": "PC_MOD_BOARD_PER_DAY"
+      }
+    },
+    {
+      "name": "store.towns_bytes",
+      "value": 1572864,
+      "unit": "bytes",
+      "since": 2,
+      "description": "What every town's mod data in one browser adds up to; writing past it drops the least recently written other towns' files first, so mod data never pushes a save over the cloud's 5 MB.",
+      "sources": {}
+    }
+  ],
+  "manifest": [
+    {
+      "name": "$schema",
+      "since": 1,
+      "required": false,
+      "description": "Optional. The JSON Schema an editor checks mod.json against, for autocomplete and errors as you type. The game ignores it.",
+      "example": "https://playaconline.com/schemas/mod.schema.json",
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "schema",
+      "since": 1,
+      "required": true,
+      "description": "The manifest format. Always 1.",
+      "example": 1,
+      "schema": {
+        "const": 1
+      }
+    },
+    {
+      "name": "api",
+      "since": 1,
+      "required": true,
+      "description": "The mod API level the mod is made for. The game checks a mod by the rules of its own level, and runs an older level through shims while that level is supported. Use the newest level.",
+      "example": 2,
+      "schema": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 2
+      }
+    },
+    {
+      "name": "id",
+      "since": 1,
+      "required": true,
+      "description": "author.mod-name: lowercase letters, digits and dashes, one dot. The author part playaconline, official, admin and example are reserved for the site's own mods in the registry.",
+      "example": "yourname.tea-house",
+      "schema": {
+        "type": "string",
+        "pattern": "^[a-z0-9][a-z0-9-]{0,31}\\.[a-z0-9][a-z0-9-]{0,47}$",
+        "maxLength": 81
+      }
+    },
+    {
+      "name": "name",
+      "since": 1,
+      "required": true,
+      "description": "The name players see, 1 to 60 characters (after trimming spaces).",
+      "example": "Tea House",
+      "schema": {
+        "type": "string",
+        "pattern": "^\\s*\\S(?:[\\s\\S]{0,58}\\S)?\\s*$"
+      }
+    },
+    {
+      "name": "version",
+      "since": 1,
+      "required": true,
+      "description": "x.y.z, each part 1 to 9 digits with no leading zero. Every upload needs a version number this mod has not used yet (a refused upload's number can be used again).",
+      "example": "1.0.0",
+      "schema": {
+        "type": "string",
+        "pattern": "^(0|[1-9][0-9]{0,8})\\.(0|[1-9][0-9]{0,8})\\.(0|[1-9][0-9]{0,8})$"
+      }
+    },
+    {
+      "name": "authors",
+      "since": 1,
+      "required": true,
+      "description": "1 to 8 names, each 1 to 40 characters.",
+      "example": [
+        "Your Name"
+      ],
+      "schema": {
+        "type": "array",
+        "minItems": 1,
+        "maxItems": 8,
+        "items": {
+          "type": "string",
+          "pattern": "^\\s*\\S(?:[\\s\\S]{0,38}\\S)?\\s*$"
+        }
+      }
+    },
+    {
+      "name": "description",
+      "since": 1,
+      "required": false,
+      "description": "Optional text of at most 500 characters. null is refused: leave the key out instead.",
+      "example": "The flower shop becomes a tea house in the evening.",
+      "schema": {
+        "type": "string",
+        "maxLength": 500
+      }
+    },
+    {
+      "name": "tags",
+      "since": 1,
+      "required": false,
+      "description": "Optional. The mod list's filters: at most 5 different tags from a fixed list, lower case. Players filter Player mods by them; the game never reads them. Anything else is refused (manifest-tags).",
+      "example": [
+        "textures",
+        "seasonal"
+      ],
+      "schema": {
+        "type": "array",
+        "maxItems": 5,
+        "uniqueItems": true,
+        "items": {
+          "enum": [
+            "textures",
+            "clothing",
+            "furniture",
+            "scenery",
+            "villagers",
+            "dialogue",
+            "shops",
+            "seasonal",
+            "holidays",
+            "quality-of-life",
+            "translation",
+            "humor",
+            "accessibility",
+            "scripts"
+          ]
+        }
+      }
+    },
+    {
+      "name": "scope",
+      "since": 1,
+      "required": true,
+      "description": "client: only you see it. world: it changes what a visitor to your town would see. Only a world mod may hold a shop (content.shops) or, from api 2, an events file with a board notice. A friend visit needs the same world mods that count (see visit_scope) on both sides.",
+      "example": "client",
+      "schema": {
+        "enum": [
+          "client",
+          "world"
+        ]
+      }
+    },
+    {
+      "name": "content",
+      "since": 1,
+      "required": false,
+      "description": "What the mod adds, each a path inside the mod. textures, messages and shops; from api 2 also items, letters, events and talk. Anything else is refused. From api 2, messages may name a folder of translations (en.json required; de es fr it).",
+      "example": {
+        "messages": "messages/en.json"
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "textures": {
+            "type": "string",
+            "minLength": 1,
+            "description": "A folder with at least one texture file."
+          },
+          "messages": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The messages file, or from api 2 a folder of <lang>.json (en, de, es, fr, it; en.json required)."
+          },
+          "shops": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The shops file. Needs scope world."
+          },
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The items file (api 2 and later)."
+          },
+          "letters": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The letters file (api 2 and later)."
+          },
+          "events": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The events file (api 2 and later). A board notice needs scope world."
+          },
+          "talk": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The talk pools file (api 2 and later)."
+          }
+        }
+      },
+      "keys": [
+        "textures",
+        "messages",
+        "shops"
+      ],
+      "level_keys": {
+        "2": [
+          "items",
+          "letters",
+          "events",
+          "talk"
+        ]
+      }
+    },
+    {
+      "name": "scripts",
+      "since": 1,
+      "required": false,
+      "description": "A Lua script and the events it listens to. From api 2 hooks may also list migrate (needs data_version).",
+      "example": {
+        "main": "main.lua",
+        "hooks": [
+          "talk",
+          "day_start"
+        ]
+      },
+      "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "main",
+          "hooks"
+        ],
+        "properties": {
+          "main": {
+            "type": "string",
+            "pattern": "\\.lua$",
+            "description": "The script file, ending in lowercase .lua."
+          },
+          "hooks": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "$ref": "#/definitions/event"
+            },
+            "description": "Every event the script handles, each once."
+          }
+        }
+      },
+      "keys": [
+        "main",
+        "hooks"
+      ]
+    },
+    {
+      "name": "permissions",
+      "since": 2,
+      "required": false,
+      "description": "The commands the mod's script may queue, each once. The game refuses any command the list leaves out, and the Mods tab and the moderators' review show what the list lets the mod do. Needs scripts. At api 1 the key is unknown and grants nothing.",
+      "example": [
+        "send_letter"
+      ],
+      "schema": {
+        "type": "array",
+        "minItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "enum": [
+            "send_letter",
+            "give_item",
+            "set_flag",
+            "show_line",
+            "ask"
+          ]
+        }
+      },
+      "keys": [
+        "send_letter",
+        "give_item",
+        "set_flag",
+        "show_line",
+        "ask"
+      ],
+      "ignored_below_since": true
+    },
+    {
+      "name": "exports",
+      "since": 2,
+      "required": false,
+      "description": "A library's remote functions, by name, each with a one-line description: what other mods may remote.call. At most 32 names (1 to 32 of a-z 0-9 _), descriptions 1 to 120 characters on one line. Declared, the game lets remote.add offer only these names, and says in the mod log when a listed name was never offered. playac-mod types turns a dependency's exports into editor hints for the mods that depend on it. Needs scripts. At api 1 the key is unknown and does nothing.",
+      "example": {
+        "count_pieces": "How many workshop pieces the player bought, as a whole number."
+      },
+      "schema": {
+        "type": "object",
+        "maxProperties": 32,
+        "propertyNames": {
+          "pattern": "^[a-z0-9_]{1,32}$"
+        },
+        "additionalProperties": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "pattern": "^[^\\u0000-\\u001f\\u007f]+$"
+        }
+      },
+      "ignored_below_since": true
+    },
+    {
+      "name": "assets_original",
+      "since": 1,
+      "required": true,
+      "description": "Must be true: your promise that the mod holds only work its authors made, never files taken from the game.",
+      "example": true,
+      "schema": {
+        "const": true
+      }
+    },
+    {
+      "name": "renames",
+      "since": 2,
+      "required": false,
+      "description": "Old full item id to a full id of an item in this mod's items file, at most 64. Needs content.items. Each rename runs once per save (the sidecar records it), so a renamed item already in a house keeps working.",
+      "example": {
+        "yourname.tea-house:old-cup": "yourname.tea-house:cup"
+      },
+      "schema": {
+        "type": "object",
+        "maxProperties": 64,
+        "propertyNames": {
+          "pattern": "^([a-z0-9][a-z0-9-]{0,31}\\.[a-z0-9][a-z0-9-]{0,47}):([a-z0-9][a-z0-9-]{0,31})$"
+        },
+        "additionalProperties": {
+          "type": "string",
+          "pattern": "^([a-z0-9][a-z0-9-]{0,31}\\.[a-z0-9][a-z0-9-]{0,47}):([a-z0-9][a-z0-9-]{0,31})$"
+        }
+      }
+    },
+    {
+      "name": "depends",
+      "since": 2,
+      "required": false,
+      "description": "Mods this one needs, mod id to version range (\"*\", or up to 4 of >= <= > < = and a version split by one space). At most 16. It loads after them, and not at all when one is missing, off, out of range or not loading.",
+      "example": {
+        "yourname.tea-lib": ">=1.0.0 <2.0.0"
+      },
+      "schema": {
+        "type": "object",
+        "maxProperties": 16,
+        "propertyNames": {
+          "pattern": "^[a-z0-9][a-z0-9-]{0,31}\\.[a-z0-9][a-z0-9-]{0,47}$"
+        },
+        "additionalProperties": {
+          "type": "string",
+          "maxLength": 64,
+          "pattern": "^(\\*|((>=|<=|>|<|=)?(0|[1-9][0-9]{0,8})\\.(0|[1-9][0-9]{0,8})\\.(0|[1-9][0-9]{0,8}))( ((>=|<=|>|<|=)?(0|[1-9][0-9]{0,8})\\.(0|[1-9][0-9]{0,8})\\.(0|[1-9][0-9]{0,8}))){0,3})$"
+        }
+      }
+    },
+    {
+      "name": "conflicts",
+      "since": 2,
+      "required": false,
+      "description": "Mods this one cannot run with, mod id to version range. At most 16; an id may not also be in depends. This mod stays off while a matching one is on.",
+      "example": {
+        "someone.other-shop": "*"
+      },
+      "schema": {
+        "type": "object",
+        "maxProperties": 16,
+        "propertyNames": {
+          "pattern": "^[a-z0-9][a-z0-9-]{0,31}\\.[a-z0-9][a-z0-9-]{0,47}$"
+        },
+        "additionalProperties": {
+          "type": "string",
+          "maxLength": 64,
+          "pattern": "^(\\*|((>=|<=|>|<|=)?(0|[1-9][0-9]{0,8})\\.(0|[1-9][0-9]{0,8})\\.(0|[1-9][0-9]{0,8}))( ((>=|<=|>|<|=)?(0|[1-9][0-9]{0,8})\\.(0|[1-9][0-9]{0,8})\\.(0|[1-9][0-9]{0,8}))){0,3})$"
+        }
+      }
+    },
+    {
+      "name": "data_version",
+      "since": 2,
+      "required": false,
+      "description": "A whole number 1 to 1000000 for the shape of what the scripts save. When it changes, the migrate event runs once per town. The migrate hook needs it.",
+      "example": 1,
+      "schema": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 1000000
+      }
+    },
+    {
+      "name": "settings",
+      "since": 2,
+      "required": false,
+      "description": "At most 16 settings the player sets on the Mods tab and scripts read with settings.get. Types bool, number (whole, min and max), choice (2 to 16 choices) and text (max_length 1 to 200). A world mod's values are part of the visit modset hash.",
+      "example": [
+        {
+          "name": "greet",
+          "type": "bool",
+          "label": "Say hello",
+          "default": true
+        }
+      ],
+      "schema": {
+        "type": "array",
+        "maxItems": 16,
+        "items": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "name",
+                "type",
+                "label",
+                "default"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{0,31}$"
+                },
+                "label": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 60
+                },
+                "description": {
+                  "type": "string",
+                  "maxLength": 200
+                },
+                "type": {
+                  "const": "bool"
+                },
+                "default": {
+                  "type": "boolean"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "name",
+                "type",
+                "label",
+                "default",
+                "min",
+                "max"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{0,31}$"
+                },
+                "label": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 60
+                },
+                "description": {
+                  "type": "string",
+                  "maxLength": 200
+                },
+                "type": {
+                  "const": "number"
+                },
+                "default": {
+                  "type": "integer",
+                  "minimum": -1000000000,
+                  "maximum": 1000000000
+                },
+                "min": {
+                  "type": "integer",
+                  "minimum": -1000000000,
+                  "maximum": 1000000000
+                },
+                "max": {
+                  "type": "integer",
+                  "minimum": -1000000000,
+                  "maximum": 1000000000
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "name",
+                "type",
+                "label",
+                "default",
+                "choices"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{0,31}$"
+                },
+                "label": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 60
+                },
+                "description": {
+                  "type": "string",
+                  "maxLength": 200
+                },
+                "type": {
+                  "const": "choice"
+                },
+                "default": {
+                  "type": "string"
+                },
+                "choices": {
+                  "type": "array",
+                  "minItems": 2,
+                  "maxItems": 16,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "name",
+                "type",
+                "label",
+                "default",
+                "max_length"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]{0,31}$"
+                },
+                "label": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 60
+                },
+                "description": {
+                  "type": "string",
+                  "maxLength": 200
+                },
+                "type": {
+                  "const": "text"
+                },
+                "default": {
+                  "type": "string"
+                },
+                "max_length": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 200
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "unbuilt_keys": {
+    "since": 1,
+    "description": "Top-level keys reserved for planned features. A key not built at a mod's api level is refused, even when null, so no mod carries one a later game would start obeying. depends and conflicts are built from api 2 (refused only at api 1); game and save are refused at every level.",
+    "keys": [
+      "depends",
+      "conflicts",
+      "game",
+      "save"
+    ],
+    "built_at": {
+      "depends": 2,
+      "conflicts": 2
+    }
+  },
+  "rules": [
+    {
+      "name": "shops_need_world",
+      "since": 1,
+      "description": "content.shops requires scope world."
+    },
+    {
+      "name": "unknown_keys",
+      "since": 1,
+      "description": "Unknown top-level keys are ignored, except the unbuilt keys, which are refused. Keys are case-sensitive."
+    },
+    {
+      "name": "json_strict",
+      "since": 1,
+      "description": "In every JSON file: duplicate keys and \\u0000 are refused."
+    },
+    {
+      "name": "extensions",
+      "since": 1,
+      "description": "A mod may hold only these file types (case-insensitive).",
+      "values": [
+        ".json",
+        ".lua",
+        ".dds",
+        ".png",
+        ".txt",
+        ".md"
+      ]
+    },
+    {
+      "name": "frame_cap",
+      "since": 1,
+      "description": "All mods share 4 ms of Lua time a frame. Past it, every game event without an answer (day_start, item_picked, enter_scene and the events level 2 adds) waits for the next frame (in order for each mod, at most 64 waiting; past that one is dropped), and talk is skipped for the rest of that frame, so the villager says their own greeting. command_result and answer wait too but are never dropped or skipped, and a command queued by a command_result handler is applied at the next frame boundary, not the one that delivered the result; migrate runs when a town is bound, outside the cap."
+    },
+    {
+      "name": "items_level",
+      "since": 2,
+      "description": "content.items and renames are api 2 keys: a mod.json that says \"api\": 1 is checked by level 1's rules, where they are not keys a mod can use."
+    },
+    {
+      "name": "migrate_needs_data_version",
+      "since": 2,
+      "description": "scripts.hooks may list migrate only with a data_version."
+    },
+    {
+      "name": "depends_not_conflicts",
+      "since": 2,
+      "description": "A mod id may not be in both depends and conflicts, nor name the mod itself."
+    },
+    {
+      "name": "settings_world_hash",
+      "since": 2,
+      "description": "A world mod that declares settings adds +<sha256 of \"name=value\\n\" per setting, sorted> to its modset line. The visit's list of mods carries that hash and the values too, so two towns on one mod with different settings are told \"same mod, different settings\"."
+    },
+    {
+      "name": "visit_scope",
+      "since": 1,
+      "description": "Which mods a friend visit compares: a client mod never counts. A world mod counts if its content has textures, shops or items (visit_scope_content), or if its permissions (an api 2 key: ignored at api 1) list any command outside send_letter, give_item, set_flag, show_line and ask, or are not a list of strings. Every other world mod (only lines, letters, events or talk pools, with only those commands) does not count. Only mods that count must match between the two towns.",
+      "values": [
+        "send_letter",
+        "give_item",
+        "set_flag",
+        "show_line",
+        "ask"
+      ]
+    },
+    {
+      "name": "visit_scope_content",
+      "since": 1,
+      "description": "The content keys that make a world mod count for visits, whatever its permissions: what a visitor must draw or meet in the town. items from api 2.",
+      "values": [
+        "textures",
+        "shops",
+        "items"
+      ]
+    },
+    {
+      "name": "world_scope",
+      "since": 1,
+      "description": "What needs scope world, because it changes the town a visitor sees: a shops file (content.shops), and from api 2 an events file with a board notice. Everything else may be client (only you see it) or world.",
+      "values": [
+        "shops",
+        "board"
+      ]
+    },
+    {
+      "name": "load_order_last_wins",
+      "since": 1,
+      "description": "When two mods change the same thing, the LAST in load order wins: a texture with the same name, and each shop target (the flower shop, Nook's).",
+      "values": [
+        "textures",
+        "shops"
+      ]
+    },
+    {
+      "name": "load_order_first_wins",
+      "since": 1,
+      "description": "The talk event goes to mods in load order and the FIRST handler that returns a line wins that talk; later mods' talk handlers are not asked.",
+      "values": [
+        "talk"
+      ]
+    },
+    {
+      "name": "visit_lend",
+      "since": 1,
+      "description": "Visiting with the host's mods: when every world mod of the host that counts is a reviewed registry version, a visitor can load them for that visit only, after agreeing. They run with the host's settings. Nothing is installed, the game restarts with them, and their scripts start with an empty store that is never saved. A lent mod acts only in the host's town: at home (the restart before the trip and the one after it) its shop, Nook goods, board notices, items, renames and commands do nothing, so it never changes the visitor's own town or save. A mod installed from a file cannot be lent, nothing is lent while mods are switched off for everyone, and a set that would not load whole on the visitor's game (with the visitor's own client mods, under the same caps) is refused before the restart."
+    },
+    {
+      "name": "city_set",
+      "since": 1,
+      "description": "The City's own mod set: a short list chosen by the site and changed only with a release. A City mod may hold only textures and messages: no shops, no scripts, no permissions."
+    },
+    {
+      "name": "targets_level",
+      "since": 2,
+      "description": "content.letters, content.events, content.talk and shops target \"nook\" are api 2: a mod.json that says \"api\": 1 cannot use them."
+    },
+    {
+      "name": "events_board_world",
+      "since": 2,
+      "description": "An events file with a board notice requires scope world (the board is the town's, a visitor reads it)."
+    },
+    {
+      "name": "event_letter_once",
+      "since": 2,
+      "description": "An events file's \"letter\" goes out once per event per day per town, only in the player's own town (not on a visit, not in The City), and counts against the mod's daily send_letter cap; a refusal is written to the mod log, never to a script."
+    },
+    {
+      "name": "font_characters",
+      "since": 1,
+      "description": "The characters the game's font draws in a mod's lines (messages, talk lines, shop greetings, show_line and ask): every printable ASCII character except $ * ^ | \\ (each drawn as ?), with # + / ; drawn by the font's own signs, [ ] { } as ( ), ` as ' and ~ as the villagers' wavy tilde; plus the letters and signs listed here. Curly quotes, dashes, the ellipsis and a no-break space become their ASCII spelling; any other character is drawn as ?. Letters and board notices take plain ASCII only. values: the extra characters, from the font's own table.",
+      "values": [
+        "¿",
+        "Ä",
+        "À",
+        "Á",
+        "Â",
+        "Ã",
+        "Å",
+        "Ç",
+        "È",
+        "É",
+        "Ê",
+        "Ë",
+        "Ì",
+        "Í",
+        "Î",
+        "Ï",
+        "Ð",
+        "Ñ",
+        "Ò",
+        "Ó",
+        "Ô",
+        "Õ",
+        "Ö",
+        "Ù",
+        "Ú",
+        "Û",
+        "Ü",
+        "ß",
+        "Þ",
+        "à",
+        "á",
+        "â",
+        "ã",
+        "ä",
+        "å",
+        "ç",
+        "è",
+        "é",
+        "ê",
+        "ë",
+        "ì",
+        "í",
+        "î",
+        "ï",
+        "·",
+        "ð",
+        "ñ",
+        "ò",
+        "ó",
+        "ô",
+        "õ",
+        "ö",
+        "ù",
+        "ú",
+        "û",
+        "ü",
+        "ý",
+        "ÿ",
+        "þ",
+        "Ý",
+        "§",
+        "ª",
+        "º",
+        "µ",
+        "³",
+        "²",
+        "¹",
+        "Æ",
+        "æ",
+        "«",
+        "»",
+        "×",
+        "÷"
+      ]
+    },
+    {
+      "name": "permissions_need_scripts",
+      "since": 2,
+      "description": "permissions requires scripts: only a script can use a command."
+    },
+    {
+      "name": "exports_need_scripts",
+      "since": 2,
+      "description": "exports requires scripts: only a script offers functions."
+    },
+    {
+      "name": "commands_between_frames",
+      "since": 2,
+      "description": "A hook never changes the game. Each cmd.* call queues a command; the game applies the queue at one point between frames, only while the player is free (not in a talk, menu, cutscene, door or scene change). Its result comes back as a command_result event to the mod that queued it."
+    },
+    {
+      "name": "commands_host_only",
+      "since": 2,
+      "description": "Every command is refused in The City. Visiting a friend's town, send_letter and give_item are refused (only the town owner's game changes a town); set_flag, show_line and ask still run."
+    },
+    {
+      "name": "command_items",
+      "since": 2,
+      "description": "A letter's present and a given item follow the shop's item rules: no money, turnips, tickets, grab bags, fossils or reserve ids. give_item also takes this mod's own new item by its full id; full pockets refuse that (a letter cannot carry its identity), while a plain item comes by letter instead."
+    }
+  ],
+  "files": [
+    {
+      "name": "shops",
+      "since": 1,
+      "manifest_key": "content.shops",
+      "format": "json",
+      "description": "Restocks and rewords a shop. The flower shop, and from api 2 Nook's (target nook: goods added to or replacing the day's roll per spot kind, every store size, from the next restock; off in the City). The game itself (not the page or the registry) refuses goods with no shelf model, money, turnips, tickets, grab bags, fossils and reserve ids, and raises a price below the item's buy-back to the buy-back. items.json lists what may be stocked. From api 2 a good may be an item of the same mod (its full id); without a price it takes the item's price.",
+      "schema": {
+        "type": "object",
+        "required": [
+          "shops"
+        ],
+        "properties": {
+          "$schema": {
+            "type": "string"
+          },
+          "shops": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 4,
+            "items": {
+              "type": "object",
+              "required": [
+                "target",
+                "stock"
+              ],
+              "properties": {
+                "target": {
+                  "enum": [
+                    "flower",
+                    "nook"
+                  ],
+                  "description": "Which shop: \"flower\", or \"nook\" (api 2). One shop per target. A nook entry takes only mode and stock."
+                },
+                "name": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40,
+                  "description": "The shop's name on its sign: one line (no line break).",
+                  "pattern": "^[^\\n]*$"
+                },
+                "hours": {
+                  "type": "object",
+                  "required": [
+                    "open",
+                    "close"
+                  ],
+                  "properties": {
+                    "open": {
+                      "type": "string",
+                      "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+                    },
+                    "close": {
+                      "type": "string",
+                      "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+                    }
+                  },
+                  "description": "HH:MM, open and close different. Close may be past midnight. Hours can only shorten the shop's own."
+                },
+                "greeting": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160,
+                  "description": "What the keeper says first. At most 3 line breaks."
+                },
+                "stock_line": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160,
+                  "description": "What the keeper says about the stock. At most 3 line breaks."
+                },
+                "stock": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 16,
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "item"
+                    ],
+                    "properties": {
+                      "item": {
+                        "type": "string",
+                        "description": "The item id as a string, \"0x\" and 4 hex digits; from api 2 also the full id of an item in this mod's items file (author.mod:thing). Listed at most once; two mod items may not share a base.",
+                        "anyOf": [
+                          {
+                            "pattern": "^0x[0-9a-fA-F]{4}$"
+                          },
+                          {
+                            "pattern": "^([a-z0-9][a-z0-9-]{0,31}\\.[a-z0-9][a-z0-9-]{0,47}):([a-z0-9][a-z0-9-]{0,31})$"
+                          }
+                        ]
+                      },
+                      "price": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 99999,
+                        "description": "Bells. Leave out for the game's own price."
+                      }
+                    }
+                  },
+                  "description": "The flower shop: 1 to 6 goods, one per table spot. Nook's: 1 to 16 goods, each in a spot of its own kind."
+                },
+                "mode": {
+                  "enum": [
+                    "add",
+                    "replace"
+                  ],
+                  "description": "Nook's only: \"add\" (default) puts the goods in at most half of each kind's spots, \"replace\" in all of them."
+                }
+              },
+              "allOf": [
+                {
+                  "description": "The flower shop sells at most 6 goods (one per table spot); Nook's up to 16.",
+                  "if": {
+                    "required": [
+                      "target"
+                    ],
+                    "properties": {
+                      "target": {
+                        "const": "flower"
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "stock": {
+                        "maxItems": 6
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "example": {
+        "shops": [
+          {
+            "target": "flower",
+            "name": "Tea House",
+            "hours": {
+              "open": "15:00",
+              "close": "01:00"
+            },
+            "greeting": "Welcome to the tea house!",
+            "stock": [
+              {
+                "item": "0x2800",
+                "price": 400
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "messages",
+      "since": 1,
+      "manifest_key": "content.messages",
+      "format": "json",
+      "description": "Lines a script or another mod can use, by key. A script reads its own with message(\"key\"), another mod's with message(\"author.mod:key\"). This file cannot carry a $schema key (every key is a line): point your editor at messages.schema.json in its settings instead. From api 2, content.messages may name a folder of <lang>.json files instead (en.json required; de, es, fr, it), each by these rules, a translation holding only keys en.json has.",
+      "schema": {
+        "type": "object",
+        "maxProperties": 256,
+        "propertyNames": {
+          "pattern": "^[a-z0-9_.-]{1,48}$"
+        },
+        "additionalProperties": {
+          "type": "string",
+          "minLength": 1,
+          "description": "1 to 400 UTF-8 bytes. Lines wrap at 24 characters, 4 lines a page."
+        }
+      },
+      "example": {
+        "gossip1": "Did you hear? The museum got a new fossil!"
+      }
+    },
+    {
+      "name": "textures",
+      "since": 1,
+      "manifest_key": "content.textures",
+      "format": "folder",
+      "description": "A folder of replacement textures, named the way Dolphin names a custom texture. A mod's texture beats the HD pack; among mods, the one lower in the list wins. Use the texture inspector (Settings, Mods, Developer) to find a texture's name.",
+      "naming": [
+        {
+          "pattern": "tex1_<w>x<h>_<data>_<fmt>.dds",
+          "description": "A texture without a palette."
+        },
+        {
+          "pattern": "tex1_<w>x<h>_<data>_<tlut>_<fmt>.dds",
+          "description": "A palette (C4, C8) texture: <tlut> is the palette's hash."
+        },
+        {
+          "pattern": "tex1_<w>x<h>_<data>_$_<fmt>.dds",
+          "description": "A palette texture under any palette."
+        },
+        {
+          "pattern": "tex1_<w>x<h>_<data>[_<tlut>|_$]_<fmt>.png",
+          "description": "The same names as a PNG (any case of .png): decoded once at load, at most 2048 a side. A DDS of the same name in the same mod is the same texture: the first scanned wins."
+        }
+      ],
+      "name_regex": "^tex1_[0-9]+x[0-9]+_[0-9a-fA-F]{16}(_([0-9a-fA-F]{16}|\\$))?_[0-9]+\\.([dD][dD][sS]|[pP][nN][gG])$",
+      "image_formats": "DDS: BC7, BC1/DXT1, BC3/DXT5 (legacy FourCC or DX10), DX10 R8G8B8A8 or B8G8R8A8, or legacy uncompressed 32 bits a pixel; 1 to 16384 a side; level 0 only, no stored mipmaps. PNG: grey, RGB, palette, grey with alpha or RGBA, 1 to 16 bits, interlaced or not, tRNS; at most 2048 a side.",
+      "example": "textures/tex1_32x32_8b5a1b4a83d4d7c7_14.dds"
+    },
+    {
+      "name": "scripts",
+      "since": 1,
+      "manifest_key": "scripts.main",
+      "format": "lua",
+      "description": "Lua 5.4 source text (bytecode is refused), run once when the game starts. It registers handlers with on() and returns nothing. One Lua state per mod; mods cannot see each other's globals.",
+      "example": "on(\"talk\", function(npc) return \"Hi \" .. npc.name .. \"!\" end)"
+    },
+    {
+      "name": "items",
+      "since": 2,
+      "manifest_key": "content.items",
+      "format": "json",
+      "description": "New furniture, each on a vanilla base piece (api 2). The engine also refuses a base with no model, fossils, gyroids, clothing, design pieces and pieces that become a pocket item. In the save a mod item is its base piece; a sidecar maps it back, so removing the mod leaves the base piece behind and reinstalling restores it.",
+      "schema": {
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "$schema": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "name",
+                "base"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9][a-z0-9-]{0,31}$",
+                  "description": "The item's own id; its full id is <mod id>:<id>."
+                },
+                "name": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9 '.,!&-]{0,14}[A-Za-z0-9'.,!&-])?$",
+                  "description": "1 to 16 of letters, digits, space and ' . , ! & -, starting with a letter or digit, not ending with a space."
+                },
+                "base": {
+                  "type": "string",
+                  "pattern": "^0x[0-9a-fA-F]{4}$",
+                  "description": "A south-facing furniture id: 0x1000 to 0x1FFC or 0x3000 to 0x33C4, a multiple of 4."
+                },
+                "price": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 99999,
+                  "description": "Bells. Leave out for the base piece's price."
+                }
+              }
+            }
+          }
+        }
+      },
+      "example": {
+        "items": [
+          {
+            "id": "cup",
+            "name": "Tea cup",
+            "base": "0x1000",
+            "price": 800
+          }
+        ]
+      }
+    },
+    {
+      "name": "mod-items sidecar",
+      "since": 2,
+      "manifest_key": "none (engine-owned)",
+      "format": "json",
+      "description": "/save/card_a/mod-items.json, written by the engine beside the home save, never by a mod: which placed or carried base pieces are which mod item, and which renames have run. It rides in the cloud save and a friend visit's town copy. A mod never reads or writes it."
+    },
+    {
+      "name": "letters",
+      "since": 2,
+      "manifest_key": "content.letters",
+      "format": "json",
+      "description": "Letter templates a mod command (send_letter) mails through the mailbox, named \"<mod id>:<letter id>\". The game wraps the body at the paper's width in its own font and refuses one that needs more than 6 lines, and refuses a present that is money, turnips, a ticket, a grab bag, a fossil or not an item. Either scope.",
+      "schema": {
+        "type": "object",
+        "required": [
+          "letters"
+        ],
+        "properties": {
+          "$schema": {
+            "type": "string"
+          },
+          "letters": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 32,
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "header",
+                "body",
+                "footer"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9_.-]{1,48}$",
+                  "description": "Unique in the file."
+                },
+                "header": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 32,
+                  "description": "1 to 24 characters besides at most one {player}, where the name goes. No line break. Plain text: printable ASCII, no { or }."
+                },
+                "body": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 192,
+                  "description": "1 to 192 characters on at most 6 lines. Plain text: printable ASCII, no { or }."
+                },
+                "footer": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 32,
+                  "description": "The sign-off at the foot of the letter, 1 to 32 characters. Plain text: printable ASCII, no { or }. The mailbox list shows only its first 8 characters unless the letter has a sender."
+                },
+                "sender": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8,
+                  "description": "Optional: the name in the mailbox list, 1 to 8 characters (the list has room for 8). Without it the list shows the footer's first 8 characters, so \"The Lantern Keepers\" reads \"The Lant\". The letter itself always signs with the whole footer. Plain text: printable ASCII, no { or }."
+                },
+                "item": {
+                  "type": "string",
+                  "pattern": "^0x[0-9a-fA-F]{4}$",
+                  "description": "A present, optional."
+                },
+                "paper": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 63,
+                  "description": "The stationery, default 0."
+                }
+              }
+            }
+          }
+        }
+      },
+      "example": {
+        "letters": [
+          {
+            "id": "thanks",
+            "header": "Dear {player},",
+            "body": "Thank you for the help.\nHere is a little something.",
+            "footer": "The Fair Committee",
+            "sender": "The Fair",
+            "item": "0x2800",
+            "paper": 12
+          }
+        ]
+      }
+    },
+    {
+      "name": "events",
+      "since": 2,
+      "manifest_key": "content.events",
+      "format": "json",
+      "description": "Dated town days with safe effects only: a notice on the town bulletin board, posted once on the day in the player's own town (never on a visit or in the City; needs scope world), villager lines for the day, ahead of talk pools, and a letter from the same mod's letters file, mailed once on the day to the player's mailbox in their own town (never on a visit or in the City), counted against the mod's daily letter cap, with no script. No decorations: the game has no data seam for them.",
+      "schema": {
+        "type": "object",
+        "required": [
+          "events"
+        ],
+        "properties": {
+          "$schema": {
+            "type": "string"
+          },
+          "events": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 16,
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "date"
+              ],
+              "anyOf": [
+                {
+                  "required": [
+                    "board"
+                  ]
+                },
+                {
+                  "required": [
+                    "talk"
+                  ]
+                },
+                {
+                  "required": [
+                    "letter"
+                  ]
+                }
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9_.-]{1,48}$",
+                  "description": "Unique in the file."
+                },
+                "date": {
+                  "type": "object",
+                  "required": [
+                    "month"
+                  ],
+                  "description": "{month, day} (February 29 works) or {month, week 1 to 4 or \"last\", weekday 0 Sunday to 6}.",
+                  "properties": {
+                    "month": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 12
+                    },
+                    "day": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 31
+                    },
+                    "week": {
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 4
+                        },
+                        {
+                          "enum": [
+                            "last"
+                          ]
+                        }
+                      ]
+                    },
+                    "weekday": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 6
+                    }
+                  }
+                },
+                "board": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 192,
+                  "description": "A bulletin board notice: 1 to 192 characters on at most 6 lines. Plain text: printable ASCII, no { or }. Needs scope world."
+                },
+                "talk": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 16,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160,
+                    "description": "A villager line: 1 to 160 characters, at most 3 line breaks."
+                  }
+                },
+                "letter": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9_.-]{1,48}$",
+                  "description": "The id of a letter in this mod's letters file, mailed on the day: once per town per day, the first time the player is free in their own town, through the same rules as cmd.send_letter (mailbox, else the post office; counted against the daily letter cap). No permission or script needed."
+                }
+              }
+            }
+          }
+        }
+      },
+      "example": {
+        "events": [
+          {
+            "id": "harvest-fair",
+            "date": {
+              "month": 9,
+              "week": 3,
+              "weekday": 3
+            },
+            "board": "HARVEST FAIR TODAY!\nBring your best fruit.",
+            "talk": [
+              "It's the Harvest Fair!"
+            ]
+          },
+          {
+            "id": "lantern-night",
+            "date": {
+              "month": 11,
+              "week": 2,
+              "weekday": 5
+            },
+            "letter": "lanterns",
+            "talk": [
+              "The lanterns go up tonight!"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "talk",
+      "since": 2,
+      "manifest_key": "content.talk",
+      "format": "json",
+      "description": "Villager line pools: on an ordinary talk (never a special or event talk) where no script said a line, a villager says at most one data line a day (today's event lines first, else the most specific matching pools: this villager, else this personality, else everyone), then their own hello. Either scope; runs in the City too.",
+      "schema": {
+        "type": "object",
+        "required": [
+          "pools"
+        ],
+        "properties": {
+          "$schema": {
+            "type": "string"
+          },
+          "pools": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 32,
+            "items": {
+              "type": "object",
+              "required": [
+                "lines"
+              ],
+              "properties": {
+                "personality": {
+                  "enum": [
+                    "normal",
+                    "peppy",
+                    "lazy",
+                    "jock",
+                    "cranky",
+                    "snooty"
+                  ],
+                  "description": "Not with villager."
+                },
+                "villager": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8,
+                  "description": "A villager's name, any case. Not with personality."
+                },
+                "chance": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 100,
+                  "description": "Days in 100 the pool speaks to a villager. Default 100."
+                },
+                "lines": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 32,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160,
+                    "description": "A villager line: 1 to 160 characters, at most 3 line breaks."
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "example": {
+        "pools": [
+          {
+            "personality": "cranky",
+            "lines": [
+              "Hmph.",
+              "What now?"
+            ]
+          },
+          {
+            "chance": 40,
+            "lines": [
+              "Nice day, isn't it?"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "globals": [
+    {
+      "name": "on",
+      "kind": "function",
+      "since": 1,
+      "description": "Registers a handler for an event, while the mod's own script loads (not from inside a handler, nor from a function another mod calls with remote.call). The event must be in mod.json's scripts.hooks. At most 16 handlers per event.",
+      "params": [
+        {
+          "name": "event",
+          "type": "string",
+          "description": "An event name."
+        },
+        {
+          "name": "fn",
+          "type": "function",
+          "description": "Called with the event's payload."
+        }
+      ],
+      "returns": {
+        "type": "nil"
+      }
+    },
+    {
+      "name": "log",
+      "kind": "function",
+      "since": 1,
+      "description": "Writes a line to the Mods tab's Mod log and the browser console as \"[Mods] <id>: ...\". Arguments are joined with spaces; a line is cut at 300 bytes. At most 20 lines per event and 500 per session. A script error or stop is written to the Mod log too, with a Lua traceback.",
+      "params": [
+        {
+          "name": "...",
+          "type": "any",
+          "description": "Values to print."
+        }
+      ],
+      "returns": {
+        "type": "nil"
+      }
+    },
+    {
+      "name": "message",
+      "kind": "function",
+      "since": 1,
+      "description": "A line from a messages file: \"key\" reads this mod's own, \"author.mod:key\" another mod's. nil when there is no such line. From api 2 a mod's messages can be a folder of translations: the line comes in the game's language (en, de, es, fr or it, from the disc), with English as the fallback.",
+      "params": [
+        {
+          "name": "key",
+          "type": "string",
+          "description": "\"key\" or \"author.mod:key\"."
+        }
+      ],
+      "returns": {
+        "type": "string|nil"
+      }
+    },
+    {
+      "name": "game",
+      "kind": "table",
+      "since": 1,
+      "description": "Read-only facts about the game.",
+      "members": [
+        {
+          "name": "time",
+          "kind": "function",
+          "since": 1,
+          "description": "The game's clock now.",
+          "params": [],
+          "returns": {
+            "type": "table",
+            "fields": [
+              {
+                "name": "year",
+                "type": "integer"
+              },
+              {
+                "name": "month",
+                "type": "integer",
+                "description": "1 to 12."
+              },
+              {
+                "name": "day",
+                "type": "integer",
+                "description": "1 to 31."
+              },
+              {
+                "name": "hour",
+                "type": "integer",
+                "description": "0 to 23."
+              },
+              {
+                "name": "minute",
+                "type": "integer",
+                "description": "0 to 59."
+              },
+              {
+                "name": "weekday",
+                "type": "integer",
+                "description": "0 (Sunday) to 6."
+              }
+            ]
+          }
+        },
+        {
+          "name": "pockets",
+          "kind": "function",
+          "since": 2,
+          "description": "A copy of the 15 pocket slots, item numbers, 0 for an empty slot.",
+          "params": [],
+          "returns": {
+            "type": "table"
+          }
+        },
+        {
+          "name": "bells",
+          "kind": "function",
+          "since": 2,
+          "description": "The wallet, or nil before a town is loaded.",
+          "params": [],
+          "returns": {
+            "type": "integer|nil"
+          }
+        },
+        {
+          "name": "town",
+          "kind": "function",
+          "since": 2,
+          "description": "The town: { name, id, year, month, day, hour, minute, weekday, season } (season spring, summer, autumn or winter), or nil.",
+          "params": [],
+          "returns": {
+            "type": "table|nil",
+            "fields": [
+              {
+                "name": "name",
+                "type": "string"
+              },
+              {
+                "name": "id",
+                "type": "integer"
+              },
+              {
+                "name": "year",
+                "type": "integer"
+              },
+              {
+                "name": "month",
+                "type": "integer"
+              },
+              {
+                "name": "day",
+                "type": "integer"
+              },
+              {
+                "name": "hour",
+                "type": "integer"
+              },
+              {
+                "name": "minute",
+                "type": "integer"
+              },
+              {
+                "name": "weekday",
+                "type": "integer"
+              },
+              {
+                "name": "season",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        {
+          "name": "villagers",
+          "kind": "function",
+          "since": 2,
+          "description": "The town's villagers: { { id, name, species, personality }, ... }; personality normal, peppy, lazy, jock, cranky or snooty.",
+          "params": [],
+          "returns": {
+            "type": "table"
+          }
+        },
+        {
+          "name": "player",
+          "kind": "function",
+          "since": 2,
+          "description": "{ name }, or nil.",
+          "params": [],
+          "returns": {
+            "type": "table|nil",
+            "fields": [
+              {
+                "name": "name",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        {
+          "name": "events_today",
+          "kind": "function",
+          "since": 2,
+          "description": "The ids of this mod's own events (its events file) that fall on the town's date today, in file order: {} when none, or before a town is loaded. Only the calling mod's events.",
+          "params": [],
+          "returns": {
+            "type": "table"
+          }
+        }
+      ]
+    },
+    {
+      "name": "store",
+      "kind": "table",
+      "since": 1,
+      "description": "A small saved table per mod, per TOWN (from api 2): strings, numbers and booleans, 8 KB per mod per town. It travels with the town (cloud save, backups, Export with mod data). No town is loaded while the main chunk runs: get answers nil and set refuses. On a visit or in the City it lives in memory only. Written to disk when the game saves. A mod that says \"api\": 1 keeps level 1's store: one per browser (store.client's), usable from the main chunk too.",
+      "members": [
+        {
+          "name": "get",
+          "kind": "function",
+          "since": 1,
+          "description": "A value this mod saved in this town, or nil (nil while the main chunk runs). Integers come back as integers.",
+          "params": [
+            {
+              "name": "key",
+              "type": "string"
+            }
+          ],
+          "returns": {
+            "type": "string|number|boolean|nil"
+          }
+        },
+        {
+          "name": "set",
+          "kind": "function",
+          "since": 1,
+          "description": "Saves a string, number or boolean under a key in this town; nil deletes it. Keys up to 64 bytes, strings up to 1024. A set that would take this town's store over 8 KB, or one before a town is loaded (the main chunk), raises an error and changes nothing.",
+          "params": [
+            {
+              "name": "key",
+              "type": "string"
+            },
+            {
+              "name": "value",
+              "type": "string|number|boolean|nil"
+            }
+          ],
+          "returns": {
+            "type": "nil"
+          }
+        },
+        {
+          "name": "town",
+          "kind": "function",
+          "since": 2,
+          "description": "Which town store is now: an opaque text that changes when the town does (\"v:...\" away from home), nil before a town is loaded. Compare it to reload what you keep in locals when the player moves to another town.",
+          "params": [],
+          "returns": {
+            "type": "string|nil"
+          }
+        },
+        {
+          "name": "client",
+          "kind": "table",
+          "since": 2,
+          "description": "The per-browser store (the store of api 1): the same get and set and caps, one per mod per browser whatever town is loaded.",
+          "members": [
+            {
+              "name": "get",
+              "kind": "function",
+              "since": 2,
+              "description": "A value this mod saved in this browser, or nil.",
+              "params": [
+                {
+                  "name": "key",
+                  "type": "string"
+                }
+              ],
+              "returns": {
+                "type": "string|number|boolean|nil"
+              }
+            },
+            {
+              "name": "set",
+              "kind": "function",
+              "since": 2,
+              "description": "Saves a value in this browser; nil deletes it. 8 KB per mod.",
+              "params": [
+                {
+                  "name": "key",
+                  "type": "string"
+                },
+                {
+                  "name": "value",
+                  "type": "string|number|boolean|nil"
+                }
+              ],
+              "returns": {
+                "type": "nil"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "settings",
+      "kind": "table",
+      "since": 2,
+      "description": "The mod's settings from mod.json \"settings\", as the player set them on the Mods tab (read at boot).",
+      "members": [
+        {
+          "name": "get",
+          "kind": "function",
+          "since": 2,
+          "description": "A setting's value: the player's, else the default. A boolean, an integer or a string; nil for a name the mod does not declare.",
+          "params": [
+            {
+              "name": "name",
+              "type": "string"
+            }
+          ],
+          "returns": {
+            "type": "boolean|integer|string|nil"
+          }
+        }
+      ]
+    },
+    {
+      "name": "remote",
+      "kind": "table",
+      "since": 2,
+      "description": "Calls between mods: one mod offers named functions, another calls them. Values are deep copies (nil, booleans, numbers, strings and tables of them; 64 KB, 16 levels, 4096 values, 8 results); the callee runs on the CALLER's budget and clock (over it, the caller is stopped), and a call into a mod that is already running is refused.",
+      "members": [
+        {
+          "name": "add",
+          "kind": "function",
+          "since": 2,
+          "description": "Offers a function to other mods, while the script loads. Names are 1 to 32 of a-z 0-9 _, at most 32 per mod. With mod.json \"exports\", only the names it lists.",
+          "params": [
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "fn",
+              "type": "function"
+            }
+          ],
+          "returns": {
+            "type": "nil"
+          }
+        },
+        {
+          "name": "call",
+          "kind": "function",
+          "since": 2,
+          "description": "Calls a function another running mod offers. Its errors come back as yours; it keeps running.",
+          "params": [
+            {
+              "name": "mod",
+              "type": "string"
+            },
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "...",
+              "type": "any",
+              "description": "Copied arguments."
+            }
+          ],
+          "returns": {
+            "type": "any"
+          }
+        },
+        {
+          "name": "has",
+          "kind": "function",
+          "since": 2,
+          "description": "Whether a running mod offers that function.",
+          "params": [
+            {
+              "name": "mod",
+              "type": "string"
+            },
+            {
+              "name": "name",
+              "type": "string"
+            }
+          ],
+          "returns": {
+            "type": "boolean"
+          }
+        }
+      ]
+    },
+    {
+      "name": "cmd",
+      "kind": "table",
+      "since": 2,
+      "description": "The commands: each queues an effect the game applies between frames. Each needs its name in mod.json permissions. In The City every command, and on a visit send_letter and give_item, return nil and the reason at once and count against no daily cap; one queued at home and applied after the player left comes back as a refused command_result and its count is given back.",
+      "members": [
+        {
+          "name": "send_letter",
+          "kind": "function",
+          "since": 2,
+          "description": "Queues a letter in the player's own mailbox (the post office keeps it when the mailbox is full). The save holds an ordinary letter, so it loads without the mod.",
+          "params": [
+            {
+              "name": "t",
+              "type": "table",
+              "description": "{ text, item?, from?, paper? } or { template }: text 1 to 192 characters fitting 6 lines; item a number or \"0x\" and four hex digits; from 1 to 8 characters (\"A friend\"); paper 0 to 63. template: one of this mod's own letters.json letters, by its id or \"<this mod's id>:<id>\" (header, body, sign-off, present and paper all come from it)."
+            }
+          ],
+          "returns": {
+            "type": "integer|nil",
+            "description": "The command's id, or nil and the reason it was refused."
+          }
+        },
+        {
+          "name": "give_item",
+          "kind": "function",
+          "since": 2,
+          "description": "Queues an item into the first empty pocket; with full pockets it comes by letter. Also takes this mod's own new item by its full id (author.mod:thing, given with its identity, as a shop sells it); full pockets refuse that one.",
+          "params": [
+            {
+              "name": "item",
+              "type": "integer|string|table",
+              "description": "An item number, \"0x\" and four hex digits, this mod's \"author.mod:thing\", or { item, from? }."
+            }
+          ],
+          "returns": {
+            "type": "integer|nil",
+            "description": "The command's id, or nil and the reason it was refused."
+          }
+        },
+        {
+          "name": "set_flag",
+          "kind": "function",
+          "since": 2,
+          "description": "Queues one of this mod's own flags into this TOWN's store (see store) as flag:<key>; the store's 8 KB cap applies. A flag belongs to the town it was set in: visiting a friend it lasts only the visit, and before a town is loaded it is refused. Not in the save.",
+          "params": [
+            {
+              "name": "key",
+              "type": "string",
+              "description": "^[a-z0-9_.-]{1,32}$"
+            },
+            {
+              "name": "value",
+              "type": "boolean|integer|string|nil",
+              "description": "nil clears it; text at most 64 bytes."
+            }
+          ],
+          "returns": {
+            "type": "integer|nil",
+            "description": "The command's id, or nil and the reason it was refused."
+          }
+        },
+        {
+          "name": "show_line",
+          "kind": "function",
+          "since": 2,
+          "description": "Queues a line in the player's own thought window, shown once the player is free. One line or question at a time.",
+          "params": [
+            {
+              "name": "text",
+              "type": "string",
+              "description": "1 to 400 bytes."
+            }
+          ],
+          "returns": {
+            "type": "integer|nil",
+            "description": "The command's id, or nil and the reason it was refused."
+          }
+        },
+        {
+          "name": "ask",
+          "kind": "function",
+          "since": 2,
+          "description": "Queues a question with 2 to 4 answers in the player's thought window. The pick comes back as an answer event.",
+          "params": [
+            {
+              "name": "t",
+              "type": "table",
+              "description": "{ text, choices }: text 1 to 120 characters, choices 2 to 4 answers of 1 to 16 characters."
+            }
+          ],
+          "returns": {
+            "type": "integer|nil",
+            "description": "The command's id, or nil and the reason it was refused."
+          }
+        }
+      ]
+    },
+    {
+      "name": "flag",
+      "kind": "function",
+      "since": 2,
+      "description": "This mod's flag in this town (set with cmd.set_flag), or nil.",
+      "params": [
+        {
+          "name": "key",
+          "type": "string"
+        }
+      ],
+      "returns": {
+        "type": "boolean|integer|string|nil"
+      }
+    },
+    {
+      "name": "rng",
+      "kind": "function",
+      "since": 2,
+      "description": "rng() a number in [0,1); rng(n) 1..n; rng(m, n) m..n. Seeded by the mod, the town, the game day, the event and what the event is about, so a reload gives the same numbers. For an api 2 mod math.random is the same function and math.randomseed is removed; an api 1 mod keeps Lua's own math.random.",
+      "params": [
+        {
+          "name": "m",
+          "type": "integer|nil"
+        },
+        {
+          "name": "n",
+          "type": "integer|nil"
+        }
+      ],
+      "returns": {
+        "type": "number|integer"
+      }
+    }
+  ],
+  "sandbox": {
+    "since": 1,
+    "description": "Each mod runs in its own Lua 5.4 state with only these standard libraries. Source text only (no bytecode). The libraries are read-only: assigning to string.<name>, rawset on one or setmetatable on one raises \"string.<name> is read-only\", and getmetatable of a library or a string is the string \"locked\". The built-in globals (the base functions, the libraries, on, log, message, game, store) cannot be assigned, set to nil or rawset; a local may shadow one, and a mod's own globals are writable as usual. pairs(_G) lists only the mod's own globals. Work the instruction count cannot see is charged to the budget: patterns (per step, and per 16 bytes of a [...] set or of a gsub replacement), comparing long strings, and allocations; the run's clock is read at every 100 instructions and a run past its deadline stops. A weak-keyed table (__mode \"k\" without \"v\") keeps its keys: weak-keyed tables made one garbage collection cost the square of their size. Weak values work as usual.",
+    "libraries": [
+      {
+        "name": "base",
+        "since": 1,
+        "description": "Lua's base functions, without the removed ones below. pcall, xpcall and setmetatable are wrapped."
+      },
+      {
+        "name": "string",
+        "since": 1,
+        "description": "Without string.dump. Pattern matching is charged against the budget, and string.pack, packsize and unpack per 4 bytes of their format. Read-only."
+      },
+      {
+        "name": "table",
+        "since": 1,
+        "description": "insert, remove, sort, concat, move and unpack are charged per element; a table with a __len metamethod is refused by them. Read-only."
+      },
+      {
+        "name": "math",
+        "since": 1,
+        "description": "The whole math library. Read-only. From api 2 math.random is rng (seeded, repeatable) and math.randomseed is not there; a mod that says \"api\": 1 keeps Lua's own math.random and math.randomseed."
+      },
+      {
+        "name": "utf8",
+        "since": 1,
+        "description": "codepoint, len and offset are charged per byte. Read-only."
+      },
+      {
+        "name": "coroutine",
+        "since": 1,
+        "description": "resume and close are wrapped like pcall. Read-only."
+      }
+    ],
+    "removed": [
+      {
+        "name": "dofile",
+        "since": 1,
+        "description": "Reaches files."
+      },
+      {
+        "name": "loadfile",
+        "since": 1,
+        "description": "Reaches files."
+      },
+      {
+        "name": "load",
+        "since": 1,
+        "description": "Loads code past the text-only loader."
+      },
+      {
+        "name": "collectgarbage",
+        "since": 1,
+        "description": "Controls memory the sandbox manages."
+      },
+      {
+        "name": "print",
+        "since": 1,
+        "description": "Use log()."
+      },
+      {
+        "name": "string.dump",
+        "since": 1,
+        "description": "Hands out bytecode."
+      },
+      {
+        "name": "math.randomseed",
+        "since": 2,
+        "description": "From api 2 math.random is rng(), seeded by the mod, town, day and event, and cannot be reseeded. An api 1 mod keeps Lua's own math.random and math.randomseed."
+      }
+    ],
+    "absent_libraries": [
+      "io",
+      "os",
+      "package",
+      "debug"
+    ],
+    "wrapped": [
+      {
+        "name": "pcall",
+        "since": 1,
+        "description": "Cannot catch a budget stop: once the budget is gone it raises again."
+      },
+      {
+        "name": "xpcall",
+        "since": 1,
+        "description": "As pcall; the message handler is skipped after a budget stop."
+      },
+      {
+        "name": "coroutine.resume",
+        "since": 1,
+        "description": "As pcall."
+      },
+      {
+        "name": "coroutine.close",
+        "since": 1,
+        "description": "As pcall."
+      },
+      {
+        "name": "setmetatable",
+        "since": 1,
+        "description": "Refuses a __gc field: finalizers could never be stopped."
+      },
+      {
+        "name": "table.insert",
+        "since": 1,
+        "description": "Charged per element."
+      },
+      {
+        "name": "table.remove",
+        "since": 1,
+        "description": "Charged per element."
+      },
+      {
+        "name": "table.sort",
+        "since": 1,
+        "description": "Charged n log n."
+      },
+      {
+        "name": "table.concat",
+        "since": 1,
+        "description": "Charged per element."
+      },
+      {
+        "name": "table.move",
+        "since": 1,
+        "description": "Charged per element."
+      },
+      {
+        "name": "table.unpack",
+        "since": 1,
+        "description": "Charged per result."
+      },
+      {
+        "name": "string.byte",
+        "since": 1,
+        "description": "Charged per result."
+      },
+      {
+        "name": "utf8.codepoint",
+        "since": 1,
+        "description": "Charged per result."
+      },
+      {
+        "name": "utf8.len",
+        "since": 1,
+        "description": "Charged per 64 bytes."
+      },
+      {
+        "name": "utf8.offset",
+        "since": 1,
+        "description": "Charged per 64 bytes."
+      },
+      {
+        "name": "string.pack",
+        "since": 1,
+        "description": "Charged per 4 bytes of the format."
+      },
+      {
+        "name": "string.packsize",
+        "since": 1,
+        "description": "Charged per 4 bytes of the format."
+      },
+      {
+        "name": "string.unpack",
+        "since": 1,
+        "description": "Charged per 4 bytes of the format."
+      },
+      {
+        "name": "string.format",
+        "since": 1,
+        "description": "Charged per 64 bytes of its string arguments."
+      },
+      {
+        "name": "tonumber",
+        "since": 1,
+        "description": "Charged per 64 bytes of a string argument. A string over 200 bytes is never a number, here or in arithmetic."
+      }
+    ]
+  },
+  "events": [
+    {
+      "name": "talk",
+      "since": 1,
+      "description": "The player starts an ordinary talk with a villager. Special and event talks never reach mods (a first meeting, a villager moving out, one with an errand, delivery or contest going with you, a complaint, a pitfall or a bee chase, an islander, Kamakura, summer camp): no handler is called for them, and the villager's next ordinary talk calls it as usual, so a line a script is keeping for \"the next talk\" waits for that one. Return a line and the villager says it before their usual greeting; return nil to stay quiet. The FIRST mod in load order whose handler returns a line wins that talk; later mods' talk handlers are not called for it. An empty string, a line over 400 bytes or one holding a zero byte is not a line: it is logged and the next mod is asked.",
+      "params": [
+        {
+          "name": "npc",
+          "type": "table",
+          "description": "A copy: changing it changes nothing.",
+          "fields": [
+            {
+              "name": "name",
+              "type": "string",
+              "description": "The villager's name."
+            },
+            {
+              "name": "id",
+              "type": "integer",
+              "description": "The villager's id."
+            }
+          ]
+        }
+      ],
+      "returns": {
+        "type": "string|nil",
+        "description": "A line of 1 to 400 bytes, or nil."
+      }
+    },
+    {
+      "name": "day_start",
+      "since": 1,
+      "description": "A new day begins in the game, once per day, also when the game starts on a new day. It does not fire again when the game restarts later on a day the town already saw: the save holds the day it last began. If the game was not saved since that day began, the save still holds the day before, so the next start fires it again. Count days by storing the last date you saw, not by counting calls.",
+      "params": [
+        {
+          "name": "date",
+          "type": "table",
+          "fields": [
+            {
+              "name": "year",
+              "type": "integer"
+            },
+            {
+              "name": "month",
+              "type": "integer"
+            },
+            {
+              "name": "day",
+              "type": "integer"
+            }
+          ]
+        }
+      ],
+      "returns": {
+        "type": "nil"
+      }
+    },
+    {
+      "name": "item_picked",
+      "since": 1,
+      "description": "The player got an item: picked it up, caught it with the net or rod, or dug it up. Fires after it is in their pockets.",
+      "params": [
+        {
+          "name": "item",
+          "type": "integer",
+          "description": "The item id (items.json)."
+        }
+      ],
+      "returns": {
+        "type": "nil"
+      }
+    },
+    {
+      "name": "enter_scene",
+      "since": 1,
+      "description": "A scene (the town, a house, a shop) starts. Not in the title demo.",
+      "params": [
+        {
+          "name": "scene",
+          "type": "integer",
+          "description": "The scene number."
+        }
+      ],
+      "returns": {
+        "type": "nil"
+      }
+    },
+    {
+      "name": "migrate",
+      "since": 2,
+      "description": "Once per town, when mod.json \"data_version\" differs from the version the town's data was written at. It runs when the town is first used, not at the restart: at the first event in that town that any running mod handles, before that event's handlers run. So a mod that handles only talk (and no other mod handles an earlier event) migrates at the first talk; list enter_scene in scripts.hooks and handle it (an empty handler is enough) to migrate as the town loads. from is 0 for data from before data_version (or moved from the per-browser store). If it errors the script stops and the version stays, so the next start tries again. Migrations run in load order, and a remote.call from a migrate handler into a mod whose own migrate has not run in that town yet is refused. Needs data_version.",
+      "params": [
+        {
+          "name": "from",
+          "type": "integer"
+        },
+        {
+          "name": "to",
+          "type": "integer"
+        }
+      ],
+      "returns": {
+        "type": "nil"
+      }
+    },
+    {
+      "name": "hour_change",
+      "since": 2,
+      "description": "The game's clock reached a new hour (the game's own hourly event update, midnight included).",
+      "params": [
+        {
+          "name": "e",
+          "type": "table",
+          "fields": [
+            {
+              "name": "year",
+              "type": "integer"
+            },
+            {
+              "name": "month",
+              "type": "integer"
+            },
+            {
+              "name": "day",
+              "type": "integer"
+            },
+            {
+              "name": "hour",
+              "type": "integer"
+            }
+          ]
+        }
+      ],
+      "returns": {
+        "type": "nil"
+      }
+    },
+    {
+      "name": "shop_buy",
+      "since": 2,
+      "description": "The player bought a good off Nook's floor, as Nook takes the price. item is the piece's item number; mod_item is the full id (\"author.mod:thing\") when the piece is a mod item (the base furniture it stands on is item), nil for a plain good. A visitor buying in a friend's town gets a plain piece, so nil.",
+      "params": [
+        {
+          "name": "e",
+          "type": "table",
+          "fields": [
+            {
+              "name": "item",
+              "type": "integer"
+            },
+            {
+              "name": "price",
+              "type": "integer"
+            },
+            {
+              "name": "mod_item",
+              "type": "string|nil"
+            }
+          ]
+        }
+      ],
+      "returns": {
+        "type": "nil"
+      }
+    },
+    {
+      "name": "item_sold",
+      "since": 2,
+      "description": "The player sold to Nook, once the wallet is credited. item is the first good; mod_item is its full id when that first good is a mod item, nil otherwise.",
+      "params": [
+        {
+          "name": "e",
+          "type": "table",
+          "fields": [
+            {
+              "name": "item",
+              "type": "integer"
+            },
+            {
+              "name": "count",
+              "type": "integer"
+            },
+            {
+              "name": "bells",
+              "type": "integer"
+            },
+            {
+              "name": "mod_item",
+              "type": "string|nil"
+            }
+          ]
+        }
+      ],
+      "returns": {
+        "type": "nil"
+      }
+    },
+    {
+      "name": "fish_caught",
+      "since": 2,
+      "description": "A fish was landed; pocketed says whether it went into the pockets. There is no size or length: the game keeps none for a caught fish (each kind has one fixed shadow size, and only the fishing tourney makes up a length, when the fish is shown to its host).",
+      "params": [
+        {
+          "name": "e",
+          "type": "table",
+          "fields": [
+            {
+              "name": "item",
+              "type": "integer"
+            },
+            {
+              "name": "pocketed",
+              "type": "boolean"
+            }
+          ]
+        }
+      ],
+      "returns": {
+        "type": "nil"
+      }
+    },
+    {
+      "name": "bug_caught",
+      "since": 2,
+      "description": "A bug was netted; pocketed says whether it went into the pockets.",
+      "params": [
+        {
+          "name": "e",
+          "type": "table",
+          "fields": [
+            {
+              "name": "item",
+              "type": "integer"
+            },
+            {
+              "name": "pocketed",
+              "type": "boolean"
+            }
+          ]
+        }
+      ],
+      "returns": {
+        "type": "nil"
+      }
+    },
+    {
+      "name": "letter_read",
+      "since": 2,
+      "description": "The player chose Read on a letter.",
+      "params": [
+        {
+          "name": "e",
+          "type": "table",
+          "fields": [
+            {
+              "name": "sender",
+              "type": "string"
+            },
+            {
+              "name": "present",
+              "type": "integer"
+            },
+            {
+              "name": "first_time",
+              "type": "boolean"
+            }
+          ]
+        }
+      ],
+      "returns": {
+        "type": "nil"
+      }
+    },
+    {
+      "name": "villager_moved_in",
+      "since": 2,
+      "description": "A villager with no house was given one (the game start after a move-in; a brand-new town fires it for its first villagers).",
+      "params": [
+        {
+          "name": "e",
+          "type": "table",
+          "fields": [
+            {
+              "name": "id",
+              "type": "integer"
+            },
+            {
+              "name": "name",
+              "type": "string"
+            }
+          ]
+        }
+      ],
+      "returns": {
+        "type": "nil"
+      }
+    },
+    {
+      "name": "visitor_arrived",
+      "since": 2,
+      "description": "A friend is riding into this player's own town (a friend visit, host side). kind is \"friend\".",
+      "params": [
+        {
+          "name": "e",
+          "type": "table",
+          "fields": [
+            {
+              "name": "kind",
+              "type": "string"
+            }
+          ]
+        }
+      ],
+      "returns": {
+        "type": "nil"
+      }
+    },
+    {
+      "name": "command_result",
+      "since": 2,
+      "description": "A command this mod queued was applied or refused. via: mailbox, post_office, pockets, mail, store or shown. Sent only to that mod.",
+      "params": [
+        {
+          "name": "e",
+          "type": "table",
+          "fields": [
+            {
+              "name": "id",
+              "type": "integer"
+            },
+            {
+              "name": "command",
+              "type": "string"
+            },
+            {
+              "name": "ok",
+              "type": "boolean"
+            },
+            {
+              "name": "error",
+              "type": "string"
+            },
+            {
+              "name": "via",
+              "type": "string"
+            }
+          ]
+        }
+      ],
+      "returns": {
+        "type": "nil"
+      }
+    },
+    {
+      "name": "answer",
+      "since": 2,
+      "description": "The player picked an answer to this mod's ask. choice counts from 1; 0 with text \"\" when the window closed without a pick.",
+      "params": [
+        {
+          "name": "e",
+          "type": "table",
+          "fields": [
+            {
+              "name": "id",
+              "type": "integer"
+            },
+            {
+              "name": "choice",
+              "type": "integer"
+            },
+            {
+              "name": "text",
+              "type": "string"
+            }
+          ]
+        }
+      ],
+      "returns": {
+        "type": "nil"
+      }
+    }
+  ],
+  "commands": [
+    {
+      "name": "send_letter",
+      "kind": "function",
+      "since": 2,
+      "description": "Queues a letter in the player's own mailbox (the post office keeps it when the mailbox is full). The save holds an ordinary letter, so it loads without the mod.",
+      "params": [
+        {
+          "name": "t",
+          "type": "table",
+          "description": "{ text, item?, from?, paper? } or { template }: text 1 to 192 characters fitting 6 lines; item a number or \"0x\" and four hex digits; from 1 to 8 characters (\"A friend\"); paper 0 to 63. template: one of this mod's own letters.json letters, by its id or \"<this mod's id>:<id>\" (header, body, sign-off, present and paper all come from it)."
+        }
+      ],
+      "returns": {
+        "type": "integer|nil",
+        "description": "The command's id, or nil and the reason it was refused."
+      },
+      "permission": "send_letter"
+    },
+    {
+      "name": "give_item",
+      "kind": "function",
+      "since": 2,
+      "description": "Queues an item into the first empty pocket; with full pockets it comes by letter. Also takes this mod's own new item by its full id (author.mod:thing, given with its identity, as a shop sells it); full pockets refuse that one.",
+      "params": [
+        {
+          "name": "item",
+          "type": "integer|string|table",
+          "description": "An item number, \"0x\" and four hex digits, this mod's \"author.mod:thing\", or { item, from? }."
+        }
+      ],
+      "returns": {
+        "type": "integer|nil",
+        "description": "The command's id, or nil and the reason it was refused."
+      },
+      "permission": "give_item"
+    },
+    {
+      "name": "set_flag",
+      "kind": "function",
+      "since": 2,
+      "description": "Queues one of this mod's own flags into this TOWN's store (see store) as flag:<key>; the store's 8 KB cap applies. A flag belongs to the town it was set in: visiting a friend it lasts only the visit, and before a town is loaded it is refused. Not in the save.",
+      "params": [
+        {
+          "name": "key",
+          "type": "string",
+          "description": "^[a-z0-9_.-]{1,32}$"
+        },
+        {
+          "name": "value",
+          "type": "boolean|integer|string|nil",
+          "description": "nil clears it; text at most 64 bytes."
+        }
+      ],
+      "returns": {
+        "type": "integer|nil",
+        "description": "The command's id, or nil and the reason it was refused."
+      },
+      "permission": "set_flag"
+    },
+    {
+      "name": "show_line",
+      "kind": "function",
+      "since": 2,
+      "description": "Queues a line in the player's own thought window, shown once the player is free. One line or question at a time.",
+      "params": [
+        {
+          "name": "text",
+          "type": "string",
+          "description": "1 to 400 bytes."
+        }
+      ],
+      "returns": {
+        "type": "integer|nil",
+        "description": "The command's id, or nil and the reason it was refused."
+      },
+      "permission": "show_line"
+    },
+    {
+      "name": "ask",
+      "kind": "function",
+      "since": 2,
+      "description": "Queues a question with 2 to 4 answers in the player's thought window. The pick comes back as an answer event.",
+      "params": [
+        {
+          "name": "t",
+          "type": "table",
+          "description": "{ text, choices }: text 1 to 120 characters, choices 2 to 4 answers of 1 to 16 characters."
+        }
+      ],
+      "returns": {
+        "type": "integer|nil",
+        "description": "The command's id, or nil and the reason it was refused."
+      },
+      "permission": "ask"
+    }
+  ],
+  "shims": []
+}

@@ -1,0 +1,111 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://playaconline.com/schemas/events.schema.json",
+  "title": "Play AC Online events file (api 2)",
+  "description": "Dated town days with safe effects only: a notice on the town bulletin board, posted once on the day in the player's own town (never on a visit or in the City; needs scope world), villager lines for the day, ahead of talk pools, and a letter from the same mod's letters file, mailed once on the day to the player's mailbox in their own town (never on a visit or in the City), counted against the mod's daily letter cap, with no script. No decorations: the game has no data seam for them. Generated from the mod API spec (https://playaconline.com/schemas/api.json). Do not edit by hand. Reference: https://playaconline.com/modding/reference/files/",
+  "type": "object",
+  "required": [
+    "events"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "events": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "date"
+        ],
+        "anyOf": [
+          {
+            "required": [
+              "board"
+            ]
+          },
+          {
+            "required": [
+              "talk"
+            ]
+          },
+          {
+            "required": [
+              "letter"
+            ]
+          }
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_.-]{1,48}$",
+            "description": "Unique in the file."
+          },
+          "date": {
+            "type": "object",
+            "required": [
+              "month"
+            ],
+            "description": "{month, day} (February 29 works) or {month, week 1 to 4 or \"last\", weekday 0 Sunday to 6}.",
+            "properties": {
+              "month": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 12
+              },
+              "day": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 31
+              },
+              "week": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 4
+                  },
+                  {
+                    "enum": [
+                      "last"
+                    ]
+                  }
+                ]
+              },
+              "weekday": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 6
+              }
+            }
+          },
+          "board": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 192,
+            "description": "A bulletin board notice: 1 to 192 characters on at most 6 lines. Plain text: printable ASCII, no { or }. Needs scope world."
+          },
+          "talk": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 16,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160,
+              "description": "A villager line: 1 to 160 characters, at most 3 line breaks."
+            }
+          },
+          "letter": {
+            "type": "string",
+            "pattern": "^[a-z0-9_.-]{1,48}$",
+            "description": "The id of a letter in this mod's letters file, mailed on the day: once per town per day, the first time the player is free in their own town, through the same rules as cmd.send_letter (mailbox, else the post office; counted against the daily letter cap). No permission or script needed."
+          }
+        }
+      }
+    }
+  }
+}

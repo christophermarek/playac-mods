@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "api": 2,
+  "id": "example.chatty-villagers",
+  "name": "Chatty Villagers",
+  "version": "1.0.0",
+  "authors": ["Play AC Online"],
+  "description": "Villagers say one new line a day before their usual hello, each in their own personality's voice. Data only, no script.",
+  "scope": "client",
+  "content": {
+    "talk": "talk.json"
+  },
+  "assets_original": true
+}

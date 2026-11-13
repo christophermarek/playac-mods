@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "api": 2,
+  "id": "example.village-gossip",
+  "name": "Village Gossip",
+  "version": "1.0.0",
+  "authors": ["Play AC Online"],
+  "description": "Once a day, each villager you talk to shares a bit of town gossip before their usual hello.",
+  "scope": "client",
+  "content": {
+    "messages": "messages/en.json"
+  },
+  "scripts": {
+    "main": "main.lua",
+    "hooks": ["talk", "day_start"]
+  },
+  "assets_original": true
+}

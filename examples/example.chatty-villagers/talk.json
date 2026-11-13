@@ -1,0 +1,52 @@
+{
+  "pools": [
+    {
+      "personality": "normal",
+      "lines": [
+        "I baked something this morning. The whole house smells like cinnamon now.",
+        "Have you seen the flowers by the river? I could look at them all day.",
+        "I wrote you a letter in my head. Maybe one day I'll put it on paper!"
+      ]
+    },
+    {
+      "personality": "peppy",
+      "lines": [
+        "Guess what? Nothing happened today, and I'm SO excited about it!",
+        "I practiced my dance moves all night. Want to see? Okay, maybe later!",
+        "Today feels like a sparkly day. Do you feel sparkly too?"
+      ]
+    },
+    {
+      "personality": "lazy",
+      "lines": [
+        "I was going to nap, but then I thought about snacks. Now I'm too busy.",
+        "Do you ever just lie in the grass and count clouds? I got to three.",
+        "Bugs are my friends. Well, the slow ones are."
+      ]
+    },
+    {
+      "personality": "jock",
+      "lines": [
+        "I ran around the whole town twice before breakfast. Feel the burn!",
+        "You look strong today. Have you been lifting rocks? Keep it up!",
+        "Every step is a workout if you stomp hard enough!"
+      ]
+    },
+    {
+      "personality": "cranky",
+      "lines": [
+        "Hmph. Kids these days don't even know how to sit on a bench properly.",
+        "Back in my day the river was wetter. Don't ask me how.",
+        "I'm not grumpy. I'm just thinking very loudly."
+      ]
+    },
+    {
+      "personality": "snooty",
+      "lines": [
+        "Darling, your outfit is almost fashionable. Almost.",
+        "I only drink tea from the finest cups. The chipped ones are for guests.",
+        "One must always look one's best. Even for the fish."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "shops": [
+    {
+      "target": "flower",
+      "name": "Tea House",
+      "hours": { "open": "15:00", "close": "01:00" },
+      "greeting": "Welcome to the Tea House! Every fruit here goes lovely with a cup. Take your time.",
+      "stock_line": "Fresh fruit, all six kinds, on the tables by the walls. Point at one and I'll tell you the price.",
+      "stock": [
+        { "item": "0x2800", "price": 600 },
+        { "item": "0x2801", "price": 600 },
+        { "item": "0x2802", "price": 600 },
+        { "item": "0x2803", "price": 600 },
+        { "item": "0x2804", "price": 600 },
+        { "item": "0x2807", "price": 800 }
+      ]
+    }
+  ]
+}

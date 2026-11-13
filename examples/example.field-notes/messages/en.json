@@ -1,0 +1,58 @@
+{
+  "noun.bug.a": "a bug",
+  "noun.bug.one": "bug",
+  "noun.bug.many": "bugs",
+  "noun.fish.a": "a fish",
+  "noun.fish.one": "fish",
+  "noun.fish.many": "fish",
+  "noun.fossil.a": "a fossil",
+  "noun.fossil.one": "fossil",
+  "noun.fossil.many": "fossils",
+  "noun.shell.a": "a shell",
+  "noun.shell.one": "shell",
+  "noun.shell.many": "shells",
+  "noun.fruit.a": "a piece of fruit",
+  "noun.fruit.one": "fruit",
+  "noun.fruit.many": "pieces of fruit",
+  "and": "and",
+
+  "haul.1": "Let me guess: {haul} today? I can smell the great outdoors on you.",
+  "haul.2": "{haul} so far today! You keep busier notes than the museum does.",
+  "haul.3": "Word around town is you've found {haul} today. Not bad at all!",
+  "haul.4": "Is that a field journal? You've noted {haul} already, and the day's still young!",
+  "haul.5": "{haul}? Leave a little nature for the rest of us, would you?",
+  "haul.6": "I peeked at your notes: {haul} today! Your handwriting is terrible, though.",
+
+  "big.1": "{total} finds in one day? Your pockets must be groaning!",
+  "big.2": "That's {total} entries in your notes today. Do you ever sit down?",
+  "big.3": "{total} finds today! At this rate the town will run out of nature.",
+
+  "only.bug.1": "{n} bugs today? You must dream in buzzing and fluttering.",
+  "only.bug.2": "Bug hunting again? {n} so far. Keep that net away from my hat.",
+  "only.fish.1": "{n} fish today? You smell like a pier. A nice pier, though.",
+  "only.fish.2": "Fishing all day? {n} catches! The river must be getting nervous.",
+  "only.fossil.1": "{n} fossils today? The whole town sounds like a construction site.",
+  "only.fossil.2": "Digging again? {n} fossils! Mind you don't tunnel through to my house.",
+  "only.shell.1": "{n} shells today! Did the tide bring you a present?",
+  "only.shell.2": "Beachcombing again? {n} shells and a little sand in your shoes, I bet.",
+  "only.fruit.1": "{n} pieces of fruit today? Save me one, I'm feeling peckish.",
+  "only.fruit.2": "Shaking trees all day? {n} pieces of fruit! The trees need a nap now.",
+
+  "first.1": "Wait, a {kind} you've never noted before? Your field notes just grew a new page!",
+  "first.2": "A brand new {kind} for the journal! Your {kind} list keeps growing.",
+  "first.3": "Ooh, I heard you found a {kind} nobody's seen in your notes before! How exciting!",
+  "first.fossil": "Your very first fossil! Take it to the museum before it gets any ideas.",
+
+  "rec.1": "{n} {kinds} in one day? That beats your old best of {old}! Write that down. Oh, you did.",
+  "rec.2": "A new personal record: {n} {kinds} today! I'm telling everyone. Everyone who'll listen.",
+  "rec.3": "{n} {kinds} today, a new best! Your old record of {old} is crying in a corner.",
+
+  "mile.1": "{life} finds in your notes, all told! The museum owl would hoot with joy.",
+  "mile.2": "Did you know your notes hold {life} finds now? You're practically a professor!",
+
+  "sum.1": "Yesterday you found {haul}. Today's a fresh page!",
+  "sum.2": "I heard about yesterday: {haul}! Think you can top it today?",
+  "sum.3": "Yesterday's notes say {haul}. That's {life} finds all told!",
+  "sum.4": "Morning! Yesterday was {haul}. What's on today's page?",
+  "sum.gap": "Your last day out, {ago} days ago, you found {haul}. We missed you!"
+}

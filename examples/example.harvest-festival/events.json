@@ -1,0 +1,23 @@
+{
+  "events": [
+    {
+      "id": "harvest-fair",
+      "date": { "month": 9, "week": 3, "weekday": 3 },
+      "board": "HARVEST FAIR TODAY!\nBring your best fruit and\nshow it to your neighbors.\nThe biggest apple wins\nbragging rights for a year.",
+      "talk": [
+        "It's the Harvest Fair! I've been polishing my pears since sunrise.",
+        "Harvest Fair day! Did you bring any fruit? Mine is the shiniest, I checked.",
+        "The fair smells like apples and wood smoke. Best day of the season!"
+      ]
+    },
+    {
+      "id": "apple-day",
+      "date": { "month": 10, "day": 21 },
+      "board": "APPLE DAY\nShare an apple with a friend\ntoday. Any apple will do,\nbut a red one says it best.",
+      "talk": [
+        "Happy Apple Day! Have you shared an apple with anyone yet?",
+        "An apple a day, they say. Today it's an apple for everyone!"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://playaconline.com/schemas/talk.schema.json",
+  "title": "Play AC Online talk pools file (api 2)",
+  "description": "Villager line pools: on an ordinary talk (never a special or event talk) where no script said a line, a villager says at most one data line a day (today's event lines first, else the most specific matching pools: this villager, else this personality, else everyone), then their own hello. Either scope; runs in the City too. Generated from the mod API spec (https://playaconline.com/schemas/api.json). Do not edit by hand. Reference: https://playaconline.com/modding/reference/files/",
+  "type": "object",
+  "required": [
+    "pools"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "pools": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "items": {
+        "type": "object",
+        "required": [
+          "lines"
+        ],
+        "properties": {
+          "personality": {
+            "enum": [
+              "normal",
+              "peppy",
+              "lazy",
+              "jock",
+              "cranky",
+              "snooty"
+            ],
+            "description": "Not with villager."
+          },
+          "villager": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 8,
+            "description": "A villager's name, any case. Not with personality."
+          },
+          "chance": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "description": "Days in 100 the pool speaks to a villager. Default 100."
+          },
+          "lines": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 32,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 160,
+              "description": "A villager line: 1 to 160 characters, at most 3 line breaks."
+            }
+          }
+        }
+      }
+    }
+  }
+}

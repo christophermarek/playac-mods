@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "api": 2,
+  "id": "example.cosy-corner",
+  "name": "Cosy Corner",
+  "version": "1.0.0",
+  "authors": ["Play AC Online"],
+  "description": "Two pieces of furniture of its own, a Tea Chest and a Reading Chair, sold at the flower shop. Remove the mod and they stay in your house as the plain pieces they are built on; put it back and they are yours again.",
+  "scope": "world",
+  "content": {
+    "items": "items.json",
+    "shops": "shops.json"
+  },
+  "renames": {
+    "example.cosy-corner:tea-box": "example.cosy-corner:tea-chest"
+  },
+  "assets_original": true
+}

@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://playaconline.com/schemas/items.schema.json",
+  "title": "Play AC Online mod items file (api 2)",
+  "description": "New furniture, each on a vanilla base piece (api 2). The engine also refuses a base with no model, fossils, gyroids, clothing, design pieces and pieces that become a pocket item. In the save a mod item is its base piece; a sidecar maps it back, so removing the mod leaves the base piece behind and reinstalling restores it. Generated from the mod API spec (https://playaconline.com/schemas/api.json). Do not edit by hand. Reference: https://playaconline.com/modding/reference/files/",
+  "type": "object",
+  "required": [
+    "items"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "base"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]{0,31}$",
+            "description": "The item's own id; its full id is <mod id>:<id>."
+          },
+          "name": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9 '.,!&-]{0,14}[A-Za-z0-9'.,!&-])?$",
+            "description": "1 to 16 of letters, digits, space and ' . , ! & -, starting with a letter or digit, not ending with a space."
+          },
+          "base": {
+            "type": "string",
+            "pattern": "^0x[0-9a-fA-F]{4}$",
+            "description": "A south-facing furniture id: 0x1000 to 0x1FFC or 0x3000 to 0x33C4, a multiple of 4."
+          },
+          "price": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 99999,
+            "description": "Bells. Leave out for the base piece's price."
+          }
+        }
+      }
+    }
+  }
+}

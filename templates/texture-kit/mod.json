@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "api": 2,
+  "id": "yourname.my-textures",
+  "name": "My Textures",
+  "version": "1.0.0",
+  "authors": ["yourname"],
+  "description": "My own art in place of some of the game's textures.",
+  "scope": "client",
+  "content": {
+    "textures": "textures/"
+  },
+  "assets_original": true
+}

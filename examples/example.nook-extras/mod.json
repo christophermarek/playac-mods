@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "api": 2,
+  "id": "example.nook-extras",
+  "name": "Nook's Extras",
+  "version": "1.0.0",
+  "authors": ["Play AC Online"],
+  "description": "Nook's shop puts a few extra goods out every day: furniture, umbrellas, a shirt and a rug, beside his usual stock.",
+  "scope": "world",
+  "content": {
+    "shops": "shops.json"
+  },
+  "assets_original": true
+}

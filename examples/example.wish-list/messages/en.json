@@ -1,0 +1,42 @@
+{
+  "wish1": "{name} here, and I have a tiny wish today. I'd love to see {wish}. {hint}",
+  "wish2": "Can {name} tell you a secret? All day I've been daydreaming about {wish}. Silly, right? {hint}",
+  "wish3": "Oh! {name} has a wish today: {wish}. Just picking one up would make my whole day. {hint}",
+  "wish4": "Today's wish, from {name} to you: {wish}. No pressure. Okay, a little pressure. {hint}",
+  "wish5": "If you spot {wish} out there, think of {name}. That's all I'm wishing for today! {hint}",
+  "again": "{name} here. My last wish slipped away, but that's okay! Today I'm hoping for {wish}. {hint}",
+
+  "item.shell": "a seashell",
+  "item.fruit": "a piece of fruit",
+  "item.apple": "a crisp apple",
+  "item.cherry": "some cherries",
+  "item.pear": "a juicy pear",
+  "item.peach": "a sweet peach",
+  "item.orange": "a bright orange",
+  "item.coconut": "a coconut",
+  "item.mushroom": "a mushroom",
+  "item.bells": "a bag of bells",
+
+  "hint.shell": "The beach always has a few.",
+  "hint.fruit": "Any kind, straight off a tree!",
+  "hint.apple": "Give a tree a good shake!",
+  "hint.cherry": "Give a tree a good shake!",
+  "hint.pear": "Give a tree a good shake!",
+  "hint.peach": "Give a tree a good shake!",
+  "hint.orange": "Give a tree a good shake!",
+  "hint.coconut": "Palm trees keep them.",
+  "hint.mushroom": "They hide under the trees this month.",
+  "hint.bells": "Some rocks are luckier than others.",
+
+  "thanks1": "You picked up {wish} and thought of {name}? I'm beaming! That's {streak} wishes in a row.",
+  "thanks2": "You really listened! {name} owes you one. Our wish streak is at {streak} now.",
+  "thanks3": "I heard you found {wish}. That counts, you know. {name}'s streak with you: {streak}!",
+  "thanks4": "My wish came true, all thanks to you. {name} is keeping count: {streak} in a row.",
+  "fresh": "You found {wish}! {name} is so glad. Our streak starts over at one, and that's fine by me.",
+  "first":"You found {wish} for me! That's the first wish you've granted {name}. I won't forget it.",
+
+  "streak3": "Three wishes in a row! {name} thinks this could be the start of something lovely.",
+  "streak5": "Five in a row! {name} is telling everyone you're the best wish-granter in town.",
+  "streak10": "Ten wishes in a row?! {name} is writing this in my diary, in very big letters.",
+  "streakbig": "{streak} wishes in a row. {name} is starting to think you might be magic."
+}

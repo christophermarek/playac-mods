@@ -1,0 +1,34 @@
+{
+  "note": "Generated from the Play AC Online mod API spec and errors catalogue. Do not edit by hand. The playac-mod CLI copies these into a new mod (from -> to), except scaffold: false.",
+  "files": [
+    {
+      "from": "playac-mod/SKILL.md",
+      "to": ".claude/skills/playac-mod/SKILL.md"
+    },
+    {
+      "from": "playac-mod/reference/errors.md",
+      "to": ".claude/skills/playac-mod/reference/errors.md"
+    },
+    {
+      "from": "playac-mod/reference/api.md",
+      "to": ".claude/skills/playac-mod/reference/api.md"
+    },
+    {
+      "from": "playac-mod/reference/examples.md",
+      "to": ".claude/skills/playac-mod/reference/examples.md"
+    },
+    {
+      "from": "playac-mod/reference/items.md",
+      "to": ".claude/skills/playac-mod/reference/items.md"
+    },
+    {
+      "from": "AGENTS.md",
+      "to": "AGENTS.md",
+      "scaffold": false
+    },
+    {
+      "from": "copilot-instructions.md",
+      "to": ".github/copilot-instructions.md"
+    }
+  ]
+}

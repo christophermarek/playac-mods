@@ -1,0 +1,13 @@
+{
+  "letters": [
+    {
+      "id": "fair-thanks",
+      "header": "Dear {player},",
+      "body": "Thank you for coming to the\nHarvest Fair! Here is an apple\nfrom the prize table. Plant it\nand see what grows.",
+      "footer": "The Fair Committee",
+      "sender": "The Fair",
+      "item": "0x2800",
+      "paper": 12
+    }
+  ]
+}

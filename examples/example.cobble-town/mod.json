@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "api": 2,
+  "id": "example.cobble-town",
+  "name": "Cobble Town",
+  "version": "1.0.0",
+  "authors": ["Play AC Online"],
+  "description": "Your town paved in cobblestone, with block walls for cliffs and brick quays along the river. Snowy in winter. A texture-only mod, drawn from scratch.",
+  "scope": "client",
+  "content": {
+    "textures": "textures/"
+  },
+  "assets_original": true
+}

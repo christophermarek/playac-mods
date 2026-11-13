@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://playaconline.com/schemas/messages.schema.json",
+  "title": "Play AC Online messages file",
+  "description": "Lines a script or another mod can use, by key. A script reads its own with message(\"key\"), another mod's with message(\"author.mod:key\"). This file cannot carry a $schema key (every key is a line): point your editor at messages.schema.json in its settings instead. From api 2, content.messages may name a folder of <lang>.json files instead (en.json required; de, es, fr, it), each by these rules, a translation holding only keys en.json has. Generated from the mod API spec (https://playaconline.com/schemas/api.json). Do not edit by hand. Reference: https://playaconline.com/modding/reference/files/",
+  "type": "object",
+  "maxProperties": 256,
+  "propertyNames": {
+    "pattern": "^[a-z0-9_.-]{1,48}$"
+  },
+  "additionalProperties": {
+    "type": "string",
+    "minLength": 1,
+    "description": "1 to 400 UTF-8 bytes. Lines wrap at 24 characters, 4 lines a page."
+  }
+}

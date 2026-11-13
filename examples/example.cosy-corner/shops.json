@@ -1,0 +1,15 @@
+{
+  "shops": [
+    {
+      "target": "flower",
+      "name": "Cosy Corner",
+      "greeting": "Welcome! Today the tables hold something for the house, made here and nowhere else.",
+      "stock_line": "A Tea Chest and a Reading Chair, and fruit for the table. Point at one and I'll tell you the price.",
+      "stock": [
+        { "item": "example.cosy-corner:tea-chest" },
+        { "item": "example.cosy-corner:reading-chair" },
+        { "item": "0x2800", "price": 600 }
+      ]
+    }
+  ]
+}

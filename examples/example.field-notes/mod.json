@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "api": 2,
+  "id": "example.field-notes",
+  "name": "Field Notes",
+  "version": "1.0.0",
+  "authors": ["Play AC Online"],
+  "description": "Your own naturalist's journal. Every bug, fish, fossil, shell and piece of fruit you collect goes in your notes, and villagers have plenty to say about your haul, your records and yesterday's finds.",
+  "scope": "client",
+  "content": {
+    "messages": "messages/en.json"
+  },
+  "scripts": {
+    "main": "main.lua",
+    "hooks": ["item_picked", "talk", "day_start"]
+  },
+  "assets_original": true
+}

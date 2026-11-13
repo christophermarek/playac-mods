@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "api": 2,
+  "id": "example.harvest-festival",
+  "name": "Harvest Fair",
+  "version": "1.0.0",
+  "authors": ["Play AC Online"],
+  "description": "Two town days of our own: the Harvest Fair on the third Wednesday of September and Apple Day on October 21. A notice goes up on the bulletin board and villagers talk about it all day. Also carries a thank-you letter template for mod commands.",
+  "scope": "world",
+  "content": {
+    "events": "events.json",
+    "letters": "letters.json"
+  },
+  "assets_original": true
+}

@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "api": 2,
+  "id": "example.night-market",
+  "name": "Night Market",
+  "version": "1.0.0",
+  "authors": ["Play AC Online"],
+  "description": "After dark the flower shop becomes a lantern-lit night market with its own stock, and villagers drop hints about tonight's special.",
+  "scope": "world",
+  "content": {
+    "shops": "shops.json",
+    "messages": "messages/en.json"
+  },
+  "scripts": {
+    "main": "main.lua",
+    "hooks": ["talk", "day_start"]
+  },
+  "assets_original": true
+}

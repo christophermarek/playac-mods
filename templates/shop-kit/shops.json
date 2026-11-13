@@ -1,0 +1,17 @@
+{
+  "shops": [
+    {
+      "target": "flower",
+      "name": "My Shop",
+      "hours": { "open": "09:00", "close": "21:00" },
+      "greeting": "Hello and welcome! Have a look around.",
+      "stock_line": "Saplings and seeds today. Point at one and I'll tell you the price.",
+      "stock": [
+        { "item": "0x2900", "price": 500 },
+        { "item": "0x2908", "price": 300 },
+        { "item": "0x2905", "price": 300 },
+        { "item": "0x2902" }
+      ]
+    }
+  ]
+}

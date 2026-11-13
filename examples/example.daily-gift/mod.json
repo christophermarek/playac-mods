@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "api": 2,
+  "id": "example.daily-gift",
+  "name": "Daily Gift",
+  "version": "1.0.0",
+  "authors": ["Play AC Online"],
+  "description": "Once a game day, a letter with a little present arrives in your mailbox. A worked example of mod commands.",
+  "scope": "client",
+  "content": {
+    "messages": "messages/en.json"
+  },
+  "scripts": {
+    "main": "main.lua",
+    "hooks": ["day_start", "enter_scene", "command_result"]
+  },
+  "permissions": ["send_letter"],
+  "assets_original": true
+}

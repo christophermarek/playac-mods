@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "api": 2,
+  "id": "example.blossom-lane",
+  "name": "Blossom Lane",
+  "version": "1.0.0",
+  "authors": ["Play AC Online"],
+  "description": "Every grown tree in town becomes a cherry blossom tree, snow-capped in winter, and fallen petals dot the grass. A texture-only mod, drawn from scratch.",
+  "scope": "client",
+  "content": {
+    "textures": "textures/"
+  },
+  "assets_original": true
+}

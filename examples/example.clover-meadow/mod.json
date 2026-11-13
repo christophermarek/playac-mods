@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "api": 2,
+  "id": "example.clover-meadow",
+  "name": "Clover Meadow",
+  "version": "1.0.0",
+  "authors": ["Play AC Online"],
+  "description": "Town grass with clover and tiny white flowers. A texture-only mod, drawn from scratch.",
+  "scope": "client",
+  "content": {
+    "textures": "textures/"
+  },
+  "assets_original": true
+}

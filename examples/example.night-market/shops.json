@@ -1,0 +1,19 @@
+{
+  "shops": [
+    {
+      "target": "flower",
+      "name": "Night Market",
+      "hours": { "open": "19:00", "close": "01:00" },
+      "greeting": "Evening! The lanterns are lit, so the Night Market is open. Mind the moths, and take your time.",
+      "stock_line": "Peaches, coconuts, moon candy, one very rare mushroom, a fan and a pinwheel. Night prices, I'm afraid, but the night is worth it.",
+      "stock": [
+        { "item": "0x2803", "price": 800 },
+        { "item": "0x2807", "price": 700 },
+        { "item": "0x2806", "price": 500 },
+        { "item": "0x2805", "price": 6000 },
+        { "item": "0x2257", "price": 900 },
+        { "item": "0x2253", "price": 1200 }
+      ]
+    }
+  ]
+}

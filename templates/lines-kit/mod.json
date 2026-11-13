@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "api": 2,
+  "id": "yourname.my-lines",
+  "name": "My Lines",
+  "version": "1.0.0",
+  "authors": ["yourname"],
+  "description": "Villagers say one of my lines before their usual hello, once a day each.",
+  "scope": "client",
+  "content": {
+    "messages": "messages/en.json"
+  },
+  "scripts": {
+    "main": "main.lua",
+    "hooks": ["talk", "day_start"]
+  },
+  "assets_original": true
+}

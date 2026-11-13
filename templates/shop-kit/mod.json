@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "api": 2,
+  "id": "yourname.my-shop",
+  "name": "My Shop",
+  "version": "1.0.0",
+  "authors": ["yourname"],
+  "description": "The flower shop with my own name, hours, greeting and stock.",
+  "scope": "world",
+  "content": {
+    "shops": "shops.json"
+  },
+  "assets_original": true
+}
