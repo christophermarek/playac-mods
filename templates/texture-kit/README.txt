@@ -2,8 +2,10 @@ My Textures: a starter kit for a texture mod.
 
 Installed as it is, this kit turns the town grass (spring to autumn) into a
 bold two-green check, so you can see a texture mod work before you paint
-anything. The pictures are in textures/: 27 copies of one 64x64 picture,
-one for each name and palette the game draws the grass with.
+anything. The pictures are in textures/: three copies of one 64x64 picture,
+one for each name the game draws the grass with. Each name ends in $ in
+place of a palette, so it is drawn under every palette: by day and by night,
+spring to autumn.
 
 The quickest way to start your own is the texture inspector in the game,
 which makes a ready-to-paint mod with the textures you pick. This kit is for
