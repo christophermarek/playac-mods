@@ -3133,7 +3133,7 @@
     {
       "name": "shop_buy",
       "since": 2,
-      "description": "The player bought a good off Nook's floor, as Nook takes the price. item is the piece's item number; mod_item is the full id (\"author.mod:thing\") when the piece is a mod item (the base furniture it stands on is item), nil for a plain good. A visitor buying in a friend's town gets a plain piece, so nil.",
+      "description": "The player bought a good for Bells, as the seller takes the price, at any counter in the game. shop says which: \"nook\" (Nook's in every size, the City's Nookington's too), \"flower\" (the flower shop), \"redd\" (Crazy Redd), \"saharah\" (her carpet, swapped for one of yours and Bells), \"joan\" (turnips), \"fireworks\" (the fireworks show's stall), \"shrine\" (the New Year fortune slip), \"gyroid\" (what another player put up at their gyroid) or \"villager\" (a villager selling you something). Test e.shop == \"nook\" to keep to Nook's. item is the good's item number; price the Bells paid. ordered is true for a Nook's catalog order: paid now and mailed tomorrow, so it is not in the pockets yet. mod_item is the full id (\"author.mod:thing\") when the piece is a mod item (the base furniture it stands on is item), nil for a plain good; only Nook's and the flower shop sell mod items. A visitor buying in a friend's town gets a plain piece, so nil. Paid services that hand over no good (the barber, Katrina, the Dream Suite, an Able Sisters design) are not purchases and do not fire it.",
       "params": [
         {
           "name": "e",
@@ -3146,6 +3146,14 @@
             {
               "name": "price",
               "type": "integer"
+            },
+            {
+              "name": "shop",
+              "type": "string"
+            },
+            {
+              "name": "ordered",
+              "type": "boolean"
             },
             {
               "name": "mod_item",
@@ -3161,7 +3169,7 @@
     {
       "name": "item_sold",
       "since": 2,
-      "description": "The player sold to Nook, once the wallet is credited. item is the first good; mod_item is its full id when that first good is a mod item, nil otherwise.",
+      "description": "The player sold for Bells, once the wallet is credited. shop says to whom: \"nook\" (Nook's in every size, the City's Nookington's too) or \"villager\" (a villager buying something from your pockets); nobody else in the game buys. item is the first good, count how many went, bells what they fetched; mod_item is the first good's full id when it is a mod item, nil otherwise. What another player buys at your gyroid does not fire it: the gyroid hands you the takings later as one sum, with no record of what sold.",
       "params": [
         {
           "name": "e",
@@ -3178,6 +3186,10 @@
             {
               "name": "bells",
               "type": "integer"
+            },
+            {
+              "name": "shop",
+              "type": "string"
             },
             {
               "name": "mod_item",

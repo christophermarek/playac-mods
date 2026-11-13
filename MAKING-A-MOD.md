@@ -549,8 +549,8 @@ More events, each with a table of plain values (copies, never the game's own):
 | event | gets |
 |---|---|
 | `hour_change` | `{ year, month, day, hour }`, when the clock reaches a new hour |
-| `shop_buy` | `{ item, price, mod_item }`, when you buy a good off Nook's floor |
-| `item_sold` | `{ item, count, bells, mod_item }`, when you sell to Nook |
+| `shop_buy` | `{ item, price, shop, ordered, mod_item }`, when you buy a good for Bells anywhere |
+| `item_sold` | `{ item, count, bells, shop, mod_item }`, when you sell for Bells |
 | `fish_caught` | `{ item, pocketed }` |
 | `bug_caught` | `{ item, pocketed }` |
 | `letter_read` | `{ sender, present, first_time }`, when you read a letter |
@@ -559,6 +559,13 @@ More events, each with a table of plain values (copies, never the game's own):
 
 `mod_item` is the full id of a mod item (`"your.mod:tea-chest"`) when the piece
 bought, or the first piece sold, is one (`item` is then its base), else `nil`.
+`shop` says where: `"nook"` (Nook's in every size, and Nookington's in the
+City), `"flower"`, `"redd"`, `"saharah"`, `"joan"` (turnips), `"fireworks"` (the
+fireworks show's stall), `"shrine"` (the New Year fortune), `"gyroid"` (another
+player's gyroid) or `"villager"`. Only Nook's and villagers buy from you. To keep
+to Nook's, test `e.shop == "nook"`. `ordered` is `true` for a Nook's catalog
+order, which arrives by mail the next day. A haircut, a fortune from Katrina, a
+dream or an Able Sisters design is a service, not a good, so it fires nothing.
 `command_result` and `answer` are under Commands below.
 
 And what a script can look at:

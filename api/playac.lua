@@ -24,12 +24,15 @@
 ---@class PlayacShopBuyE
 ---@field item integer
 ---@field price integer
+---@field shop string
+---@field ordered boolean
 ---@field mod_item string|nil
 
 ---@class PlayacItemSoldE
 ---@field item integer
 ---@field count integer
 ---@field bells integer
+---@field shop string
 ---@field mod_item string|nil
 
 ---@class PlayacFishCaughtE
