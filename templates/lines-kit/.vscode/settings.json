@@ -1,0 +1,59 @@
+{
+  "json.schemas": [
+    {
+      "fileMatch": [
+        "/mod.json"
+      ],
+      "url": "https://playaconline.com/schemas/mod.schema.json"
+    },
+    {
+      "fileMatch": [
+        "/shops.json"
+      ],
+      "url": "https://playaconline.com/schemas/shops.schema.json"
+    },
+    {
+      "fileMatch": [
+        "/messages/*.json"
+      ],
+      "url": "https://playaconline.com/schemas/messages.schema.json"
+    },
+    {
+      "fileMatch": [
+        "/items.json"
+      ],
+      "url": "https://playaconline.com/schemas/mod-items.schema.json"
+    },
+    {
+      "fileMatch": [
+        "/letters.json"
+      ],
+      "url": "https://playaconline.com/schemas/letters.schema.json"
+    },
+    {
+      "fileMatch": [
+        "/events.json"
+      ],
+      "url": "https://playaconline.com/schemas/events.schema.json"
+    },
+    {
+      "fileMatch": [
+        "/talk.json"
+      ],
+      "url": "https://playaconline.com/schemas/talk.schema.json"
+    }
+  ],
+  "Lua.runtime.version": "Lua 5.4",
+  "Lua.workspace.library": [
+    ".playac/playac.lua"
+  ],
+  "Lua.runtime.builtin": {
+    "io": "disable",
+    "os": "disable",
+    "debug": "disable",
+    "package": "disable"
+  },
+  "Lua.diagnostics.disable": [
+    "lowercase-global"
+  ]
+}

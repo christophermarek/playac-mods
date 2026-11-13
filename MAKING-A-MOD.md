@@ -13,6 +13,10 @@ Each one's ZIP is on the cookbook, https://playaconline.com/modding/cookbook/.
 Every rule below is one the game, the page and the registry all check. The full
 reference is https://playaconline.com/modding/reference/.
 
+Setting up a computer from nothing (Node.js and the playac-mod tool, an editor
+with the schemas and Lua types, texture tools, developer mode, an AI assistant,
+Git, publishing), step by step for macOS, Windows and Linux: [`setup/`](setup/).
+
 ## The ZIP
 
 ```

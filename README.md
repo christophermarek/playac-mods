@@ -17,6 +17,14 @@ letters, and small scripted moments in Lua. A mod is a folder with a
 `mod.json` in it, shared as a ZIP. Players install mods in **Settings, Mods**,
 from a ZIP or from the list of mods other players shared.
 
+New to this, on a computer with nothing installed? The [setup guides](setup/)
+take you from nothing to a mod running in the game, step by step for macOS,
+Windows and Linux: [the game and developer mode](setup/game.md),
+[Node.js and playac-mod](setup/node-and-cli.md), [your editor](setup/editor.md),
+[texture tools](setup/textures.md), [an AI assistant](setup/ai-assistant.md),
+[Git and GitHub](setup/git-github.md), [publishing](setup/publishing.md) and
+[troubleshooting](setup/troubleshooting.md).
+
 Start here, by what you want to make:
 
 - New textures for the town: https://playaconline.com/modding/start/artist/
@@ -33,12 +41,13 @@ Start here, by what you want to make:
 | [`api/`](api/) | The mod API spec (`api.json`), JSON schemas for every mod file, Lua types for your editor, and the item list. |
 | [`errors/`](errors/) | Every error and refusal a mod can get, by code, with what it means and how to fix it. |
 | [`ai/`](ai/) | Instructions for an AI coding assistant working on a mod. |
+| [`setup/`](setup/) | Setup guides: from a clean computer to a mod in the game, per need and per system. |
 | [`MAKING-A-MOD.md`](MAKING-A-MOD.md) | The whole modder guide on one page. |
 
 ## Get the playac-mod tool
 
 `playac-mod` makes, checks, packs, live-tests and publishes mods. It needs
-Node.js 18.17 or newer.
+Node.js 18.17 or newer ([installing Node.js](setup/node-and-cli.md), for each system).
 
 ```bash
 npm install -g https://playaconline.com/modding/downloads/playac-mod.tgz
@@ -105,6 +114,8 @@ Point your editor at the schemas so it checks your files as you type. A
 
 For Lua, add [`api/playac.lua`](api/playac.lua) to your Lua language server's
 library (`playac-mod new` and `playac-mod types` set that up in `.playac/`).
+Each starter kit carries VS Code settings that do both. Step by step, for VS
+Code and other editors: [setup/editor.md](setup/editor.md).
 
 ## Docs
 
