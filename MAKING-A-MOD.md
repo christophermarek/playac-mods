@@ -347,10 +347,10 @@ save, so:
 - Without your mod, it is the plain base piece. Nothing is deleted, and
   putting the mod back gives the item its name again.
 - A visitor without your mod sees the plain base piece. The City has no mod items.
-- So far an item keeps its name in a house room, in the pocket it was bought
-  or picked up into, and on the way between the two. Sent in a letter, put in
-  a drawer, dropped outside or moved to another pocket, it becomes the plain
-  base piece.
+- An item keeps its name in a house room, in the pockets (moved from slot to
+  slot too) and in a letter, as its present: attached, kept, mailed and taken
+  out again. Put in a drawer, dropped outside or mailed to a villager, it
+  becomes the plain base piece.
 
 `renames` in `mod.json` moves pieces players already have to a new id, once
 per save:
