@@ -5,6 +5,24 @@ seamless green ground with clover leaves and small white flowers, one 128x128
 uncompressed RGBA DDS picture, saved under every name the game draws the
 grass with.
 
+## In the game
+
+![before](../../examples-media/example.clover-meadow/before.webp)
+
+Before: a corner of town on a September afternoon, with no mods and the HD texture pack.
+
+![after](../../examples-media/example.clover-meadow/after.webp)
+
+After: the same spot with Clover Meadow installed. The grass is the mod's, drawn with clover and tiny white flowers; the trees, houses and paths are untouched.
+
+![close up](../../examples-media/example.clover-meadow/close-up.webp)
+
+A closer look at the mod's grass: clover leaves and small white flowers, drawn from scratch.
+
+[![Play the film](../../examples-media/example.clover-meadow/film.webp)](../../examples-media/example.clover-meadow/film.mp4)
+
+The film (click the picture): A walk past the houses with Clover Meadow installed: every grass tile in town is the mod's clover.
+
 The names say which in-game texture to replace; the pixels are our own. The
 grass is six textures, and the game draws each under several palettes through
 the seasons and the time of day, so the mod has one file per pairing:

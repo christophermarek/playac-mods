@@ -193,7 +193,7 @@ settings = {}
 ---@return boolean|integer|string|nil
 function settings.get(name) end
 
----Calls between mods: one mod offers named functions, another calls them. Values are deep copies (nil, booleans, numbers, strings and tables of them; 64 KB, 16 levels, 4096 values, 8 results); the callee runs on the CALLER's budget and clock (over it, the caller is stopped), and a call into a mod that is already running is refused.
+---Calls between mods: one mod offers named functions, another calls them. Values are deep copies (nil, booleans, numbers, strings and tables of them; 64 KB, 16 levels, 4096 values, 8 results); the callee runs on the CALLER's budget and clock (over it, the caller is stopped), its commands count toward the caller's per-event cap, its rng starts from a seed of the caller's event, the callee and the function (the same call in the same event gives the same numbers), and a call into a mod that is already running is refused.
 ---@class PlayacRemote
 remote = {}
 
@@ -218,7 +218,7 @@ function remote.call(mod, name, ...) end
 ---@return boolean
 function remote.has(mod, name) end
 
----The commands: each queues an effect the game applies between frames. Each needs its name in mod.json permissions. In The City every command, and on a visit send_letter and give_item, return nil and the reason at once and count against no daily cap; one queued at home and applied after the player left comes back as a refused command_result and its count is given back.
+---The commands: each queues an effect the game applies at the end of a frame's update, before it is drawn. Each needs its name in mod.json permissions. In The City every command, and on a visit send_letter and give_item, return nil and the reason at once and count against no daily cap; one queued at home and applied after the player left comes back as a refused command_result and its count is given back.
 ---@class PlayacCmd
 cmd = {}
 
@@ -259,7 +259,7 @@ function cmd.ask(t) end
 ---@return boolean|integer|string|nil
 function flag(key) end
 
----rng() a number in [0,1); rng(n) 1..n; rng(m, n) m..n. Seeded by the mod, the town, the game day, the event and what the event is about, so a reload gives the same numbers. For an api 2 mod math.random is the same function and math.randomseed is removed; an api 1 mod keeps Lua's own math.random.
+---rng() a number in [0,1); rng(n) 1..n; rng(m, n) m..n. Seeded by the mod, the town, the game day, the event and what the event is about, so a reload gives the same numbers within a game day. The game day is part of the seed: changing the game's clock gives other numbers. Inside a remote.call the called mod's rng starts from a seed made of the caller's event, the called mod and the function, so it never depends on what that mod did earlier. For an api 2 mod math.random is the same function and math.randomseed is removed; an api 1 mod keeps Lua's own math.random, randomly seeded at each start, so its numbers change on every reload.
 --- Since: api 2
 ---@param m integer|nil
 ---@param n integer|nil

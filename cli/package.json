@@ -1,0 +1,30 @@
+{
+  "name": "playac-mod",
+  "version": "0.1.0",
+  "description": "Make, check, pack, try and publish mods for Play AC Online.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "playac-mod": "bin/playac-mod.mjs"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "fallback/",
+    "vendor/",
+    "template/",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18.17"
+  },
+  "homepage": "https://playaconline.com/modding/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christophermarek/playac-mods.git",
+    "directory": "cli"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  }
+}

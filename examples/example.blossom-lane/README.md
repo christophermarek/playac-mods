@@ -4,6 +4,24 @@ A texture-only example mod: every grown tree in town wears a cherry blossom
 crown all year (with snow on top in winter), and fallen petals dot the grass
 from spring to autumn. Golden trees stay gold, and saplings keep their look.
 
+## In the game
+
+![before](../../examples-media/example.blossom-lane/before.webp)
+
+Before: a corner of town on a September afternoon, with no mods and the HD texture pack.
+
+![after](../../examples-media/example.blossom-lane/after.webp)
+
+After: the same spot with Blossom Lane installed. The fruit trees wear pink blossom (cherries still on them) and fallen petals dot the grass. The cedar in front is not a fruit tree and stays green.
+
+![fruit trees](../../examples-media/example.blossom-lane/fruit-trees.webp)
+
+Further along, the pear trees blossom too and keep their fruit among the pink flowers.
+
+[![Play the film](../../examples-media/example.blossom-lane/film.webp)](../../examples-media/example.blossom-lane/film.mp4)
+
+The film (click the picture): A walk past the houses with Blossom Lane installed: the fruit trees are in pink blossom, with petals on the grass all around.
+
 Every pixel is drawn by a small program (a crown of lit puffs covered in
 five-petal flowers, and seamless grass with petal drifts), never copied from
 the game. Each texture is one 128x128 RGBA DDS, named the way the game looks

@@ -75,10 +75,13 @@ gh repo create tea-house --public --source . --push
 **Check it worked:** `git status` says `nothing to commit, working tree clean`,
 and the repository page on GitHub shows `mod.json`.
 
-**About the workflow.** It runs `npx playac-mod@0 check`, which needs the tool
-on the npm registry. Until it is published there, each run says so in a warning
-and checks nothing, so the green tick means nothing yet. Run
-`npx playac-mod check` on your own computer before you tag.
+**About the workflow.** It runs one release of playac-mod, named at the top of
+the file (`PLAYAC_MOD_VERSION`): it downloads that release's file and refuses it
+unless its SHA-256 matches `PLAYAC_MOD_SHA256`, then runs `playac-mod check`. It
+never looks the tool up on the npm registry by name, so no other package called
+playac-mod can run in your repository. To move to a newer release, copy the
+three lines from a fresh `playac-mod new x --github`, or the version and SHA-256
+from https://playaconline.com/modding/downloads/playac-mod-releases.json.
 
 ### Or start from an example
 

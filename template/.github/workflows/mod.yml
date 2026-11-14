@@ -1,0 +1,60 @@
+# Checks the mod on every push, and packs it on a version tag.
+# A tag must match "version" in mod.json: v1.2.0 for "1.2.0". The registry's
+# "Import from GitHub" refuses a tag that does not match, so this catches it
+# before you paste github.com/<you>/<repo>@v1.2.0 into Share a mod.
+#
+# Which playac-mod runs: exactly the release named below, downloaded from
+# PLAYAC_MOD_URL and refused unless its SHA-256 is PLAYAC_MOD_SHA256. Nothing
+# is looked up on the npm registry by name, so no other package called
+# playac-mod can ever run here. To move to a newer release, copy its version
+# and SHA-256 from https://playaconline.com/modding/downloads/playac-mod-releases.json
+# (or run `playac-mod new x --github` and copy these three lines from it).
+name: mod
+
+on:
+  push:
+    branches: ['**']
+    tags: ['v*']
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  PLAYAC_MOD_VERSION: '0.1.0'
+  PLAYAC_MOD_URL: 'https://playaconline.com/modding/downloads/playac-mod-0.1.0.tgz'
+  PLAYAC_MOD_SHA256: '8ed22b28c2a9402ca42a6a3988da1d427ec807383eb9a633bb4a26224c8f20ed'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Get playac-mod (pinned by its SHA-256)
+        run: |
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/playac-mod.tgz" "$PLAYAC_MOD_URL"
+          echo "$PLAYAC_MOD_SHA256  $RUNNER_TEMP/playac-mod.tgz" | sha256sum -c -
+          npm install -g --ignore-scripts --no-audit --no-fund "$RUNNER_TEMP/playac-mod.tgz"
+          playac-mod --version
+      - name: Check the mod (the game's own rules)
+        run: playac-mod check
+      - name: The tag matches mod.json
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          want="$(node -p "require('./mod.json').version")"
+          tag="${GITHUB_REF_NAME#v}"
+          if [ "$tag" != "$want" ]; then
+            echo "tag $GITHUB_REF_NAME does not match mod.json version $want" >&2
+            exit 1
+          fi
+      - name: Pack
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: playac-mod pack --out dist/mod.zip
+      - uses: actions/upload-artifact@v4
+        if: startsWith(github.ref, 'refs/tags/v')
+        with:
+          name: mod-zip
+          path: dist/mod.zip

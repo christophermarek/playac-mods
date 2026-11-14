@@ -6,6 +6,24 @@ ivy under a capstone, and river and pond banks are brick quays that darken
 toward the water. In winter the cracks fill with snow and the stones wear a
 dusting.
 
+## In the game
+
+![before](../../examples-media/example.cobble-town/before.webp)
+
+Before: the square by the houses with no mods and the HD texture pack: grass and the blue stone paving.
+
+![after](../../examples-media/example.cobble-town/after.webp)
+
+After: the same spot with Cobble Town installed. The ground is the mod's cobblestone, with brick where the stone paving was.
+
+![houses](../../examples-media/example.cobble-town/houses.webp)
+
+Around the houses the whole town is paved: trees, fences and houses stand on the mod's cobbles.
+
+[![Play the film](../../examples-media/example.cobble-town/film.webp)](../../examples-media/example.cobble-town/film.mp4)
+
+The film (click the picture): A walk past the houses with Cobble Town installed: the town ground is cobblestone and brick everywhere you go.
+
 Every pixel is drawn by a small program (a seamless Voronoi cobble pattern,
 block and brick courses that tile across), never copied from the game. Each
 texture is one 128x128 RGBA DDS, named the way the game looks textures up:

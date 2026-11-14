@@ -1185,6 +1185,10 @@ From the mod list (upload):
 
     shops.json: shop 1 must be an object.
 
+From the game (Mods tab row):
+
+    shops: a shop must be an object
+
 What it means: Each entry of "shops" is an object in curly braces.
 
 How to fix it: Write each shop as { "target": "flower", ... }.
@@ -2566,6 +2570,21 @@ What it means: A mod that lists "depends" loads only when every mod it needs is 
 
 How to fix it: Install or switch on the mod it names (or the right version of it), or switch off one of two mods that cannot run together.
 
+### engine-dependency
+
+**The game did not load a mod it needs first**
+
+Seen in: Mods tab, on the mod's row after a restart.
+
+From the game (Mods tab row):
+
+    not loaded: needs yourname.tea-lib >=1.0.0 <2.0.0, which the game did not load before it
+    not loaded: needs yourname.tea-lib >=2.0.0, and the game loaded 1.2.0
+
+What it means: The game checks "depends" again when it starts, after the Mods tab has put your mods in order: every mod a mod needs must load before it, in the version range. If one did not (it is missing, off, out of range, did not load itself, or comes later in the order), the mod is not loaded at all: no textures, lines, shops or script. The Mods tab normally stops this first, with a "needs" message on the row.
+
+How to fix it: Install and switch on the mod it names, in a version inside the range, then restart. If the Mods tab shows no other message, reinstall both mods.
+
 ### engine-settings
 
 **The game could not hand a setting to the script**
@@ -2964,7 +2983,7 @@ On the site:
     The script cannot reload: it was not in mod.json at boot. Restart the game.
     Textures cannot reload: the mod had no textures folder at boot. Restart the game.
 
-What it means: Lines, the shop, the script and textures reload while you play. mod.json is read once, when the game starts, so a change to it (or a script or textures folder it did not have at the start) waits for a restart.
+What it means: Lines, the shop, talk, letters, events, the items file, the script and textures reload while you play. A change to mod.json waits for a restart: mod.json is read once, when the game starts, so a change to it (or a script or textures folder it did not have at the start) needs one.
 
 How to fix it: Choose Restart now in the Developer section. Save your town first.
 
@@ -3028,7 +3047,22 @@ On the site:
 
 What it means: The CLI and the game changed how they talk, and these two are different versions.
 
-How to fix it: Update the CLI (`npx playac-mod@latest dev`), or reload the game page to get the newest one.
+How to fix it: Update the CLI (run its install line again: https://playaconline.com/modding/testing/#cli), or reload the game page to get the newest one.
+
+### dev-server-hash
+
+**A file did not match its hash**
+
+Seen in: Settings, Mods, Developer, "Load a mod you are making" (?moddev=1).
+
+On the site:
+
+    Not reloaded: "main.lua" from the dev server does not match its hash in the index twice in a row, so nothing was loaded: restart playac-mod dev, or choose the folder instead
+    The dev server could not be reached at http://127.0.0.1:2604: the dev server's index gives no sha256 for "mod.json", so its bytes cannot be checked (is it playac-mod dev?)
+
+What it means: The page checks every file it reads from playac-mod dev against the hash the server lists for it, and loads nothing that does not match. One mismatch is a file saved between the list and the file, so the page reads again; a second one means something other than playac-mod dev answered, or the file keeps changing.
+
+How to fix it: Stop and start `npx playac-mod dev`, then Connect again. If it keeps happening, choose the folder instead.
 
 ### dev-server-unreachable
 
@@ -3527,7 +3561,7 @@ From the game (Mods tab row):
     show_line: this mod already has 8 commands waiting
     ask: the game's command queue is full (32), try later
 
-What it means: A mod may queue at most 4 commands in one event and, each game day, 3 letters, 5 items, 100 flags, 20 lines and 10 questions (counted when queued, kept across a reload). At most 8 of its commands wait at once, 32 for all mods.
+What it means: A mod may queue at most 4 commands in one event and, each game day in each town, 3 letters, 5 items, 100 flags, 20 lines and 10 questions (counted when the game applies them, the ones still waiting included in the check, kept across a reload). At most 8 of its commands wait at once, 32 for all mods.
 
 How to fix it: Queue fewer commands: remember in the store what you already sent today.
 

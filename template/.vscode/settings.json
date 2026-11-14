@@ -1,0 +1,59 @@
+{
+  "Lua.runtime.version": "Lua 5.4",
+  "Lua.workspace.library": [
+    ".playac/playac.lua"
+  ],
+  "Lua.runtime.builtin": {
+    "io": "disable",
+    "os": "disable",
+    "debug": "disable",
+    "package": "disable"
+  },
+  "Lua.diagnostics.disable": [
+    "lowercase-global"
+  ],
+  "json.schemas": [
+    {
+      "fileMatch": [
+        "/mod.json"
+      ],
+      "url": "./.playac/schemas/mod.schema.json"
+    },
+    {
+      "fileMatch": [
+        "/shops.json"
+      ],
+      "url": "./.playac/schemas/shops.schema.json"
+    },
+    {
+      "fileMatch": [
+        "/messages/*.json"
+      ],
+      "url": "./.playac/schemas/messages.schema.json"
+    },
+    {
+      "fileMatch": [
+        "/items.json"
+      ],
+      "url": "./.playac/schemas/mod-items.schema.json"
+    },
+    {
+      "fileMatch": [
+        "/letters.json"
+      ],
+      "url": "./.playac/schemas/letters.schema.json"
+    },
+    {
+      "fileMatch": [
+        "/events.json"
+      ],
+      "url": "./.playac/schemas/events.schema.json"
+    },
+    {
+      "fileMatch": [
+        "/talk.json"
+      ],
+      "url": "./.playac/schemas/talk.schema.json"
+    }
+  ]
+}

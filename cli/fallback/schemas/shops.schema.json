@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://playaconline.com/schemas/shops.schema.json",
+  "title": "Play AC Online shops.json (mod API level 1)",
+  "description": "FALLBACK copy shipped with playac-mod; the mod contract is the rule.",
+  "type": "object",
+  "required": ["shops"],
+  "properties": {
+    "shops": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": ["target", "stock"],
+        "properties": {
+          "target": { "const": "flower", "description": "The only shop a mod can change so far." },
+          "name": { "type": "string", "minLength": 1, "maxLength": 40 },
+          "hours": {
+            "type": "object",
+            "required": ["open", "close"],
+            "properties": {
+              "open": { "type": "string", "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$" },
+              "close": { "type": "string", "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$" }
+            }
+          },
+          "greeting": { "type": "string", "minLength": 1, "maxLength": 160 },
+          "stock_line": { "type": "string", "minLength": 1, "maxLength": 160 },
+          "stock": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 6,
+            "items": {
+              "type": "object",
+              "required": ["item"],
+              "properties": {
+                "item": { "type": "string", "pattern": "^(0x[0-9a-fA-F]{4}|[a-z0-9][a-z0-9-]{0,31}\\.[a-z0-9][a-z0-9-]{0,47}:[a-z0-9][a-z0-9-]{0,31})$", "description": "An item id as a string, like \"0x2800\", or (api 2) an item of this mod, like \"you.mod:thing\"." },
+                "price": { "type": "integer", "minimum": 1, "maximum": 99999 }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

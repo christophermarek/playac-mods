@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://playaconline.com/schemas/mod.schema.json",
+  "title": "Play AC Online mod.json (mod API levels 1 to 2)",
+  "description": "FALLBACK copy shipped with playac-mod; the mod contract is the rule. `npx playac-mod check` runs the real rules.",
+  "type": "object",
+  "required": ["schema", "api", "id", "name", "version", "authors", "scope", "assets_original"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schema": { "const": 1, "description": "The mod.json format. Always 1." },
+    "api": { "type": "integer", "minimum": 1, "maximum": 2, "description": "The mod API level the mod is written for. 2 adds items and renames." },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{0,31}\\.[a-z0-9][a-z0-9-]{0,47}$",
+      "description": "author.mod-name: lowercase letters, digits and dashes. The registry reserves playaconline, official, admin and example."
+    },
+    "name": { "type": "string", "minLength": 1, "maxLength": 60 },
+    "version": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,8})\\.(0|[1-9][0-9]{0,8})\\.(0|[1-9][0-9]{0,8})$",
+      "description": "x.y.z. Raise it for every upload."
+    },
+    "authors": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": { "type": "string", "minLength": 1, "maxLength": 40 }
+    },
+    "description": { "type": "string", "maxLength": 500 },
+    "scope": {
+      "enum": ["client", "world"],
+      "description": "client: only you see it. world: changes what a visitor would see (shops)."
+    },
+    "content": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "textures": { "type": "string", "minLength": 1, "description": "A folder of tex1_... .dds files." },
+        "messages": { "type": "string", "minLength": 1, "description": "A JSON file of key to text." },
+        "shops": { "type": "string", "minLength": 1, "description": "shops.json. Needs scope world." },
+        "items": { "type": "string", "minLength": 1, "description": "items.json: new furniture (api 2)." }
+      }
+    },
+    "scripts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["main", "hooks"],
+      "properties": {
+        "main": { "type": "string", "pattern": "\\.lua$" },
+        "hooks": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "enum": ["talk", "day_start", "item_picked", "enter_scene"] }
+        }
+      }
+    },
+    "assets_original": {
+      "const": true,
+      "description": "Every file is your own work, never taken from the game."
+    },
+    "renames": {
+      "type": "object",
+      "maxProperties": 64,
+      "description": "api 2: old full item id to a full id of an item in this mod. Runs once per save.",
+      "propertyNames": { "pattern": "^[a-z0-9][a-z0-9-]{0,31}\\.[a-z0-9][a-z0-9-]{0,47}:[a-z0-9][a-z0-9-]{0,31}$" },
+      "additionalProperties": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,31}\\.[a-z0-9][a-z0-9-]{0,47}:[a-z0-9][a-z0-9-]{0,31}$" }
+    },
+    "depends": { "not": {}, "description": "Not built yet: refused." },
+    "conflicts": { "not": {}, "description": "Not built yet: refused." },
+    "game": { "not": {}, "description": "Not built yet: refused." },
+    "save": { "not": {}, "description": "Not built yet: refused." }
+  }
+}

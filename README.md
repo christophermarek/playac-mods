@@ -37,11 +37,15 @@ Start here, by what you want to make:
 | Folder | What it is |
 |---|---|
 | [`examples/`](examples/) | Complete example mods, one idea each. The same ones as the [cookbook](https://playaconline.com/modding/cookbook/). |
+| [`examples-media/`](examples-media/) | Pictures and a short film of each example in the game, shown in its README. |
 | [`templates/`](templates/) | Starter kits: copy one, rename the id, make it yours. |
 | [`api/`](api/) | The mod API spec (`api.json`), JSON schemas for every mod file, Lua types for your editor, and the item list. |
 | [`errors/`](errors/) | Every error and refusal a mod can get, by code, with what it means and how to fix it. |
 | [`ai/`](ai/) | Instructions for an AI coding assistant working on a mod. |
 | [`setup/`](setup/) | Setup guides: from a clean computer to a mod in the game, per need and per system. |
+| [`cli/`](cli/) | The source of the `playac-mod` tool, its tests, and the game's mod rules it runs. |
+| [`template/`](template/) | A mod repository to start from on GitHub, with a check workflow. |
+| [`tools/`](tools/) | Small scripts: check a mod ZIP, make a big texture mod for testing, draw DDS textures. |
 | [`MAKING-A-MOD.md`](MAKING-A-MOD.md) | The whole modder guide on one page. |
 
 ## Get the playac-mod tool
@@ -54,7 +58,42 @@ npm install -g https://playaconline.com/modding/downloads/playac-mod.tgz
 ```
 
 Until the package is published to npm, it installs from the site as above.
-Its source is not in this repository. More: https://playaconline.com/modding/testing/#cli
+More: https://playaconline.com/modding/testing/#cli
+
+## The tool's source
+
+[`cli/`](cli/) is the source of `playac-mod`, the same code the install line
+gives you, with the game's own mod rules (`cli/vendor/mods.js`, the file the
+game page runs) so `check` and the game cannot disagree. It needs nothing
+installed beyond Node.js, and runs straight from a clone:
+
+```bash
+node cli/bin/playac-mod.mjs check examples/example.tea-house
+cd cli && npm test        # its own tests; a few need the game's source and are skipped
+```
+
+[`cli/releases/releases.json`](cli/releases/releases.json) lists every frozen
+release with its SHA-256: the check workflow downloads one by its address and
+refuses it unless the hash matches.
+
+## A mod repository on GitHub
+
+[`template/`](template/) is a whole mod repository: a working mod at the top,
+editor settings, a `.gitignore`, and `.github/workflows/mod.yml`, which runs
+`playac-mod check` on every push and packs the mod on a version tag. Copy the
+folder's contents into a new repository (or run `playac-mod new yourname.my-mod
+--github`, which writes the same workflow), change the id in `mod.json`, and
+push. The workflow installs one release of the tool, pinned by its SHA-256.
+
+## Tools
+
+| Script | What it does |
+|---|---|
+| [`tools/check-zip.mjs`](tools/check-zip.mjs) | `node tools/check-zip.mjs my-mod.zip`: what the game's Mods tab would say about a ZIP, from the same code. |
+| [`tools/make-texture-mod.mjs`](tools/make-texture-mod.mjs) | `node tools/make-texture-mod.mjs --mib 24`: a texture mod of a chosen size, to test how a phone copes with big mods. Not for sharing. |
+| [`tools/example-textures.mjs`](tools/example-textures.mjs) | The program that draws the examples' textures: an uncompressed DDS writer (`dds()`) and seeded drawings, to borrow from. |
+
+They use the tool's code in `cli/`, so run them from a clone with both folders.
 
 ## Try an example
 

@@ -2,6 +2,28 @@
 
 A world mod that puts a shop and a script together.
 
+## In the game
+
+![sign at noon](../../examples-media/example.night-market/sign-at-noon.webp)
+
+At noon the flower shop is shut and its sign is the mod's: Night Market, open 7:00 PM to 1:00 AM.
+
+![shop at eight](../../examples-media/example.night-market/shop-at-eight.webp)
+
+At 8 PM the shop is open, and the tables hold the night market's own goods from shops.json.
+
+![greeting](../../examples-media/example.night-market/greeting.webp)
+
+Joan greets you with the mod's words: the lanterns are lit, so the Night Market is open.
+
+![stock line](../../examples-media/example.night-market/stock-line.webp)
+
+Ask what's in stock and she names the night's goods: peaches, coconuts, moon candy, a rare mushroom, a fan and a pinwheel.
+
+[![Play the film](../../examples-media/example.night-market/film.webp)](../../examples-media/example.night-market/film.mp4)
+
+The film (click the picture): Knocking at noon gets the Night Market sign; at 8 PM the shop is open, and Joan's greeting and stock line are the mod's.
+
 **The shop** (`shops.json`). After dark the flower shop becomes the Night
 Market:
 

@@ -129,6 +129,22 @@ npm install -g https://playaconline.com/modding/downloads/playac-mod.tgz
 The package is not on the npm registry yet, so it installs from the site with this
 line. `npm` comes with Node.js.
 
+**Install it only with the line above.** The game does not own the name
+`playac-mod` on the npm registry yet, so a package found there by that name
+could be anyone's. Until the game's own copy is published there (this page
+will then give the npm install line instead), never run `npx playac-mod@...`
+with a version after it or `npm install -g playac-mod`, and if `npx` ever asks
+`Need to install the following packages: playac-mod ... Ok to proceed?`, answer
+**n**. Once the tool is installed, `npx playac-mod` runs your installed copy and
+never asks. The check workflow `--github` writes is safe either way: it
+downloads one release by its address and refuses it unless its SHA-256 matches.
+
+<!-- Maintainers: the step that ends this. Register the name playac-mod on the
+npm registry under the game's account, publish the frozen release file there
+(the same file, so its SHA-256 stays the one every workflow pins), then flip
+the one switch that says the tool is on npm. Until the name is registered,
+anyone can take it. -->
+
 **Check it worked:**
 
 ```bash
@@ -230,9 +246,11 @@ again). Putting `sudo` in front also works, but every later update needs it too.
 **`npm error 404` or `ENOTFOUND` on the install line.** Check your internet
 connection and that you copied the whole address.
 
-**`npx playac-mod` says `npm error 404 Not Found - GET https://registry.npmjs.org/playac-mod`.**
-The tool is not installed (step 4), so npx looked for it on the npm registry,
-where it is not published yet. Run the install line, then try again.
+**`npx playac-mod` says `npm error 404 Not Found - GET https://registry.npmjs.org/playac-mod`,
+or asks `Need to install the following packages`.** The tool is not installed
+(step 4), so npx looked for it on the npm registry, where the game has not
+published it yet. Answer **n** if it asks, run the install line, then try
+again.
 
 **Node.js older than 18.17.** The tool says so and stops. `nvm install --lts`
 (or the installer) and open a new terminal.

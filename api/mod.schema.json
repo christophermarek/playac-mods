@@ -248,7 +248,7 @@
       ]
     },
     "depends": {
-      "description": "Mods this one needs, mod id to version range (\"*\", or up to 4 of >= <= > < = and a version split by one space). At most 16. It loads after them, and not at all when one is missing, off, out of range or not loading.",
+      "description": "Mods this one needs, mod id to version range (\"*\", or up to 4 of >= <= > < = and a version split by one space). At most 16. It loads after them, and not at all when one is missing, off, out of range or not loading. The game checks it again when it starts: a mod whose dependency is not loaded before it, in range, is not loaded at all.",
       "type": "object",
       "maxProperties": 16,
       "propertyNames": {

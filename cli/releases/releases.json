@@ -1,0 +1,10 @@
+{
+  "releases": [
+    {
+      "version": "0.1.0",
+      "file": "playac-mod-0.1.0.tgz",
+      "sha256": "8ed22b28c2a9402ca42a6a3988da1d427ec807383eb9a633bb4a26224c8f20ed",
+      "integrity": "sha512-wds0Bs6kwo1BMQ0CReOJSVDVkN59gmdZ/K30CEgJGh7VThsvomEt2n335vV4khpH/BBYXuPrg/ChWhaj+OrMoQ=="
+    }
+  ]
+}

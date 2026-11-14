@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://playaconline.com/schemas/letters.schema.json",
+  "title": "Play AC Online letters file (api 2)",
+  "description": "Letter templates a mod command (send_letter) mails through the mailbox, named \"<mod id>:<letter id>\". The game wraps the body at the paper's width in its own font and refuses one that needs more than 6 lines, and refuses a present that is money, turnips, a ticket, a grab bag, a fossil or not an item. Either scope. Generated from the mod API spec (https://playaconline.com/schemas/api.json). Do not edit by hand. Reference: https://playaconline.com/modding/reference/files/",
+  "type": "object",
+  "required": [
+    "letters"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "letters": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "header",
+          "body",
+          "footer"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_.-]{1,48}$",
+            "description": "Unique in the file."
+          },
+          "header": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32,
+            "description": "1 to 24 characters besides at most one {player}, where the name goes. No line break. Plain text: printable ASCII, no { or }."
+          },
+          "body": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 192,
+            "description": "1 to 192 characters on at most 6 lines. Plain text: printable ASCII, no { or }."
+          },
+          "footer": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32,
+            "description": "The sign-off at the foot of the letter, 1 to 32 characters. Plain text: printable ASCII, no { or }. The mailbox list shows only its first 8 characters unless the letter has a sender."
+          },
+          "sender": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 8,
+            "description": "Optional: the name in the mailbox list, 1 to 8 characters (the list has room for 8). Without it the list shows the footer's first 8 characters, so \"The Lantern Keepers\" reads \"The Lant\". The letter itself always signs with the whole footer. Plain text: printable ASCII, no { or }."
+          },
+          "item": {
+            "type": "string",
+            "pattern": "^0x[0-9a-fA-F]{4}$",
+            "description": "A present, optional."
+          },
+          "paper": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 63,
+            "description": "The stationery, default 0."
+          }
+        }
+      }
+    }
+  }
+}

@@ -542,7 +542,9 @@ Scripts are Lua 5.4 with a small API:
 - `remote.call` copies its arguments and results: `nil`, booleans, numbers,
   strings and tables of those, at most 64 KB and 16 levels deep. The function
   you call runs on YOUR time budget: if it runs too long, your script is the one
-  stopped. Calling back into a mod that is already running is refused.
+  stopped. Its commands count toward your event's cap, and its `rng()` starts
+  again for each call from your event, that mod and the function. Calling back
+  into a mod that is already running is refused.
 
 More events, each with a table of plain values (copies, never the game's own):
 
@@ -579,12 +581,13 @@ And what a script can look at:
 | `game.player()` | `{ name }` |
 | `game.events_today()` | the ids of your own events file's events on the town's date today, `{}` when none |
 | `flag(key)` | your flag set with `cmd.set_flag`, or `nil` |
-| `rng()`, `rng(n)`, `rng(m, n)` | random numbers that repeat for the same town, day and event, so reloading cannot reroll; in an api 2 mod `math.random` is the same |
+| `rng()`, `rng(n)`, `rng(m, n)` | random numbers that repeat for the same town, day and event, so reloading cannot reroll within a game day (changing the game's clock gives other numbers); in an api 2 mod `math.random` is the same, an api 1 mod keeps Lua's own, randomly seeded |
 
 ### Commands: changing the game
 
 A hook never changes the game while it runs. It QUEUES a command, and the game
-carries the queue out between frames, once the player is free (not talking, in
+carries the queue out at the end of a frame's update (before it is drawn),
+once the player is free (not talking, in
 a menu, in a cutscene or walking through a door). Each command needs its name in
 `permissions`.
 
@@ -614,9 +617,10 @@ on("command_result", function(r) log(r.command, r.ok, r.via, r.error) end)
   `from` is up to 8 characters (`"A friend"` when left out); `paper` 0 to 63.
 - A letter is an ordinary letter once it arrives: a save keeps working without
   your mod.
-- Limits: 4 commands in one event; each game day, per mod, 3 letters, 5 items,
-  100 flags, 20 lines and 10 questions (counted when queued, kept across a
-  reload); 8 commands waiting per mod.
+- Limits: 4 commands in one event; each game day, per mod and per town, 3
+  letters, 5 items, 100 flags, 20 lines and 10 questions (counted when the game
+  applies them, kept across a reload; the ones still waiting count toward the
+  cap); 8 commands waiting per mod.
 - In The City every command is refused. Visiting a friend, a letter or an item
   is refused (only the town's owner changes a town); flags, lines and questions
   still work.
@@ -675,7 +679,8 @@ Work on a mod without zipping and restarting for every change.
 | the script | it starts again with the new code; its `store` is kept |
 | textures | drawn again from the new files |
 | talk, letters, events (api 2) | read again at once: a villager's first talk of the day, the next letter, the board |
-| items (api 2), mod.json | restart the game |
+| items (api 2) | read again at once: a new name or price shows the next time it is shown or offered, a new base is what new pieces are made of (pieces already in a town keep theirs: a save holds the base), a removed item's pieces show as their base until it is back; the Mod log says which applies |
+| mod.json (renames too) | restart the game |
 
 A file that breaks a rule is not loaded and the Mod log says why. Hidden files
 and files a mod cannot hold (a `.psd` beside the `.dds`) are left out. Chrome and
@@ -687,6 +692,20 @@ While a mod is loaded this way, friend visits and sharing are off.
 - **Settings, Mods, Start without mods** restarts the game without loading any
   mod. Adding `?nomods=1` to the play page's address does the same.
 - A mod that was skipped when the game started says why on its row.
+- **The boot watchdog** does it for you when a mod freezes the game as it
+  starts. A start that loads mods leaves a mark in the browser and keeps it
+  fresh every 2 seconds; the game itself takes it down once the player has been
+  in the game world for about 5 seconds (or after 5 minutes of the game running
+  in a visible tab). A frozen page runs nothing, so its mark stays. The next start
+  with the SAME mods finds it and starts without mods when the mark went stale
+  8 seconds or more before, or when this is the second unfinished start in a row.
+  Settings, Mods (and a notice as the game starts) then names the mods that were
+  on, with a button to turn them off. Nothing is switched off by itself: the
+  start after that tries the mods again. A reload, a closed tab or a switch to
+  another app takes the mark down, so none of those trips it.
+- When you test a mod that hangs on purpose, expect exactly one start without
+  mods after the hang; change the mod set (or start without mods yourself) to
+  clear the mark.
 
 ## Updates and takedowns
 
@@ -701,6 +720,12 @@ mods, to `POST /api/mods/status`. Nothing is sent when no mod is installed.
   content hash on a denylist, so the same files installed from a ZIP are caught
   too. Fix the problem and upload a new version: players who update get it
   switched back on.
+- The check never holds a start up for more than a few seconds. With no answer
+  (offline, the request blocked, too slow) the game goes by the last answer that
+  browser got: a version it was told is taken down stays off (installed again
+  from a ZIP too), and so does a switch-off of every mod; a mod it was never
+  told about runs as before, so offline play keeps working. The next answer
+  replaces what it remembered.
 - The content hash is worked out from the mod's files, not the ZIP's bytes: it is
   the same for your ZIP and the registry's rebuilt copy, so it is what names a
   mod. The ZIP's own sha256 is not.

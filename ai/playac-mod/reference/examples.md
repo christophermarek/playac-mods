@@ -348,8 +348,8 @@ the same texture, the lower one in your list wins.
 ```lua
 -- Daily Gift: once a game day, a letter with a little present arrives in the
 -- mailbox. A worked example of mod commands: a hook never changes the
--- game itself, it QUEUES a command, and the game applies it between frames once
--- the player is free. mod.json must name the command in "permissions".
+-- game itself, it QUEUES a command, and the game applies it at the end of a frame's
+-- update, once the player is free. mod.json must name the command in "permissions".
 
 -- Fruit: always a fine present (the shop's item rules refuse money, turnips,
 -- tickets, grab bags, fossils and reserve ids).
@@ -366,7 +366,8 @@ local function send_today()
   local day = today()
   if not day or store.get("sent") == day then return end
   -- rng() is seeded by the town, the day and the event, so reloading the game
-  -- picks the same present: nobody can reroll it.
+  -- picks the same present that day: a reload cannot reroll it (a changed game
+  -- clock is another day, and another pick).
   local gift = GIFTS[rng(#GIFTS)]
   local id, why = cmd.send_letter{ text = message("letter"), item = gift, from = message("from") }
   if id then

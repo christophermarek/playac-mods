@@ -1,0 +1,24 @@
+{
+  "$schema": "./.playac/schemas/mod.schema.json",
+  "schema": 1,
+  "api": 2,
+  "id": "yourname.my-mod",
+  "name": "Village Gossip",
+  "version": "0.1.0",
+  "authors": [
+    "yourname"
+  ],
+  "description": "Once a day, each villager you talk to shares a bit of town gossip before their usual hello.",
+  "scope": "client",
+  "content": {
+    "messages": "messages/en.json"
+  },
+  "scripts": {
+    "main": "main.lua",
+    "hooks": [
+      "talk",
+      "day_start"
+    ]
+  },
+  "assets_original": true
+}

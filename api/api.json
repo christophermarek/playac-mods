@@ -14,7 +14,7 @@
       {
         "level": 2,
         "date": "2026-11-12",
-        "summary": "Mod items: an items file (content.items) of new furniture on a vanilla base, renames, and mod items in a shop's stock. Also: a per-town store (store.client keeps the per-browser one), data_version and the migrate event, settings, translations in a messages folder, depends and conflicts with version ranges, and remote calls between mods. And the typed targets: Nook's stock (shops target nook), letter templates (content.letters), dated events (content.events) and villager line pools (content.talk). Effects: commands (cmd.send_letter, give_item, set_flag, show_line, ask) queued by a hook and applied between frames, declared in permissions; ten more events; read-only queries (game.pockets, bells, town, villagers, player); flag() and a seeded rng()."
+        "summary": "Mod items: an items file (content.items) of new furniture on a vanilla base, renames, and mod items in a shop's stock. Also: a per-town store (store.client keeps the per-browser one), data_version and the migrate event, settings, translations in a messages folder, depends and conflicts with version ranges, and remote calls between mods. And the typed targets: Nook's stock (shops target nook), letter templates (content.letters), dated events (content.events) and villager line pools (content.talk). Effects: commands (cmd.send_letter, give_item, set_flag, show_line, ask) queued by a hook and applied at the end of a frame's update, declared in permissions; ten more events; read-only queries (game.pockets, bells, town, villagers, player); flag() and a seeded rng()."
       }
     ]
   },
@@ -38,7 +38,8 @@
       "description": "What every file in one mod adds up to, unpacked.",
       "sources": {
         "js": "MAX_UNPACKED",
-        "go": "MaxUncompressedBytes"
+        "go": "MaxUncompressedBytes",
+        "c": "PC_MOD_UNPACKED_MAX"
       }
     },
     {
@@ -173,7 +174,8 @@
       "description": "The longest line, in UTF-8 bytes. Lines wrap at 24 characters, 4 lines a page.",
       "sources": {
         "go": "maxMessageBytes",
-        "c": "PC_MOD_MSG_TEXT_MAX"
+        "c": "PC_MOD_MSG_TEXT_MAX",
+        "js": "MESSAGE_BYTES_MAX"
       }
     },
     {
@@ -184,7 +186,8 @@
       "description": "The most shops in one shops.json (one per target).",
       "sources": {
         "go": "maxShops",
-        "c": "PC_MOD_SHOP_FILE_MAX"
+        "c": "PC_MOD_SHOP_FILE_MAX",
+        "js": "SHOPS_MAX"
       }
     },
     {
@@ -195,7 +198,8 @@
       "description": "The most goods in one shop's stock.",
       "sources": {
         "go": "maxStock",
-        "c": "PC_MOD_SHOP_STOCK_MAX"
+        "c": "PC_MOD_SHOP_STOCK_MAX",
+        "js": "SHOP_STOCK_MAX"
       }
     },
     {
@@ -205,7 +209,9 @@
       "since": 1,
       "description": "The longest shop name, in Unicode code points.",
       "sources": {
-        "c": "PC_MOD_SHOP_NAME_CHARS"
+        "c": "PC_MOD_SHOP_NAME_CHARS",
+        "js": "SHOP_NAME_CHARS",
+        "go": "maxShopNameRunes"
       }
     },
     {
@@ -216,7 +222,8 @@
       "description": "The longest greeting or stock_line, in Unicode code points.",
       "sources": {
         "go": "maxShopTextRunes",
-        "c": "PC_MOD_SHOP_LINE_CHARS"
+        "c": "PC_MOD_SHOP_LINE_CHARS",
+        "js": "SHOP_LINE_CHARS"
       }
     },
     {
@@ -227,7 +234,8 @@
       "description": "The most line breaks in a greeting or stock_line.",
       "sources": {
         "go": "maxShopTextNewline",
-        "c": "PC_MOD_SHOP_LINE_NEWLINES"
+        "c": "PC_MOD_SHOP_LINE_NEWLINES",
+        "js": "SHOP_LINE_NEWLINES"
       }
     },
     {
@@ -237,7 +245,9 @@
       "since": 1,
       "description": "The highest price a mod shop may ask. The game raises a price below its own buy-back (what Nook pays for the item) to the buy-back.",
       "sources": {
-        "c": "PC_MOD_SHOP_PRICE_MAX"
+        "c": "PC_MOD_SHOP_PRICE_MAX",
+        "js": "SHOP_PRICE_MAX",
+        "go": "maxShopPrice"
       }
     },
     {
@@ -484,7 +494,8 @@
       "description": "The largest data_version.",
       "sources": {
         "js": "DATA_VERSION_MAX",
-        "go": "dataVersionMax"
+        "go": "dataVersionMax",
+        "c": "PC_MOD_DATA_VERSION_MAX"
       }
     },
     {
@@ -572,7 +583,9 @@
       "since": 2,
       "description": "A letter header, not counting {player}.",
       "sources": {
-        "c": "PC_MOD_LETTER_HEADER_MAX"
+        "c": "PC_MOD_LETTER_HEADER_MAX",
+        "js": "LETTER_HEADER_MAX",
+        "go": "letterHeaderMax"
       }
     },
     {
@@ -606,7 +619,9 @@
       "since": 2,
       "description": "A letter footer.",
       "sources": {
-        "c": "PC_MOD_LETTER_FOOTER_MAX"
+        "c": "PC_MOD_LETTER_FOOTER_MAX",
+        "js": "LETTER_FOOTER_MAX",
+        "go": "letterFooterMax"
       }
     },
     {
@@ -641,7 +656,8 @@
       "description": "Talk lines in one event.",
       "sources": {
         "js": "EVENT_TALK_MAX",
-        "go": "maxEventTalk"
+        "go": "maxEventTalk",
+        "c": "PC_MOD_EVENT_TALK_MAX"
       }
     },
     {
@@ -652,7 +668,8 @@
       "description": "Pools in one talk file.",
       "sources": {
         "js": "POOLS_MAX",
-        "go": "maxPools"
+        "go": "maxPools",
+        "c": "PC_MOD_POOLS_MAX"
       }
     },
     {
@@ -663,7 +680,8 @@
       "description": "Lines in one pool.",
       "sources": {
         "js": "POOL_LINES_MAX",
-        "go": "maxPoolLines"
+        "go": "maxPoolLines",
+        "c": "PC_MOD_POOL_LINES_MAX"
       }
     },
     {
@@ -674,7 +692,8 @@
       "description": "A villager line (pool or event), in Unicode code points; at most 3 line breaks.",
       "sources": {
         "go": "maxTalkRunes",
-        "c": "PC_MOD_TALK_LINE_CHARS"
+        "c": "PC_MOD_TALK_LINE_CHARS",
+        "js": "TALK_LINE_CHARS"
       }
     },
     {
@@ -712,7 +731,7 @@
       "value": 3,
       "unit": "commands",
       "since": 2,
-      "description": "send_letter per mod per game day, counted when queued and kept across a reload. A command refused for where the player is (The City, a visit) does not count.",
+      "description": "send_letter per mod per game day in each town, counted when the game applies it (one lost with a closed tab before then never counts; the cap check adds the commands still waiting) and kept across a reload. A command refused for where the player is (The City, a visit) does not count.",
       "sources": {
         "c": "PC_MOD_FX_DAY_LETTERS"
       }
@@ -722,7 +741,7 @@
       "value": 5,
       "unit": "commands",
       "since": 2,
-      "description": "give_item per mod per game day.",
+      "description": "give_item per mod per game day in each town.",
       "sources": {
         "c": "PC_MOD_FX_DAY_ITEMS"
       }
@@ -732,7 +751,7 @@
       "value": 100,
       "unit": "commands",
       "since": 2,
-      "description": "set_flag per mod per game day.",
+      "description": "set_flag per mod per game day in each town.",
       "sources": {
         "c": "PC_MOD_FX_DAY_FLAGS"
       }
@@ -742,7 +761,7 @@
       "value": 20,
       "unit": "commands",
       "since": 2,
-      "description": "show_line per mod per game day.",
+      "description": "show_line per mod per game day in each town.",
       "sources": {
         "c": "PC_MOD_FX_DAY_LINES"
       }
@@ -752,7 +771,7 @@
       "value": 10,
       "unit": "commands",
       "since": 2,
-      "description": "ask per mod per game day.",
+      "description": "ask per mod per game day in each town.",
       "sources": {
         "c": "PC_MOD_FX_DAY_ASKS"
       }
@@ -854,7 +873,9 @@
       "since": 2,
       "description": "Letter papers, numbered 0 to 63.",
       "sources": {
-        "c": "PC_MOD_FX_PAPER_NUM"
+        "c": "PC_MOD_FX_PAPER_NUM",
+        "js": "PAPERS",
+        "go": "paperCount"
       }
     },
     {
@@ -874,6 +895,194 @@
       "since": 2,
       "description": "What every town's mod data in one browser adds up to; writing past it drops the least recently written other towns' files first, so mod data never pushes a save over the cloud's 5 MB.",
       "sources": {}
+    },
+    {
+      "name": "talk.line_newlines",
+      "value": 3,
+      "unit": "newlines",
+      "since": 2,
+      "description": "The most line breaks in a villager line (pool or event).",
+      "sources": {
+        "js": "TALK_LINE_NEWLINES",
+        "go": "maxTalkNewlines",
+        "c": "PC_MOD_TALK_LINE_NEWLINES"
+      }
+    },
+    {
+      "name": "talk.villager_chars",
+      "value": 8,
+      "unit": "characters",
+      "since": 2,
+      "description": "A pool's \"villager\" name, as the game spells it.",
+      "sources": {
+        "js": "VILLAGER_CHARS",
+        "go": "maxVillagerName",
+        "c": "PC_MOD_VILLAGER_NAME_MAX"
+      }
+    },
+    {
+      "name": "items.price_max",
+      "value": 99999,
+      "unit": "Bells",
+      "since": 2,
+      "description": "The highest price an item in a mod's items file may have.",
+      "sources": {
+        "js": "ITEM_PRICE_MAX",
+        "go": "maxItemPrice",
+        "c": "PC_MOD_ITEM_PRICE_MAX"
+      }
+    },
+    {
+      "name": "manifest.name_chars",
+      "value": 60,
+      "unit": "characters",
+      "since": 1,
+      "description": "The longest mod \"name\", in Unicode code points, spaces at the ends not counted.",
+      "sources": {
+        "js": "NAME_CHARS",
+        "go": "maxNameRunes"
+      }
+    },
+    {
+      "name": "manifest.authors",
+      "value": 8,
+      "unit": "names",
+      "since": 1,
+      "description": "The most names in \"authors\".",
+      "sources": {
+        "js": "AUTHORS_MAX",
+        "go": "maxAuthors"
+      }
+    },
+    {
+      "name": "manifest.author_chars",
+      "value": 40,
+      "unit": "characters",
+      "since": 1,
+      "description": "The longest name in \"authors\", spaces at the ends not counted.",
+      "sources": {
+        "js": "AUTHOR_CHARS",
+        "go": "maxAuthorRunes"
+      }
+    },
+    {
+      "name": "manifest.description_chars",
+      "value": 500,
+      "unit": "characters",
+      "since": 1,
+      "description": "The longest \"description\".",
+      "sources": {
+        "js": "DESCRIPTION_CHARS",
+        "go": "maxDescriptionRunes"
+      }
+    },
+    {
+      "name": "manifest.tags",
+      "value": 5,
+      "unit": "tags",
+      "since": 1,
+      "description": "The most different tags in \"tags\".",
+      "sources": {
+        "js": "MAX_TAGS",
+        "go": "MaxTags"
+      }
+    },
+    {
+      "name": "settings.label_chars",
+      "value": 60,
+      "unit": "characters",
+      "since": 2,
+      "description": "A setting's \"label\", spaces at the ends not counted.",
+      "sources": {
+        "js": "SETTING_LABEL_CHARS",
+        "go": "maxSettingLabel"
+      }
+    },
+    {
+      "name": "settings.description_chars",
+      "value": 200,
+      "unit": "characters",
+      "since": 2,
+      "description": "A setting's \"description\".",
+      "sources": {
+        "js": "SETTING_DESC_CHARS",
+        "go": "maxSettingDesc"
+      }
+    },
+    {
+      "name": "settings.choices_min",
+      "value": 2,
+      "unit": "choices",
+      "since": 2,
+      "description": "The fewest \"choices\" a choice setting lists.",
+      "sources": {
+        "js": "SETTING_CHOICES_MIN",
+        "go": "minSettingChoices"
+      }
+    },
+    {
+      "name": "settings.choices",
+      "value": 16,
+      "unit": "choices",
+      "since": 2,
+      "description": "The most \"choices\" a choice setting lists.",
+      "sources": {
+        "js": "SETTING_CHOICES_MAX",
+        "go": "maxSettingChoices"
+      }
+    },
+    {
+      "name": "settings.choice_chars",
+      "value": 40,
+      "unit": "characters",
+      "since": 2,
+      "description": "One choice of a choice setting, on one line.",
+      "sources": {
+        "js": "SETTING_CHOICE_CHARS",
+        "go": "maxSettingChoice"
+      }
+    },
+    {
+      "name": "settings.text_chars",
+      "value": 200,
+      "unit": "characters",
+      "since": 2,
+      "description": "The largest \"max_length\" a text setting may ask for.",
+      "sources": {
+        "js": "SETTING_TEXT_MAX",
+        "go": "maxSettingText"
+      }
+    },
+    {
+      "name": "settings.number_max",
+      "value": 1000000000,
+      "unit": "number",
+      "since": 2,
+      "description": "A number setting's \"min\" and \"max\" lie within minus this and this.",
+      "sources": {
+        "js": "SETTING_NUM_MAX",
+        "go": "settingNumberMax"
+      }
+    },
+    {
+      "name": "depends.range_bytes",
+      "value": 64,
+      "unit": "bytes",
+      "since": 2,
+      "description": "The longest version range in depends or conflicts.",
+      "sources": {
+        "js": "RANGE_BYTES_MAX",
+        "go": "maxRangeBytes", "c": "PC_MOD_RANGE_BYTES_MAX"}
+    },
+    {
+      "name": "depends.range_parts",
+      "value": 4,
+      "unit": "comparisons",
+      "since": 2,
+      "description": "The most comparisons in one version range, like \">=1.0.0 <2.0.0\" (two).",
+      "sources": {
+        "js": "RANGE_PARTS_MAX",
+        "go": "maxRangeParts", "c": "PC_MOD_RANGE_PARTS_MAX"}
     }
   ],
   "manifest": [
@@ -1210,7 +1419,7 @@
       "name": "depends",
       "since": 2,
       "required": false,
-      "description": "Mods this one needs, mod id to version range (\"*\", or up to 4 of >= <= > < = and a version split by one space). At most 16. It loads after them, and not at all when one is missing, off, out of range or not loading.",
+      "description": "Mods this one needs, mod id to version range (\"*\", or up to 4 of >= <= > < = and a version split by one space). At most 16. It loads after them, and not at all when one is missing, off, out of range or not loading. The game checks it again when it starts: a mod whose dependency is not loaded before it, in range, is not loaded at all.",
       "example": {
         "yourname.tea-lib": ">=1.0.0 <2.0.0"
       },
@@ -1485,7 +1694,7 @@
     {
       "name": "frame_cap",
       "since": 1,
-      "description": "All mods share 4 ms of Lua time a frame. Past it, every game event without an answer (day_start, item_picked, enter_scene and the events level 2 adds) waits for the next frame (in order for each mod, at most 64 waiting; past that one is dropped), and talk is skipped for the rest of that frame, so the villager says their own greeting. command_result and answer wait too but are never dropped or skipped, and a command queued by a command_result handler is applied at the next frame boundary, not the one that delivered the result; migrate runs when a town is bound, outside the cap."
+      "description": "All mods share 4 ms of Lua time a frame. Past it, every game event without an answer (day_start, item_picked, enter_scene and the events level 2 adds) waits for the next frame (in order for each mod, at most 64 waiting; past that one is dropped), and talk is skipped for the rest of that frame, so the villager says their own greeting. A mod with events still waiting is not asked for a talk until they ran (the next mod is), so each mod sees its own events in the order they happened. A remote.call into a mod is not one of its events: it runs at once, inside the caller's event. command_result and answer wait too but are never dropped or skipped, and a command queued by a command_result handler is applied at the next frame boundary, not the one that delivered the result; migrate runs when a town is bound, outside the cap."
     },
     {
       "name": "items_level",
@@ -1553,6 +1762,29 @@
       "description": "The talk event goes to mods in load order and the FIRST handler that returns a line wins that talk; later mods' talk handlers are not asked.",
       "values": [
         "talk"
+      ]
+    },
+    {
+      "name": "dev_reload_hot",
+      "since": 1,
+      "description": "Developer mode (a mod loaded from a folder or from playac-mod dev) reloads these while you play, with no restart: the content files named here, any .lua script (\"scripts\") and the files under content.textures. Each value is a content key, or \"scripts\".",
+      "values": [
+        "messages",
+        "shops",
+        "talk",
+        "letters",
+        "events",
+        "items",
+        "scripts",
+        "textures"
+      ]
+    },
+    {
+      "name": "dev_reload_restart",
+      "since": 1,
+      "description": "Developer mode loads a change to these only when the game restarts: mod.json (read once at start, and so is a file added or removed) and the content files named here. Each value is \"mod.json\" or a content key.",
+      "values": [
+        "mod.json"
       ]
     },
     {
@@ -1673,7 +1905,7 @@
     {
       "name": "commands_between_frames",
       "since": 2,
-      "description": "A hook never changes the game. Each cmd.* call queues a command; the game applies the queue at one point between frames, only while the player is free (not in a talk, menu, cutscene, door or scene change). Its result comes back as a command_result event to the mod that queued it."
+      "description": "A hook never changes the game. Each cmd.* call queues a command; the game applies the queue at one point in each frame, at the end of the game's update for a frame (after the world moves, before that frame is drawn), only while the player is free (not in a talk, menu, cutscene, door or scene change). Its result comes back as a command_result event to the mod that queued it."
     },
     {
       "name": "commands_host_only",
@@ -2613,7 +2845,7 @@
       "name": "remote",
       "kind": "table",
       "since": 2,
-      "description": "Calls between mods: one mod offers named functions, another calls them. Values are deep copies (nil, booleans, numbers, strings and tables of them; 64 KB, 16 levels, 4096 values, 8 results); the callee runs on the CALLER's budget and clock (over it, the caller is stopped), and a call into a mod that is already running is refused.",
+      "description": "Calls between mods: one mod offers named functions, another calls them. Values are deep copies (nil, booleans, numbers, strings and tables of them; 64 KB, 16 levels, 4096 values, 8 results); the callee runs on the CALLER's budget and clock (over it, the caller is stopped), its commands count toward the caller's per-event cap, its rng starts from a seed of the caller's event, the callee and the function (the same call in the same event gives the same numbers), and a call into a mod that is already running is refused.",
       "members": [
         {
           "name": "add",
@@ -2683,7 +2915,7 @@
       "name": "cmd",
       "kind": "table",
       "since": 2,
-      "description": "The commands: each queues an effect the game applies between frames. Each needs its name in mod.json permissions. In The City every command, and on a visit send_letter and give_item, return nil and the reason at once and count against no daily cap; one queued at home and applied after the player left comes back as a refused command_result and its count is given back.",
+      "description": "The commands: each queues an effect the game applies at the end of a frame's update, before it is drawn. Each needs its name in mod.json permissions. In The City every command, and on a visit send_letter and give_item, return nil and the reason at once and count against no daily cap; one queued at home and applied after the player left comes back as a refused command_result and its count is given back.",
       "members": [
         {
           "name": "send_letter",
@@ -2796,7 +3028,7 @@
       "name": "rng",
       "kind": "function",
       "since": 2,
-      "description": "rng() a number in [0,1); rng(n) 1..n; rng(m, n) m..n. Seeded by the mod, the town, the game day, the event and what the event is about, so a reload gives the same numbers. For an api 2 mod math.random is the same function and math.randomseed is removed; an api 1 mod keeps Lua's own math.random.",
+      "description": "rng() a number in [0,1); rng(n) 1..n; rng(m, n) m..n. Seeded by the mod, the town, the game day, the event and what the event is about, so a reload gives the same numbers within a game day. The game day is part of the seed: changing the game's clock gives other numbers. Inside a remote.call the called mod's rng starts from a seed made of the caller's event, the called mod and the function, so it never depends on what that mod did earlier. For an api 2 mod math.random is the same function and math.randomseed is removed; an api 1 mod keeps Lua's own math.random, randomly seeded at each start, so its numbers change on every reload.",
       "params": [
         {
           "name": "m",
@@ -2834,7 +3066,7 @@
       {
         "name": "math",
         "since": 1,
-        "description": "The whole math library. Read-only. From api 2 math.random is rng (seeded, repeatable) and math.randomseed is not there; a mod that says \"api\": 1 keeps Lua's own math.random and math.randomseed."
+        "description": "The whole math library. Read-only. From api 2 math.random is rng (seeded, repeatable within a game day) and math.randomseed is not there; a mod that says \"api\": 1 keeps Lua's own math.random and math.randomseed, randomly seeded at each start."
       },
       {
         "name": "utf8",
@@ -2881,7 +3113,7 @@
       {
         "name": "math.randomseed",
         "since": 2,
-        "description": "From api 2 math.random is rng(), seeded by the mod, town, day and event, and cannot be reseeded. An api 1 mod keeps Lua's own math.random and math.randomseed."
+        "description": "From api 2 math.random is rng(), seeded by the mod, town, day and event, and cannot be reseeded. An api 1 mod keeps Lua's own math.random and math.randomseed, randomly seeded at each start."
       }
     ],
     "absent_libraries": [

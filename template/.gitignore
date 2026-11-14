@@ -1,0 +1,4 @@
+.playac/playac.lua
+.playac/schemas/
+dist/
+node_modules/

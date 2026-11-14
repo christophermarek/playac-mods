@@ -2,6 +2,24 @@
 
 A script example: tiny daily quests.
 
+## In the game
+
+![the wish](../../examples-media/example.wish-list/the-wish.webp)
+
+Twiggy has a tiny wish today: a seashell. About two villagers in five wish each day, picked from the date.
+
+![shell picked up](../../examples-media/example.wish-list/shell-picked-up.webp)
+
+A lion's paw shell, dropped from the pockets and picked up off the ground: the script hears item_picked and grants the wish.
+
+![thank you](../../examples-media/example.wish-list/thank-you.webp)
+
+The next talk opens on her thank-you, and the script counts your wish streak with her.
+
+[![Play the film](../../examples-media/example.wish-list/film.webp)](../../examples-media/example.wish-list/film.mp4)
+
+The film (click the picture): Twiggy wishes for a seashell; one is picked up, and her next talk thanks you for the first wish granted.
+
 Each day about two villagers in five make a wish: a seashell, a piece of fruit,
 a bag of bells, a mushroom in November, or a fruit you have picked up before
 (so nobody wishes for a fruit that does not grow in your town). The wish comes

@@ -3,6 +3,24 @@
 Your own naturalist's journal. Every bug, fish, fossil, shell and piece of fruit
 you collect goes in your notes, and villagers have something to say about it:
 
+## In the game
+
+![the find](../../examples-media/example.field-notes/the-find.webp)
+
+An apple on the ground by Twiggy's house, about to be picked up. Every bug, fish, fossil, shell and fruit you pick up goes in your field notes.
+
+![villager notices](../../examples-media/example.field-notes/villager-notices.webp)
+
+The next villager you talk to notices the find: a fruit you had never noted before, so your field notes grew a new page.
+
+![own words](../../examples-media/example.field-notes/own-words.webp)
+
+Then the villager carries on in their own words, as the game always has them.
+
+[![Play the film](../../examples-media/example.field-notes/film.webp)](../../examples-media/example.field-notes/film.mp4)
+
+The film (click the picture): An apple is dropped from the pockets and picked up again, and Twiggy has something to say about the new page in your notes.
+
 - today's haul ("2 bugs, a fish and a piece of fruit so far today!")
 - a kind you have never noted before, and your very first fossil
 - a new best day for one kind ("3 bugs today, a new best!")
