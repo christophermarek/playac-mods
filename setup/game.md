@@ -130,6 +130,18 @@ Firefox and Safari read the folder once. Choose it again after a change.
 After you reload the page, press **Connect** again. Until you do, the game
 runs the last copy it loaded and does not follow your edits.
 
+`playac-mod dev` answers only game pages at playaconline.com, its dev site
+and `http://localhost:5173`, so another website cannot read your folder. For
+a game page at any other address, start it with `--origin` and that page's
+address:
+
+```bash
+playac-mod dev --origin http://localhost:5190
+```
+
+Without it, **Connect** says the dev server refused this site, and the
+terminal prints the exact `--origin` to add.
+
 **Check it worked:** the terminal prints a line when you save a file, and the
 change shows in the game. If the folder breaks a rule, the terminal and the
 Developer section both say which file and why. The game keeps the last good

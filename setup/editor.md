@@ -50,6 +50,7 @@ these:
 
 - Each starter kit has one. The kits are the `templates/` folders, and
   as ZIPs in the newest "Starter kits and AI pack" release: https://github.com/Play-AC-Online/playac-mods/releases.
+  A kit ZIP also has the game's Lua types in `.playac/` (step 4).
 - For any other mod, copy one from a kit or make it as in
   [step 5](#5-the-settings-by-hand).
 
@@ -95,9 +96,11 @@ editor that reads `$schema`. The game ignores the key.
    `sumneko.lua`. A mod folder recommends it, so VS Code may offer it in a
    pop-up at the bottom right. **Install** there does the same.
 3. The extension reads the game's API from `.playac/playac.lua` in your mod
-   folder. Make a `.playac` folder inside your mod folder. Copy
-   [`api/playac.lua`](../api/playac.lua) from this repository there, or
-   download https://playaconline.com/schemas/playac.lua, and save it as
+   folder. A starter kit ZIP from the release already has it. For any other
+   mod folder, or a kit copied from `templates/`, make a `.playac` folder
+   inside your mod folder. Copy [`api/playac.lua`](../api/playac.lua) from
+   this repository there, or download
+   https://playaconline.com/schemas/playac.lua, and save it as
    `.playac/playac.lua`.
 4. Reload the window with **Developer: Reload Window** from the Command
    Palette.

@@ -64,6 +64,7 @@ The errors catalogue explains each code and gives its fix:
 | You see | Code | Fix |
 |---|---|---|
 | The dev server could not be reached at http://127.0.0.1:2604 | `dev-server-unreachable` | Check that `playac-mod dev` is still running in your mod folder. Use the address it printed. The port can be 2605 or higher when 2604 is busy. Safari cannot connect, so use Chrome, Edge or Firefox, or choose the folder. |
+| the dev server refused this site: start it with --origin | `dev-server-origin` | The game page is not at playaconline.com, its dev site or `http://localhost:5173`. Stop `playac-mod dev` and start it with `--origin` and the page's address. The terminal prints that line. |
 | Not loaded: the folder fails playac-mod check | `dev-check-fails` | Fix what it names. The terminal running `dev` says the same. The mod reloads by itself once it is fixed. |
 | mod.json changed: restart the game to load it | `dev-restart-needed` | Save your town, then press **Restart now** in the Developer section. |
 | No **Developer** section in the Mods tab | | Open the game with `?moddev=1` at the end of the address. See [The game](game.md#3-developer-mode). |

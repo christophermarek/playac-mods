@@ -133,7 +133,7 @@ npm install -g https://github.com/Play-AC-Online/playac-mods/releases/download/c
 
 This installs release 1.0.0 of the tool from its GitHub release in this repository. `npm` comes with Node.js.
 
-The SHA-256 of that file is `2bd6d10f0977c771e45399cc193ecd027eaa6bdb26a66a2e8038be867695c2a6`. To check it yourself, download
+The SHA-256 of that file is `02432c050fad15f1180e16202bb833c331bd3f70b20f5c56164bc837ecd3af9b`. To check it yourself, download
 the file, compare, and install the file you checked:
 
 ```bash
@@ -191,6 +191,11 @@ never inside it.
   ```bash
   playac-mod dev
   ```
+
+  It answers game pages at playaconline.com, its dev site and
+  `http://localhost:5173`. For a game page at another address, add
+  `--origin` and that address, for example
+  `playac-mod dev --origin http://localhost:5190`.
 
 **Editor types.** The game's Lua types are [`api/playac.lua`](../api/playac.lua)
 and the JSON schemas are in [`api/`](../api/). [Set up your editor](editor.md)
