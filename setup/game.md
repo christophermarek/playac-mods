@@ -59,13 +59,15 @@ disc you own, see https://playaconline.com/your-disc/.
 ## 3. Developer mode
 
 Developer mode adds tools for making mods to the Mods tab. You can load a mod
-from a folder and reload it as you save. It changes nothing in your town.
+from a folder and reload it as you save. It plays a separate test town, so
+your real town is not touched.
 
 1. Open the game with `?moddev=1` at the end of the address:
 
    https://playaconline.com/play/?moddev=1
 
-2. Load your town.
+2. The first time, choose how to start your test town: **A copy of my town**
+   or **A fresh town**.
 3. Open **Settings** with the gear at the top, then the **Mods** tab.
 
 **Check it worked:** at the bottom of the Mods tab there is a **Developer**
@@ -74,9 +76,10 @@ section with **Load a mod you are making**.
 Opening the game with `?moddev=1` only shows the section. It loads no mod.
 The next step does that.
 
-The browser remembers developer mode, so the section stays on later visits. To
-hide it again, press **Hide developer tools** or open the game with
-`?moddev=0`.
+Developer mode is on only while the address ends in `?moddev=1`. A reload
+keeps it. A plain https://playaconline.com/play/ always plays your real town.
+To leave developer mode, press **Leave dev mode** on the test town bar, or
+open the game without `?moddev=1`.
 
 ## 4. Load a mod you are making
 
