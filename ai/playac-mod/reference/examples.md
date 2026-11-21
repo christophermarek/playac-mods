@@ -128,8 +128,12 @@ This repository is one mod, laid out the way the GitHub import wants it:
    Ids that start with `example.` are kept for these examples, so the import
    refuses them.
 3. Tag the commit with the version, like `v1.0.0`.
-4. In the Mods tab, choose Import from GitHub and paste
-   `github.com/<you>/<repository>@v1.0.0`.
+4. Push the commit and the tag. Then, in the game, open **Settings**, then
+   **Mods**, and scroll to **Share a mod**. Sign in, answer the age question
+   and accept the mod rules the first time, and type the code from your
+   authenticator app. **Import from GitHub** shows under the upload form once
+   the code is accepted. Paste `github.com/<you>/<repository>@v1.0.0` there
+   and choose **Import**.
 
 To keep only one half, delete the other half's files and its lines in
 `mod.json`, and `playac-mod check` tells you if anything still points at them.
@@ -138,8 +142,19 @@ The modding guide is at [playaconline.com/modding](https://playaconline.com/modd
 
 `media/` holds the pictures and the film the cookbook shows, with their
 captions in `media/media.json`. `.playac/screenshots/` holds the listing's
-screenshots. The pack rule leaves the pictures, the film and the screenshots
-out of the mod.
+screenshots.
+
+What goes in the mod's ZIP is decided by the pack rule, the same for
+`playac-mod pack` and the GitHub import:
+
+- Left out: the pictures and the film (`.webp` and `.mp4` are not mod file
+  types), the screenshots (`.playac` starts with a dot), `LICENSE` (it has no
+  file type) and `CHANGELOG.md` (it is sent beside the ZIP as the listing's
+  changelog).
+- Kept: every other `.json`, `.lua`, `.dds`, `.png`, `.txt` and `.md` file.
+  That includes this `README.md` and `media/media.json`. The game never reads
+  either, because `mod.json` does not name them, and `playac-mod check` warns
+  that nothing points at `media/media.json`.
 
 ## License
 
@@ -396,8 +411,12 @@ This repository is one mod, laid out the way the GitHub import wants it:
    the full ids in `shops.json` with it. Ids that start with `example.` are
    kept for these examples, so the import refuses them.
 3. Tag the commit with the version, like `v1.0.0`.
-4. In the Mods tab, choose Import from GitHub and paste
-   `github.com/<you>/<repository>@v1.0.0`.
+4. Push the commit and the tag. Then, in the game, open **Settings**, then
+   **Mods**, and scroll to **Share a mod**. Sign in, answer the age question
+   and accept the mod rules the first time, and type the code from your
+   authenticator app. **Import from GitHub** shows under the upload form once
+   the code is accepted. Paste `github.com/<you>/<repository>@v1.0.0` there
+   and choose **Import**.
 
 To keep only one half, delete the other half's files and its lines in
 `mod.json`, and `playac-mod check` tells you if anything still points at them.
@@ -406,8 +425,19 @@ The modding guide is at [playaconline.com/modding](https://playaconline.com/modd
 
 `media/` holds the pictures and the film the cookbook shows, with their
 captions in `media/media.json`. `.playac/screenshots/` holds the listing's
-screenshots. The pack rule leaves the pictures, the film and the screenshots
-out of the mod.
+screenshots.
+
+What goes in the mod's ZIP is decided by the pack rule, the same for
+`playac-mod pack` and the GitHub import:
+
+- Left out: the pictures and the film (`.webp` and `.mp4` are not mod file
+  types), the screenshots (`.playac` starts with a dot), `LICENSE` (it has no
+  file type) and `CHANGELOG.md` (it is sent beside the ZIP as the listing's
+  changelog).
+- Kept: every other `.json`, `.lua`, `.dds`, `.png`, `.txt` and `.md` file.
+  That includes this `README.md` and `media/media.json`. The game never reads
+  either, because `mod.json` does not name them, and `playac-mod check` warns
+  that nothing points at `media/media.json`.
 
 ## License
 
@@ -682,8 +712,12 @@ This repository is one mod, laid out the way the GitHub import wants it:
    Ids that start with `example.` are kept for these examples, so the import
    refuses them.
 3. Tag the commit with the version, like `v1.0.0`.
-4. In the Mods tab, choose Import from GitHub and paste
-   `github.com/<you>/<repository>@v1.0.0`.
+4. Push the commit and the tag. Then, in the game, open **Settings**, then
+   **Mods**, and scroll to **Share a mod**. Sign in, answer the age question
+   and accept the mod rules the first time, and type the code from your
+   authenticator app. **Import from GitHub** shows under the upload form once
+   the code is accepted. Paste `github.com/<you>/<repository>@v1.0.0` there
+   and choose **Import**.
 
 To keep only one half, delete the other half's files and its lines in
 `mod.json`, and `playac-mod check` tells you if anything still points at them.
@@ -692,8 +726,19 @@ The modding guide is at [playaconline.com/modding](https://playaconline.com/modd
 
 `media/` holds the pictures and the film the cookbook shows, with their
 captions in `media/media.json`. `.playac/screenshots/` holds the listing's
-screenshots. The pack rule leaves the pictures, the film and the screenshots
-out of the mod.
+screenshots.
+
+What goes in the mod's ZIP is decided by the pack rule, the same for
+`playac-mod pack` and the GitHub import:
+
+- Left out: the pictures and the film (`.webp` and `.mp4` are not mod file
+  types), the screenshots (`.playac` starts with a dot), `LICENSE` (it has no
+  file type) and `CHANGELOG.md` (it is sent beside the ZIP as the listing's
+  changelog).
+- Kept: every other `.json`, `.lua`, `.dds`, `.png`, `.txt` and `.md` file.
+  That includes this `README.md` and `media/media.json`. The game never reads
+  either, because `mod.json` does not name them, and `playac-mod check` warns
+  that nothing points at `media/media.json`.
 
 ## License
 

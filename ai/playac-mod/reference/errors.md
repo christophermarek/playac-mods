@@ -3467,7 +3467,7 @@ On the site:
 
     The dev server could not be reached at http://127.0.0.1:2604: the dev server refused this site: start it with --origin https://my-copy.example
 
-What it means: `playac-mod dev` answers only playaconline.com and a few local addresses, so another website cannot read your folder. This copy of the game is on another address.
+What it means: `playac-mod dev` answers only playaconline.com, the dev site dev.animalcrossingonline.com and localhost:5173, so another website cannot read your folder. This copy of the game is on another address. The terminal also prints the --origin to add.
 
 How to fix it: Start it with --origin and the address of the game page, for example `playac-mod dev --origin https://my-copy.example`.
 
@@ -4775,12 +4775,12 @@ From the mod list (upload):
     Enter the code from your authenticator app to share a mod.
     Enter the code from your authenticator app to approve playac-mod.
     Sharing mods is switched off on this server for now.
-    Too many wrong codes in a row, so code checks are paused for a while. Wait, then try again with a fresh code. We emailed the account.
+    Too many wrong codes in a row, so code checks are paused for a while. Wait, then try again with a fresh code. If the account logs in with an email address, we emailed it.
     That code is not right, or it was used already. Wait for the next one and try again.
 
 Registry codes: `two_factor_required`, `two_factor_code`, `two_factor_unavailable`, `two_factor_locked`, `bad_code`
 
-What it means: Sharing a mod and importing one from GitHub both need two-factor sign-in and a recent code from your authenticator app. A code works once. After 5 wrong codes in a row, code checks pause for a minute or longer, and we email the account.
+What it means: Sharing a mod and importing one from GitHub both need two-factor sign-in and a recent code from your authenticator app. A code works once. After 5 wrong codes in a row, code checks pause for a minute or longer, and we email the account if it logs in with an email address.
 
 How to fix it: Switch on two-factor sign-in on your Profile page, then enter a code from your authenticator app when asked. If codes are paused, wait, check that the phone's clock is right and use a fresh code.
 

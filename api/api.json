@@ -15,7 +15,7 @@
       {
         "level": 1,
         "date": "2026-11-16",
-        "summary": "The first level. Content is textures (a file may carry a readable label before its name), lines (a messages file), shops (each by its id in the shop table, from Nook's store and the flower shop to Katrina's tent, one block shape for every shop, each block applying while its when holds), new furniture on a vanilla base with pictures of its own (an items file, renames), letter templates, calendar days and villager line pools. Scripts get sixteen events, each handed one table. They also get log, message, the game queries, a store per town with a part per player and one per browser, settings, remote calls between mods, a seeded rng and timers on the game clock. Eight commands are declared in permissions: six (cmd.send_letter, give_item, show_line, ask, take_item, take_bells) are applied at the end of a frame's update, and two (cmd.set_shop_goods, set_shop_open) are set at the call. Mods also have depends and conflicts with version ranges, and data_version with the data_migrated event. Mods can name optional_depends, and a setting can be world or client."
+        "summary": "The first level. Content is textures (a file may carry a readable label before its name), lines (a messages file), shops (each by its id in the shop table, from Nook's store and the flower shop to Katrina's tent, one block shape for every shop, each block applying while its when holds), new furniture on a vanilla base with pictures of its own (an items file, renames), letter templates, calendar days and villager line pools. Scripts get the events in the events list, each handed one table. They also get log, message, the game queries, a store per town with a part per player and one per browser, settings, remote calls between mods, a seeded rng and timers on the game clock. Eight commands are declared in permissions: six (cmd.send_letter, give_item, show_line, ask, take_item, take_bells) are applied at the end of a frame's update, and two (cmd.set_shop_goods, set_shop_open) are set at the call. Mods also have depends and conflicts with version ranges, and data_version with the data_migrated event. Mods can name optional_depends, and a setting can be world or client."
       }
     ]
   },
@@ -3427,7 +3427,7 @@
           "name": "town",
           "kind": "function",
           "since": 1,
-          "description": "The town: { name, id, year, month, day, hour, minute, weekday, season }, or nil before a town is loaded. season is spring, summer, autumn or winter.",
+          "description": "The town: { name, id, year, month, day, hour, minute, weekday, season }, or nil before a town is loaded. season is spring, summer, fall or winter, the word talk pools and shops use.",
           "params": [],
           "returns": {
             "type": "table|nil",
@@ -3467,7 +3467,7 @@
               {
                 "name": "season",
                 "type": "string|nil",
-                "description": "spring, summer, autumn or winter. nil when the game cannot tell."
+                "description": "spring, summer, fall or winter. nil when the game cannot tell."
               }
             ]
           }
