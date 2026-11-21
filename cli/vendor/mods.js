@@ -4,10 +4,10 @@
 (function (root) {
   'use strict';
 
-  const TT_FLAG = 'acweb.moddev';
+  const TT_PARAM = 'moddev';
   const TT_SUFFIX = '~testtown';
   const TT_ON = (function () {
-    try { return !!root.localStorage && root.localStorage.getItem(TT_FLAG) === '1'; } catch (_) { return false; }
+    try { return new URLSearchParams((root.location && root.location.search) || '').get(TT_PARAM) === '1'; } catch (_) { return false; }
   })();
   function townKey(name) { return TT_ON ? name + TT_SUFFIX : name; }
 
@@ -3870,13 +3870,12 @@
   }
 
   const testTown = {
-    on: TT_ON, SUFFIX: TT_SUFFIX, FLAG: TT_FLAG, MARK_KEY: TT_MARK, MAKE_KEY: TT_MAKE, TOWN_DBS: TT_TOWN_DBS.slice(),
+    on: TT_ON, SUFFIX: TT_SUFFIX, PARAM: TT_PARAM, MARK_KEY: TT_MARK, MAKE_KEY: TT_MAKE, TOWN_DBS: TT_TOWN_DBS.slice(),
     dbName: testTownDb, key: townKey, mark: ttReadMark, prepare: testTownPrepare,
     state: function () { return ttState; }
   };
 
   const DEV_DB = 'acweb-mods-dev';
-  const DEV_FLAG = 'acweb.moddev';
   const DEV_STORED = 'acweb.mods.dev';
   const DEV_DATA = 1, DEV_LUA = 2, DEV_TEXTURES = 4;
   const DEV_ITEMS = 8;
@@ -3888,7 +3887,7 @@
   function lsGet(k) { try { return root.localStorage.getItem(k); } catch (_) { return null; } }
   function lsSet(k, v) { try { if (v === null) root.localStorage.removeItem(k); else root.localStorage.setItem(k, v); } catch (_) {   } }
 
-  function devOn() { return lsGet(DEV_FLAG) === '1'; }
+  function devOn() { return TT_ON; }
 
   function devTainted() { return devOn() && lsGet(DEV_STORED) === '1'; }
 
