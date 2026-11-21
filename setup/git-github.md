@@ -111,9 +111,12 @@ The steps:
    git push origin v0.1.0
    ```
 
-5. Send it for review: in the game, open **Settings, Mods, Share a mod** and
-   paste `github.com/<you>/tea-stall@v0.1.0`. The tag must match `"version"`
-   in `mod.json`.
+5. Send it for review: in the game, open **Settings, Mods** and scroll to
+   **Share a mod**. Answer the age question and accept the mod rules the
+   first time, then type the code from your authenticator app. **Import from
+   GitHub** shows under the upload form. Paste
+   `github.com/<you>/tea-stall@v0.1.0` there and choose **Import**. The tag
+   must match `"version"` in `mod.json`.
 
 **Check it worked:** the version shows under **Mods you shared** as **Waiting
 for review**.

@@ -12,8 +12,11 @@ says what happens after review: https://playaconline.com/modding/publishing/
 
 1. On https://playaconline.com, press **Sign up** at the top right. Or go to
    https://playaconline.com/register/. **Log in** is next to it, for later.
-2. Choose a username and password.
-3. Confirm your email if asked.
+2. Choose a username, or an email address, and a password. You log in with
+   it. If it is an email address, we email it about the mods you share (each
+   upload and each review decision) and about two-factor sign-in. Those are
+   the only emails we send. A username gets none, so it misses those safety
+   emails.
 
 **Check it worked:** you are signed in. Your name shows at the top right, and
 https://playaconline.com/profile/ opens your Profile page.
@@ -69,22 +72,26 @@ How the codes are used:
 
 1. Start the game, open **Settings, Mods** and scroll to **Share a mod**.
 2. The first time, it asks your age and asks you to accept the mod rules.
-3. Under **Upload a mod**, choose the ZIP. Add the screenshots. A
+3. Type the 6 digit code your authenticator app shows. The upload form shows
+   once the code is accepted, and a code covers the next uploads for a while.
+4. Under **Upload a mod**, choose the ZIP. Add the screenshots. A
    changelog line is optional.
-4. Choose **Send for review**.
-5. If it asks for a code, type the one your authenticator app shows.
+5. Choose **Send for review**.
 
 The site checks the upload at once, with the game's rules and checks on the
 pictures. A problem is named with its file, and nothing is kept. Fix it and
 send again.
 
 **Check it worked:** the upload shows under **Mods you shared** as **Waiting
-for review**. An email confirms every upload under your account.
+for review**. If you log in with an email address, an email confirms every
+upload under your account.
 
 ## 4b. Or import a GitHub tag
 
 If the mod lives in a GitHub repository, the site can fetch a tag instead.
-See [Git and GitHub](git-github.md#4-share-a-version-from-a-tag).
+**Import from GitHub** is in the same **Share a mod** section, under the
+upload form, so it shows after steps 1 to 3. See
+[Git and GitHub](git-github.md#4-share-a-version-from-a-tag).
 
 ## 5. Review
 

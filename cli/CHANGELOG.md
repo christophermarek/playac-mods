@@ -51,9 +51,7 @@ First release.
   for the session.
 - `dev` serves a folder to the game and prints the steps that load it: open
   the game with `?moddev=1`, go to Settings, Mods, press Connect, then Restart
-  now once. It answers game pages at playaconline.com, its dev site and
-  `http://localhost:5173`. `--origin` adds another. A page it refuses reads
-  why, and the terminal prints the `--origin` to add.
+  now once.
 - `pack` prints one hash, the content hash. The ZIP's own SHA-256 is in
   `pack --json`. `--version` prints the build as well as the version.
 - Start a mod from an example repository or a starter kit, and share it from

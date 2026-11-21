@@ -43,14 +43,9 @@
  * none.
  *
  * Who may read: every request must carry an Origin header naming an allowed
- * site origin (playaconline.com, its www host, the dev site
- * dev.animalcrossingonline.com, localhost:5173 and any --origin), echoed in
- * Access-Control-Allow-Origin; any other Origin is 403, so another website
- * open in the browser cannot read the folder. The 403 still names that Origin
- * in Access-Control-Allow-Origin (a preflight from it is answered too), so the
- * page reads the status and says to add --origin instead of "Failed to
- * fetch"; the answer carries nothing from the folder. The terminal
- * prints one line per refused Origin. A request
+ * site origin (playaconline.com, its www and dev hosts, localhost:5173 and any
+ * --origin), echoed in Access-Control-Allow-Origin; any other Origin is 403,
+ * so another website open in the browser cannot read the folder. A request
  * with NO Origin is 403 as well: the game page's fetch and
  * EventSource always send one (they are cross-origin), so a request without
  * one is curl, a script, or a no-cors load (an <img> or <script> on another
@@ -76,9 +71,6 @@ export const DEFAULT_PORT = 2604;
 export const DEFAULT_ORIGINS = [
   'https://playaconline.com',
   'https://www.playaconline.com',
-  /* The dev site, where mods are tested before production. Its
-   * playaconline.com name comes with the domain move (DOMAIN_MOVE.md). */
-  'https://dev.animalcrossingonline.com',
   'https://dev.playaconline.com',
   'http://localhost:5173',
   'http://127.0.0.1:5173',
@@ -230,22 +222,13 @@ export async function startDev(dir, opts = {}) {
     }
   }
 
-  /* '' when the request may read, else why not (no Origin is refused).
-   * A refused page still gets Access-Control-Allow-Origin, so its fetch sees
-   * the 403 and says what to do, not a network error. */
-  const refusedOrigins = new Set();
+  /* '' when the request may read, else why not (no Origin is refused). */
   function cors(req, res) {
     const origin = req.headers.origin;
     if (!origin) return 'playac-mod dev: A request with no Origin is refused. The game sends one. A tool may send Origin: https://playaconline.com';
+    if (!origins.has(origin.toLowerCase())) return 'playac-mod dev: This site may not read the mod. Add it with --origin.';
     res.setHeader('Access-Control-Allow-Origin', origin);
     res.setHeader('Vary', 'Origin');
-    if (!origins.has(origin.toLowerCase())) {
-      if (!refusedOrigins.has(origin)) {
-        refusedOrigins.add(origin);
-        log(`refused a page at ${origin}: start with --origin ${origin}`);
-      }
-      return 'playac-mod dev: This site may not read the mod. Add it with --origin.';
-    }
     res.setHeader('Access-Control-Expose-Headers', 'X-Playac-Content-Sha, X-Playac-Sha256');
     return '';
   }
@@ -258,8 +241,7 @@ export async function startDev(dir, opts = {}) {
       return;
     }
     const refused = cors(req, res);
-    /* A refused page's preflight passes, so its GET arrives and reads the 403. */
-    if (refused && !(req.method === 'OPTIONS' && req.headers.origin)) {
+    if (refused) {
       res.writeHead(403, { 'Content-Type': 'text/plain' }).end(refused);
       return;
     }

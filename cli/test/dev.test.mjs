@@ -140,32 +140,6 @@ test('only the site may read it: other origins and other Host names are refused'
   }
 });
 
-test('a refused page reads the 403, and the terminal names its --origin', async () => {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'playac-dev-'));
-  writeFiles(dir, modFiles('bean.dev', 'lines'));
-  const lines = [];
-  const dev = await startDev(dir, { port: 0, poll: 50, lua: false, log: (s) => lines.push(s) });
-  try {
-    const page = 'https://my-copy.example';
-    const r = await get(`${dev.url}/__playac/index`, { Origin: page });
-    assert.equal(r.status, 403);
-    assert.equal(r.headers['access-control-allow-origin'], page, 'without it the browser reports Failed to fetch');
-    assert.doesNotMatch(String(r.body), /bean\.dev/, 'nothing from the folder');
-    const pre = await request(`${dev.url}/__playac/index`, 'OPTIONS', {
-      Origin: page, 'Access-Control-Request-Method': 'GET', 'Access-Control-Request-Private-Network': 'true',
-    });
-    assert.equal(pre.status, 204, 'the preflight passes so the GET can read the 403');
-    assert.equal(pre.headers['access-control-allow-origin'], page);
-    assert.equal((await get(`${dev.url}/__playac/events`, { Origin: page })).status, 403);
-    assert.deepEqual(lines.filter((l) => l.startsWith('refused')), [`refused a page at ${page}: start with --origin ${page}`], 'one line per page');
-    for (const site of ['https://dev.animalcrossingonline.com', 'https://playaconline.com']) {
-      assert.equal((await get(`${dev.url}/__playac/index`, { Origin: site })).status, 200, site);
-    }
-  } finally {
-    await dev.close();
-  }
-});
-
 test('--origin adds a site', async () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'playac-dev-'));
   writeFiles(dir, modFiles('bean.dev', 'lines'));

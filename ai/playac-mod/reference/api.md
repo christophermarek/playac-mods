@@ -758,7 +758,7 @@ Schema:
 - `game.day_number`(): The game clock's day as one whole number: days since 2000-01-01. It goes up by one each game day, so it tells one day from the next without date maths.
 - `game.pockets`(): The items the player holds, in slot order: { { slot, item, mod_item }, ... }. Only held items are listed, so an empty slot has no entry. Returns {} when the pockets are empty or before a town is loaded.
 - `game.bells`(): The wallet, or nil before a town is loaded.
-- `game.town`(): The town: { name, id, year, month, day, hour, minute, weekday, season }, or nil before a town is loaded. season is spring, summer, fall or winter, the word talk pools and shops use.
+- `game.town`(): The town: { name, id, year, month, day, hour, minute, weekday, season }, or nil before a town is loaded. season is spring, summer, autumn or winter.
 - `game.villagers`(): The town's villagers: { { id, name, species, personality }, ... }. Returns {} before a town is loaded.
 - `game.player`(): The player: { name, id }, or nil before a town is loaded. A town has up to 4 residents, each playing it from their own save slot.
 - `game.calendar_today`(): The ids of this mod's own calendar days that fall on the town's date today, in file order. Returns {} when there are none, or before a town is loaded. Only the calling mod's days are listed.

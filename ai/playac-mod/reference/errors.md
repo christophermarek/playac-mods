@@ -3467,7 +3467,7 @@ On the site:
 
     The dev server could not be reached at http://127.0.0.1:2604: the dev server refused this site: start it with --origin https://my-copy.example
 
-What it means: `playac-mod dev` answers only playaconline.com, the dev site dev.animalcrossingonline.com and localhost:5173, so another website cannot read your folder. This copy of the game is on another address. The terminal also prints the --origin to add.
+What it means: `playac-mod dev` answers only playaconline.com and a few local addresses, so another website cannot read your folder. This copy of the game is on another address.
 
 How to fix it: Start it with --origin and the address of the game page, for example `playac-mod dev --origin https://my-copy.example`.
 

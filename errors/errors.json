@@ -3767,7 +3767,7 @@
         ]
       },
       "api": [],
-      "meaning": "`playac-mod dev` answers only playaconline.com, the dev site dev.animalcrossingonline.com and localhost:5173, so another website cannot read your folder. This copy of the game is on another address. The terminal also prints the --origin to add.",
+      "meaning": "`playac-mod dev` answers only playaconline.com and a few local addresses, so another website cannot read your folder. This copy of the game is on another address.",
       "fix": "Start it with --origin and the address of the game page, for example `playac-mod dev --origin https://my-copy.example`."
     },
     {
