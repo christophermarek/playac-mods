@@ -168,7 +168,7 @@
 ---@field hour integer
 ---@field minute integer
 ---@field weekday integer
----@field season string? spring, summer, autumn or winter. nil when the game cannot tell.
+---@field season string? spring, summer, fall or winter. nil when the game cannot tell.
 
 ---@class PlayacGamePlayerResult
 ---@field name string
@@ -225,7 +225,7 @@ function game.pockets() end
 ---@return integer?
 function game.bells() end
 
----The town: { name, id, year, month, day, hour, minute, weekday, season }, or nil before a town is loaded. season is spring, summer, autumn or winter.
+---The town: { name, id, year, month, day, hour, minute, weekday, season }, or nil before a town is loaded. season is spring, summer, fall or winter, the word talk pools and shops use.
 ---@return PlayacGameTownResult?
 function game.town() end
 

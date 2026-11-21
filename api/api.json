@@ -3427,7 +3427,7 @@
           "name": "town",
           "kind": "function",
           "since": 1,
-          "description": "The town: { name, id, year, month, day, hour, minute, weekday, season }, or nil before a town is loaded. season is spring, summer, autumn or winter.",
+          "description": "The town: { name, id, year, month, day, hour, minute, weekday, season }, or nil before a town is loaded. season is spring, summer, fall or winter, the word talk pools and shops use.",
           "params": [],
           "returns": {
             "type": "table|nil",
@@ -3467,7 +3467,7 @@
               {
                 "name": "season",
                 "type": "string|nil",
-                "description": "spring, summer, autumn or winter. nil when the game cannot tell."
+                "description": "spring, summer, fall or winter. nil when the game cannot tell."
               }
             ]
           }
