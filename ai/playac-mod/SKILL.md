@@ -138,7 +138,7 @@ Install it with the line on https://playaconline.com/modding/cli/#install, which
 Can:
 - Replace any texture the game draws with your own art, as `.dds` or `.png`.
 - Add villager lines: a line goes in one of five places in a talk, the same in a talk pool's `"place"` and a script's talk table: `before` the hello, as the `hello` (an everyday hello only), as the `topic` after a chat answer (its `topics` name which: `small_talk` by default, `trade`, `letter`, `memory`, `hint`, `news` or `"any"`), `after` the topic, or the whole `conversation`. Every pool and every script line names its place: there is no default, and a pool or a plain string return without one is refused. With no code, talk pools (`content.talk`) keep a line to a personality or villager, a season, a time of day, the weather or a calendar `day`. A script's `villager_talked` returns a talk table `{ place, line, topics, ask }` or a list of them; a conversation's `ask` sends the pick to `villager_answered`. A line is a string or a list of up to 8 pages.
-- Change the game's shops, each by its id (`nook`, `flower`, `redd`, `saharah`, `fireworks`, `able`, `barber`, `dream`, `katrina`), with one block shape: goods and prices, `own_goods`, opening and shutting, service prices, a name and lines, each block kept to hours, a time of day, a season, the weather, weekdays, months or a setting with `when`.
+- Change the game's shops, each by its id (`nook`, `flower`, `redd`, `saharah`, `fireworks`, `able`, `barber`, `dream`, `katrina`), with one block shape: goods and prices, `own_goods`, opening and shutting, service prices, a name and lines, each block kept to hours, a time of day, a season, the weather, weekdays, months or a setting with `when`. A block with `when` applies at once, while it holds. At Nook's the goods of a block with no `when` show from the next morning's restock (the first play on a day at or after 6:00 AM).
 - Add new furniture on a game piece's model (`content.items`), sold in your shops or given by a script.
 - Letter templates (`content.letters`), calendar days with a bulletin board notice and a letter, and talk pools kept to a calendar `day` for the day's lines.
 - Scripts on every event listed above, reading the date, pockets, Bells, town, villagers; a per-town store and a per-player one (`store.player`: a town has up to 4 residents); settings the player sets; calls between mods (`remote`).
@@ -146,7 +146,8 @@ Can:
 
 Cannot (do not promise these):
 - Add villagers, buildings, acres, music, or new kinds of item other than house furniture on a game model.
-- Add a shop of its own, give a shop a field the shop table does not list for it, or set Bells.
+- Add a shop of its own, or give a shop a field the shop table does not list for it.
+- Give Bells, or take them without the player's yes. `give_item` refuses money, and `take_bells` shows the game's own question first.
 - Run code every frame, change the game's code or memory, read files, reach the internet, or run JavaScript. There is no `io`, `os`, `require`, `load` or `debug`.
 - Change anything in The City (every command is refused there) or a friend's town while visiting (letters, items and takes are refused).
 
@@ -333,9 +334,9 @@ end)
 
 ## Sharing and review
 
-1. Sign in at playaconline.com with two-factor sign-in on. Settings, Mods, Share a mod. The first time, confirm age 13+ and accept the mod rules.
-2. Upload the ZIP (or Import from GitHub). The automatic checks answer at once (the same rules, plus image checks: unchanged game textures, DDS formats, mipmaps).
-3. A moderator reviews it. There is no fixed time: the version waits in the queue until a moderator gets to it. Refusals and removals come with a reason code (`review-*` in `reference/errors.md`) and a note. Every upload sends the author an email.
+1. Sign in at playaconline.com with two-factor sign-in on. Settings, Mods, Share a mod. The first time, confirm age 13+ and accept the mod rules. Then enter the code from the authenticator app.
+2. Upload the ZIP, or use Import from GitHub, which shows under the upload form once the code is accepted. The automatic checks answer at once (the same rules, plus image checks: unchanged game textures, DDS formats, mipmaps).
+3. A moderator reviews it. There is no fixed time: the version waits in the queue until a moderator gets to it. Refusals and removals come with a reason code (`review-*` in `reference/errors.md`) and a note. If the author logs in with an email address, every upload and every review decision emails it. A username login gets no email.
 4. Updates: raise `version` and upload again. Players who have it see "Update available". A version the moderators removed is switched off in every player's game.
 
 ## Troubleshooting: always use the errors catalogue

@@ -523,8 +523,9 @@ This block adds goods to Nook's store every day, in every store size:
   morning's restock, the first time the town is played on a day at or after
   6:00 AM.
 
-A block with a `when` applies only while it holds and never touches the day's
-stock. This one opens the shop at night with only your goods:
+A block with a `when` applies at once, from the moment it holds, with no
+restock, and only while it holds. It never touches the day's stock. This one
+opens the shop at night with only your goods:
 
 ```json
 {
@@ -922,8 +923,8 @@ end)
 ### Saved data
 
 - `store` is one per mod per TOWN, and it travels with the town. It is in the
-  town's cloud save, its backups, and "Export with mod data" in the Save
-  panel.
+  town's cloud save, its backups, and **Export with mod data** under the save
+  button's **More options**.
 - A town has up to 4 residents. All of them share `store`.
 - `store.player` is one per mod, per town, per player. Use it for anything a
   resident earns alone, such as a quest or today's gift. It takes the same

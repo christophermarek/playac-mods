@@ -51,9 +51,13 @@ disc you own, see https://playaconline.com/your-disc/.
 
 **Keep a backup before you test scripts.**
 
-1. Open the **Save** panel with the save button at the top of the play page.
-2. Choose **Export with mod data**. You get a file of your town and everything
-   mods saved for it.
+1. Choose the save button at the top of the play page. It reads **Back up**
+   while you are signed out, and your backup state, such as **Backed up**,
+   while you are signed in. It opens **Your save**.
+2. Under **More options**, choose **Export with mod data**. You get a file of
+   your town and everything mods saved for it. The row shows only while the
+   game runs with at least one mod installed. **Export a copy** saves the
+   town's `.gci` alone, without what mods saved.
 3. To put it back later, choose **Import a save file** in the same panel.
 
 ## 3. Developer mode
